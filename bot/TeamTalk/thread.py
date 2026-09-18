@@ -123,57 +123,83 @@ class TeamTalkThread(Thread):
                 self.ttclient.state = State.CONNECTED
                 self.ttclient.change_status_text(self.ttclient.status)
             elif event.event_type == EventType.USER_LEFT:
-                # Auto-return logic
+                # Auto-return is only valid for a temporary move requested through
+                # the "jc" command. Manual TeamTalk moves must never cause the bot
+                # to stop playback or jump back to the configured/root channel.
                 try:
-                    # Log event details for debugging
-                    logging.debug(f"USER_LEFT event: Source={event.source}, ChannelID={event.channel.id}, BotChannel={self.ttclient.channel.id}, User={event.user.username} ({event.user.id})")
+                    requested_user_id = getattr(
+                        self.bot, "jc_requested_by_user_id", None
+                    )
+                    configured_channel = getattr(
+                        self.bot, "default_channel", self.config.channel
+                    )
 
-                    # Check if the event happened in the bot's current channel
-                    # Check both source and channel object to be safe
-                    if event.source == self.ttclient.channel.id or event.channel.id == self.ttclient.channel.id:
-                        # Get users in current channel using ctypes
-                        users = self.ttclient.tt.getChannelUsers(self.ttclient.channel.id)
-                        
-                        # Robust counting: Exclude bot itself and the user who just left (if still in list)
-                        other_users_count = 0
-                        for u in users:
-                            # u is a ctypes struct, so we use nUserID
-                            # self.ttclient.user is wrapper object, use id
-                            if u.nUserID == self.ttclient.user.id:
-                                continue
-                            if u.nUserID == event.user.id:
-                                continue
-                            other_users_count += 1
-                        
-                        logging.debug(f"Auto-return check: Total users={len(users)}, Other users counted={other_users_count}")
+                    if requested_user_id is None:
+                        logging.debug(
+                            "Auto-return skipped: bot was not moved by the jc command."
+                        )
+                    elif event.user.id != requested_user_id:
+                        logging.debug(
+                            "Auto-return skipped: user %s left, but jc was requested by %s.",
+                            event.user.id,
+                            requested_user_id,
+                        )
+                    elif (
+                        isinstance(configured_channel, str)
+                        and not configured_channel.strip()
+                    ):
+                        logging.info(
+                            "Auto-return skipped: no default channel is configured."
+                        )
+                        self.bot.jc_requested_by_user_id = None
+                    else:
+                        current_channel_id = self.ttclient.channel.id
 
-                        # Check if no other users remain
-                        if other_users_count == 0:
-                             logging.info("Auto-return triggered: Bot is alone in channel. returning to default.")
-                             # Stop playback if playing
-                             from bot.player.enums import State as PlayerState
-                             if self.bot.player.state != PlayerState.Stopped:
-                                 self.bot.player.stop()
-                             
-                             # Determine default channel ID
-                             default_channel = self.config.channel
-                             if isinstance(default_channel, int):
-                                 default_channel_id = default_channel
-                             else:
-                                 # We need _str helper for string conversion
-                                 def _str(data):
-                                     if isinstance(data, str):
-                                         return bytes(data, "utf-8") if os.supports_bytes_environ else data
-                                     return str(data, "utf-8")
-                                 default_channel_id = self.ttclient.tt.getChannelIDFromPath(_str(default_channel))
-                                 if default_channel_id == 0:
-                                     default_channel_id = 1
-                             
-                             # Move back if not already there
-                             if self.ttclient.channel.id != default_channel_id:
-                                 self.ttclient.move_user(self.ttclient.user.id, default_channel_id)
+                        if isinstance(configured_channel, int):
+                            default_channel_id = configured_channel
+                        else:
+                            def _str(data):
+                                if isinstance(data, str):
+                                    return (
+                                        bytes(data, "utf-8")
+                                        if os.supports_bytes_environ
+                                        else data
+                                    )
+                                return str(data, "utf-8")
+
+                            default_channel_id = self.ttclient.tt.getChannelIDFromPath(
+                                _str(configured_channel)
+                            )
+
+                        if default_channel_id == 0:
+                            logging.warning(
+                                "Auto-return skipped: configured default channel "
+                                "could not be resolved: %r",
+                                configured_channel,
+                            )
+                            self.bot.jc_requested_by_user_id = None
+                        elif current_channel_id == default_channel_id:
+                            self.bot.jc_requested_by_user_id = None
+                        else:
+                            # Issue the move first. If it fails synchronously,
+                            # playback must remain untouched.
+                            self.ttclient.move_user(
+                                self.ttclient.user.id, default_channel_id
+                            )
+
+                            from bot.player.enums import State as PlayerState
+
+                            if self.bot.player.state != PlayerState.Stopped:
+                                self.bot.player.stop()
+
+                            self.bot.jc_requested_by_user_id = None
+                            logging.info(
+                                "Auto-return triggered: jc requester left; "
+                                "returning bot to configured default channel."
+                            )
                 except Exception as e:
                     logging.error(f"Error in auto-return logic: {e}")
+
 
             if self.config.event_handling.load_event_handlers:
                 self.run_event_handler(event)
