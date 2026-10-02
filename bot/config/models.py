@@ -24,6 +24,9 @@ class PlayerModel(BaseModel):
     volume_fading: bool = True
     volume_fading_interval: float = 0.025
     seek_step: int = 5
+    silence_trim: bool = False
+    silence_trim_threshold: float = -30.0
+    default_pitch: float = 0.0
     player_options: Dict[str, Any] = {}
 
 class TeamTalkUserModel(BaseModel):

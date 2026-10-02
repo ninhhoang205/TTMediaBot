@@ -1,3 +1,22 @@
+import socket
+import sys
+
+# Prefer IPv4 resolution for fast and reliable network calls
+_orig_getaddrinfo = socket.getaddrinfo
+def _ipv4_first_getaddrinfo(*args, **kwargs):
+    results = _orig_getaddrinfo(*args, **kwargs)
+    ipv4 = [r for r in results if r[0] == socket.AF_INET]
+    return ipv4 if ipv4 else results
+socket.getaddrinfo = _ipv4_first_getaddrinfo
+
+# Support UTF-8 encoding in Windows console for music titles
+if sys.platform == "win32":
+    try:
+        sys.stdout.reconfigure(encoding="utf-8")
+        sys.stderr.reconfigure(encoding="utf-8")
+    except Exception:
+        pass
+
 from typing import Optional
 
 from os import path
@@ -38,6 +57,8 @@ def main(
     if devices:
         bot = Bot(None, None, None)
         echo_sound_devices(bot.sound_device_manager)
+        bot.close()
+        sys.exit(0)
     elif default_config:
         save_default_file()
         print("Successfully dumped to config_default.json")

@@ -54,9 +54,12 @@ class CommandProcessor:
             "sf": user_commands.SeekForwardCommand,
             "v": user_commands.VolumeCommand,
             "sp": user_commands.SpeedCommand,
+            "pt": user_commands.PitchCommand,
             "f": user_commands.FavoritesCommand,
             "m": user_commands.ModeCommand,
+            "ts": user_commands.TrimSilenceCommand,
             "gl": user_commands.GetLinkCommand,
+            "yl": user_commands.YouTubeLinkCommand,
             "dl": user_commands.DownloadCommand,
             "dlv": user_commands.DownloadVideoCommand,
             "dlp": user_commands.DownloadPlaylistCommand,
@@ -201,20 +204,30 @@ class CommandProcessor:
             raise errors.UnknownCommandError()
 
     def help(self, arg: str, user: User) -> str:
+        arg = arg.strip().lower()
+        is_admin = user.is_admin or user.type == UserType.Admin
         if arg:
             if arg in self.commands_dict:
                 return "{} {}".format(arg, self.commands_dict[arg](self).help)
-            elif user.is_admin and arg in self.admin_commands_dict:
+            elif is_admin and arg in self.admin_commands_dict:
                 return "{} {}".format(arg, self.admin_commands_dict[arg](self).help)
             else:
                 return self.translator.translate("Unknown command")
         else:
             help_strings: List[str] = []
             for i in list(self.commands_dict):
-                help_strings.append(self.help(i, user))
-            if user.is_admin:
+                line = self.help(i, user)
+                if i == "ts":
+                    help_strings.append(f"\f{line}\f")
+                else:
+                    help_strings.append(line)
+            if is_admin:
                 for i in list(self.admin_commands_dict):
-                    help_strings.append(self.help(i, user))
+                    line = self.help(i, user)
+                    if i == "cm":
+                        help_strings.append(f"\f{line}\f")
+                    else:
+                        help_strings.append(line)
             return "\n".join(help_strings)
 
     def parse_command(self, text: str) -> Tuple[str, str]:

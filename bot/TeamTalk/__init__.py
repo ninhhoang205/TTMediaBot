@@ -39,38 +39,46 @@ def _str(data: AnyStr) -> AnyStr:
 
 
 def split(text: str, max_length: int = app_vars.max_message_length) -> List[str]:
-    if len(text) <= max_length:
-        lines = [text]
-    else:
-        lines = [""]
-        for line in text.split("\n"):
-            if len(line) <= max_length:
-                if len(lines[-1]) > 0 and len(lines[-1]) + len(line) + 1 <= max_length:
-                    lines[-1] += "\n" + line
-                elif len(lines) == 1 and len(lines[0]) == 0:
-                    lines[0] = line
-                else:
-                    lines.append(line)
-            else:
-                words = [""]
-                for word in line.split(" "):
-                    if len(word) <= max_length:
-                        if (
-                            len(words[-1]) > 0
-                            and len(words[-1]) + len(word) + 1 <= max_length
-                        ):
-                            words[-1] += " " + word
-                        elif len(words) == 1 and len(words[0]) == 0:
-                            words[0] == word
-                        else:
-                            words.append(word)
+    sections = text.split("\f")
+    all_chunks: List[str] = []
+    for section in sections:
+        section = section.strip("\r\n")
+        if not section:
+            continue
+        if len(section) <= max_length:
+            all_chunks.append(section)
+        else:
+            lines = [""]
+            for line in section.split("\n"):
+                line = line.strip("\r")
+                if len(line) <= max_length:
+                    if len(lines[-1]) > 0 and len(lines[-1]) + len(line) + 1 <= max_length:
+                        lines[-1] += "\n" + line
+                    elif len(lines) == 1 and len(lines[0]) == 0:
+                        lines[0] = line
                     else:
-                        chunk = word
-                        for _ in range(0, int(len(chunk) / max_length) + 1):
-                            words.append(chunk[0:max_length])
-                            chunk = chunk[max_length::]
-                lines += words
-    return lines
+                        lines.append(line)
+                else:
+                    words = [""]
+                    for word in line.split(" "):
+                        if len(word) <= max_length:
+                            if (
+                                len(words[-1]) > 0
+                                and len(words[-1]) + len(word) + 1 <= max_length
+                            ):
+                                words[-1] += " " + word
+                            elif len(words) == 1 and len(words[0]) == 0:
+                                words[0] = word
+                            else:
+                                words.append(word)
+                        else:
+                            chunk = word
+                            for _ in range(0, int(len(chunk) / max_length) + 1):
+                                words.append(chunk[0:max_length])
+                                chunk = chunk[max_length::]
+                    lines += words
+            all_chunks.extend([l for l in lines if l])
+    return all_chunks if all_chunks else [text]
 
 
 class TeamTalk:
@@ -387,7 +395,7 @@ class TeamTalk:
             if sys.platform == "win32":
                 if (
                     device.nSoundSystem == TeamTalkPy.SoundSystem.SOUNDSYSTEM_WASAPI
-                    and device.nMaxOutputChannels == 0
+                    and device.nMaxInputChannels > 0
                 ):
                     devices.append(
                         SoundDevice(
@@ -404,6 +412,16 @@ class TeamTalk:
                         SoundDeviceType.Input,
                     )
                 )
+        if sys.platform == "win32" and not devices:
+            for device in device_list:
+                if device.nMaxInputChannels > 0:
+                    devices.append(
+                        SoundDevice(
+                            _str(device.szDeviceName),
+                            device.nDeviceID,
+                            SoundDeviceType.Input,
+                        )
+                    )
         return devices
 
     def set_input_device(self, id: int) -> None:

@@ -1,12 +1,12 @@
 # TTMediaBot
 
-**Hello! I am João Almeida.** Welcome to my **TTMediaBot** fork, a comprehensive media streaming bot for TeamTalk 5. This repository is focused on delivering constant improvements, stability, and new features, such as exclusive support for YouTube Music.
+**Hello! I am Smart Thinh.** Welcome to my **TTMediaBot** edition, a comprehensive media streaming bot for TeamTalk 5 based on João Almeida's fork. This repository is focused on full Windows compatibility, rock-solid stability, and ultra-fast response times.
 
-> 🔗 **My Repository:** [https://github.com/JoaoDEVWHADS/TTMediaBot](https://github.com/JoaoDEVWHADS/TTMediaBot)
+> 🔗 **My Repository:** [https://github.com/smartthinh/TTMediaBot](https://github.com/smartthinh/TTMediaBot)
 
 ---
 
-> **Note:** This repository is a fork of the [original TTMediaBot](https://github.com/gumerov-amir/TTMediaBot).
+> **Note:** This repository is based on [João Almeida's fork](https://github.com/JoaoDEVWHADS/TTMediaBot) and the [original TTMediaBot](https://github.com/gumerov-amir/TTMediaBot).
 
 A feature-rich media streaming bot for TeamTalk 5, capable of playing music from various services (YouTube, YouTube Music, local files, URLs) with advanced control features.
 
@@ -174,10 +174,13 @@ Send these commands to the bot via private message (PM) or in the channel (if en
 | **sf** | `[seconds]` | Seeks forward. Default step if no arg. |
 | **c** | `[number/?]` | Selects a positive or negative track index; without an argument or with `?`, reports the current position. |
 | **m** | `[mode]` | Sets playback mode: `SingleTrack`, `RepeatTrack`, `TrackList`, `RepeatTrackList`, `Random`. |
+| **ts** | | Toggles silence trimming: automatically removes leading and trailing silence from tracks. |
 | **sp** | `[0.25-4]` | Sets playback speed. |
+| **pt** | `[-12-12]` | Sets playback pitch in semitones. If no pitch is given, shows current pitch. |
 | **sv** | `[service]` | Switches service (e.g., `sv yt`, `sv ytm`). |
 | **f** | `[+/-][num]` | Favorites management. `f` lists. `f +` adds current. `f -` removes. `f [num]` plays. |
 | **gl** | | Gets a direct link to the current track. |
+| **yl** | | Gets the original YouTube link to the current track. |
 | **dl** | | Downloads current track and uploads to channel. |
 | **dlv** | | Downloads current track as video and uploads it to channel. |
 | **dlp** | `[url]` | Downloads all tracks from a playlist/album URL, zips them, and uploads to the channel. |
@@ -210,7 +213,7 @@ Send these commands to the bot via private message (PM) or in the channel (if en
 | **cn** | `[name]` | Changes bot nickname. |
 | **cs** | `[text]` | Changes bot status text. |
 | **cc** | `[r/f]` | Clears cache (`r`=recents, `f`=favorites). |
-| **cm** | | Toggles sending channel messages. |
+| **cm** | | Toggles public channel messages vs. private messages mode. When in private mode, notifications are sent privately instead of to the public channel. |
 | **ajc** | `[id] [pass]` | Force join channel by ID. |
 | **bc** | `[+/-cmd]` | Blocks/Unblocks a command. |
 | **l** | | Locks/Unlocks the bot (only admins can use it). |

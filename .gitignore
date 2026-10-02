@@ -32,6 +32,8 @@ ENV/
 
 # Project Specific
 # config.json (Allowed)
+*.dll
+*.bat
 cookies.txt
 *.log
 TTMediaBot.log

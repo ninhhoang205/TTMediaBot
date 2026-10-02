@@ -66,7 +66,11 @@ class CacheManager:
             raise PermissionError()
 
     def close(self):
-        self.file_locker.release()
+        if hasattr(self, "file_locker") and self.file_locker:
+            try:
+                self.file_locker.release()
+            except Exception:
+                pass
 
     def save(self):
         self.file_locker.release()

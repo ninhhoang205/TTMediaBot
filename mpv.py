@@ -29,10 +29,31 @@ import re
 import traceback
 
 if os.name == "nt":
+    base_dir = os.path.dirname(os.path.abspath(__file__))
     if sys.version_info.major == 3 and sys.version_info.minor >= 8:
-        os.add_dll_directory(os.getcwd())
-    dll = "mpv.dll"
-    backend = cdll.LoadLibrary(dll)
+        try:
+            os.add_dll_directory(os.getcwd())
+        except Exception:
+            pass
+        if os.path.exists(base_dir):
+            try:
+                os.add_dll_directory(base_dir)
+            except Exception:
+                pass
+    backend = None
+    for name in ["mpv.dll", "libmpv-2.dll", "libmpv-1.dll"]:
+        for folder in [os.getcwd(), base_dir]:
+            p = os.path.join(folder, name)
+            if os.path.exists(p):
+                try:
+                    backend = cdll.LoadLibrary(p)
+                    break
+                except Exception:
+                    pass
+        if backend is not None:
+            break
+    if backend is None:
+        backend = cdll.LoadLibrary("mpv.dll")
     fs_enc = "utf-8"
 else:
     import locale
@@ -1412,9 +1433,12 @@ class MPV(object):
 
     def loadfile(self, filename, mode="replace", **options):
         """Mapped mpv loadfile command, see man mpv(1)."""
-        self.command(
-            "loadfile", filename.encode(fs_enc), mode, MPV._encode_options(options)
-        )
+        if options:
+            self.command(
+                "loadfile", filename.encode(fs_enc), mode, MPV._encode_options(options)
+            )
+        else:
+            self.command("loadfile", filename.encode(fs_enc), mode)
 
     def loadlist(self, playlist, mode="replace"):
         """Mapped mpv loadlist command, see man mpv(1)."""

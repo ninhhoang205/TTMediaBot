@@ -1,8 +1,26 @@
 import os
+import socket
+import sys
+
+# Prefer IPv4 resolution on Windows to avoid long timeouts on YouTube/PyPI
+_orig_getaddrinfo = socket.getaddrinfo
+def _ipv4_first_getaddrinfo(*args, **kwargs):
+    results = _orig_getaddrinfo(*args, **kwargs)
+    ipv4 = [r for r in results if r[0] == socket.AF_INET]
+    return ipv4 if ipv4 else results
+socket.getaddrinfo = _ipv4_first_getaddrinfo
+
+# Support UTF-8 encoding in Windows console
+if sys.platform == "win32":
+    try:
+        sys.stdout.reconfigure(encoding="utf-8")
+        sys.stderr.reconfigure(encoding="utf-8")
+    except Exception:
+        pass
+
 import logging
 import queue
 import signal
-import sys
 import time
 import threading
 from typing import Optional

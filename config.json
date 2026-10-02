@@ -7,7 +7,8 @@
         "blocked_commands": [],
         "delete_uploaded_files_after": 300,
         "time_format": "%H:%M",
-        "start_commands": []
+        "start_commands": [],
+        "search_results_mode": false
     },
     "sound_devices": {
         "output_device": 0,
@@ -19,6 +20,9 @@
         "volume_fading": true,
         "volume_fading_interval": 0.025,
         "seek_step": 5,
+        "silence_trim": false,
+        "silence_trim_threshold": -30.0,
+        "default_pitch": 0.0,
         "player_options": {}
     },
     "teamtalk": {

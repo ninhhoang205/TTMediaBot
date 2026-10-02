@@ -1,20 +1,19 @@
 from __future__ import annotations
-import http.cookiejar
 import logging
-import time
 import os
 import threading
+import time
 from typing import Any, Dict, List, Optional, TYPE_CHECKING
+
+import yt_dlp
 
 if TYPE_CHECKING:
     from bot import Bot
 
 from bot.config.models import YtModel
-
 from bot.player.enums import TrackType
 from bot.player.track import Track
 from bot.services import Service as _Service
-from bot.services.youtube_bridge import YouTubeBridge
 from bot import errors
 
 
@@ -23,68 +22,88 @@ class YtService(_Service):
         self.bot = bot
         self.config = config
         self.name = "yt"
-        self.hostnames = ["youtube.com", "www.youtube.com", "m.youtube.com", "youtu.be", "music.youtube.com"]
+        self.hostnames = [
+            "youtube.com",
+            "www.youtube.com",
+            "m.youtube.com",
+            "youtu.be",
+            "music.youtube.com",
+        ]
         self.is_enabled = self.config.enabled
         self.error_message = ""
         self.warning_message = ""
         self.help = ""
         self.hidden = False
-        self._cookie_lock = threading.Lock()
-        self._warm_lock = threading.Lock()
-        self._is_warmed = False
         self._max_retries = 2
+        self._ydl_opts_base: Dict[str, Any] = {}
 
-    def initialize(self):
-        # Validate cookie file at startup
-        if self.config.cookiefile_path:
-            if os.path.isfile(self.config.cookiefile_path):
-                logging.info(f"YT Service: Cookie file found at {self.config.cookiefile_path}")
-            else:
-                logging.warning(
-                    f"YT Service: Cookie file NOT FOUND at '{self.config.cookiefile_path}'. "
-                    "YouTube may block requests. Please provide a valid cookies.txt file."
-                )
+    def initialize(self) -> None:
+        self._ydl_opts_base = {
+            "format": "bestaudio[ext=m4a]/bestaudio/best",
+            "quiet": True,
+            "no_warnings": True,
+            "source_address": "0.0.0.0",
+        }
+        cookiefile = getattr(self.config, "cookiefile_path", "")
+        if cookiefile and os.path.isfile(cookiefile):
+            self._ydl_opts_base["cookiefile"] = cookiefile
+            logging.info(f"{self.name.upper()} Service: Cookie file found at {cookiefile}")
         else:
-            logging.warning(
-                "YT Service: No cookie file configured (cookiefile_path is empty). "
-                "YouTube may block requests requiring authentication."
+            logging.debug(f"{self.name.upper()} Service: No cookie file configured or not found.")
+
+    def search(self, query: str, limit: Optional[int] = None) -> List[Track]:
+        if limit is None:
+            limit = self.config.search_results or 1
+
+        # Direct URL check
+        if any(h in query for h in ["youtube.com", "youtu.be", "music.youtube.com"]):
+            return self.get(query)
+
+        search_query = f"ytsearch{limit + 5}:{query}"
+        opts = dict(self._ydl_opts_base)
+        opts.update({
+            "extract_flat": "in_playlist",
+            "skip_download": True,
+        })
+
+        try:
+            with yt_dlp.YoutubeDL(opts) as ydl:
+                info = ydl.extract_info(search_query, download=False)
+        except Exception as e:
+            logging.error(f"YT search error for '{query}': {e}")
+            raise errors.ServiceError(f"YouTube search error: {e}") from e
+
+        entries = info.get("entries") or []
+        tracks: List[Track] = []
+        for entry in entries:
+            if not entry:
+                continue
+            if entry.get("ie_key") == "YoutubeTab":
+                continue
+            entry_url = entry.get("url") or ""
+            if any(p in entry_url for p in ["/channel/", "/@", "/user/"]):
+                continue
+
+            vid = entry.get("id") or entry.get("videoId")
+            title = entry.get("title") or self.bot.translator.translate("Unknown Title")
+            uploader = entry.get("uploader") or entry.get("channel")
+            full_title = f"{title} - {uploader}" if uploader and uploader not in title else title
+            url = entry_url if "watch?v=" in entry_url else f"https://www.youtube.com/watch?v={vid}"
+            tracks.append(
+                Track(
+                    service=self.name,
+                    url=url,
+                    name=full_title,
+                    type=TrackType.Dynamic,
+                    extra_info=entry,
+                )
             )
+            if len(tracks) >= limit:
+                break
 
-        self._bridge = YouTubeBridge(self.config.cookiefile_path, client="YTMUSIC")
-
-        # Run pre-warming in a background thread so the bot connects to TeamTalk immediately
-        threading.Thread(target=self._pre_warm, daemon=True, name="YT_PreWarm").start()
-
-    def _pre_warm(self):
-        if self._is_warmed:
-            return
-        with self._warm_lock:
-            if self._is_warmed:
-                return
-            self._bridge.wait_ready(timeout=5.0)
-            for attempt in range(1, 4):
-                try:
-                    logging.info(f"YT Service pre-warming (attempt {attempt}/3)...")
-                    self.search("test", limit=1)
-                    self._bridge.resolve(video_id="48Lrud3Bxpc")
-                    self._is_warmed = True
-                    logging.info("YT Service pre-warming finished successfully.")
-                    return
-                except Exception as e:
-                    if attempt < 3:
-                        logging.warning(f"YT Pre-warming attempt {attempt} failed: {e}. Retrying in 0.5 seconds...")
-                        time.sleep(0.5)
-                    else:
-                        logging.error(f"YT Pre-warming failed after 3 attempts: {e}")
-
-    def download(self, track: Track, file_path: str, video: bool = False) -> None:
-        start_time = time.perf_counter()
-        info = track.extra_info or {}
-        video_id = info.get("videoId") or info.get("id") or info.get("contentId")
-        source_url = f"https://www.youtube.com/watch?v={video_id}" if video_id else track.url
-        self._bridge.download(source_url, file_path, video=video)
-        duration = (time.perf_counter() - start_time) * 1000
-        logging.info(f"YT Download finished in {duration:.2f}ms for {track.name}")
+        if not tracks:
+            raise errors.NothingFoundError()
+        return tracks
 
     def get(
         self,
@@ -95,41 +114,26 @@ class YtService(_Service):
         start_time = time.perf_counter()
         if not (url or extra_info):
             raise errors.InvalidArgumentError()
-        
-        last_error = None
-        for attempt in range(self._max_retries + 1):
-            if attempt > 0:
-                wait_time = 2 ** attempt
-                logging.warning(f"YT Get: Retry {attempt}/{self._max_retries} for '{url}' after {wait_time}s delay")
-                time.sleep(wait_time)
 
-            try:
-                return self._get_inner(url, extra_info, process, start_time)
-            except errors.ServiceError as e:
-                last_error = e
-                error_msg = str(e)
-                is_auth_error = "Sign in to confirm" in error_msg or "cookies" in error_msg.lower()
-                if not is_auth_error or attempt >= self._max_retries:
-                    raise
-                logging.warning(f"YT Get: Auth-related error, will retry: {error_msg[:100]}")
-        
-        raise last_error or errors.ServiceError("Max retries exceeded")
-
-    def _get_inner(
-        self,
-        url: str,
-        extra_info: Optional[Dict[str, Any]],
-        process: bool,
-        start_time: float,
-    ) -> List[Track]:
         info = dict(extra_info or {})
-        video_id = info.get("videoId") or info.get("contentId") or info.get("id")
+        video_id = info.get("videoId") or info.get("id") or info.get("contentId")
 
         if not process:
-            if extra_info:
-                if video_id and not info.get("webpage_url"):
-                    info["webpage_url"] = f"https://www.youtube.com/watch?v={video_id}"
-                return [Track(service=self.name, url=info.get("webpage_url", url), extra_info=info, type=TrackType.Dynamic)]
+            # If extra_info has valid title and id, return dynamic track without network call
+            if info.get("title") and (video_id or url):
+                title = info.get("title")
+                uploader = info.get("uploader") or info.get("channel")
+                full_title = f"{title} - {uploader}" if uploader and uploader not in title else title
+                source_url = info.get("webpage_url") or url or f"https://www.youtube.com/watch?v={video_id}"
+                return [
+                    Track(
+                        service=self.name,
+                        url=source_url,
+                        name=full_title,
+                        type=TrackType.Dynamic,
+                        extra_info=info,
+                    )
+                ]
 
             lower_url = url.lower() if url else ""
             if (
@@ -139,332 +143,195 @@ class YtService(_Service):
                 or "/c/" in lower_url
                 or "/user/" in lower_url
                 or "/playlist" in lower_url
-                or (url and url.startswith("UC"))
             ):
-                playlist = self._bridge.playlist(url)
-                tracks: List[Track] = []
-                for entry in playlist.get("entries", []):
-                    entry["playlist_title"] = playlist.get("title")
-                    entry["playlist_uploader"] = playlist.get("uploader")
-                    tracks.append(
-                        Track(
-                            service=self.name,
-                            url=entry.get("webpage_url", ""),
-                            name=entry.get("title", ""),
-                            extra_info=entry,
-                            type=TrackType.Dynamic,
+                opts = dict(self._ydl_opts_base)
+                opts.update({
+                    "extract_flat": "in_playlist",
+                    "skip_download": True,
+                })
+                try:
+                    with yt_dlp.YoutubeDL(opts) as ydl:
+                        pl_info = ydl.extract_info(url, download=False)
+                    entries = pl_info.get("entries") or []
+                    tracks: List[Track] = []
+                    for entry in entries:
+                        if not entry:
+                            continue
+                        e_id = entry.get("id")
+                        e_title = entry.get("title") or self.bot.translator.translate("Unknown Title")
+                        e_uploader = entry.get("uploader") or pl_info.get("uploader")
+                        e_full = f"{e_title} - {e_uploader}" if e_uploader and e_uploader not in e_title else e_title
+                        e_url = entry.get("url") or f"https://www.youtube.com/watch?v={e_id}"
+                        tracks.append(
+                            Track(
+                                service=self.name,
+                                url=e_url,
+                                name=e_full,
+                                type=TrackType.Dynamic,
+                                extra_info=entry,
+                            )
                         )
-                    )
-                duration = (time.perf_counter() - start_time) * 1000
-                logging.info(f"YT Get (Playlist/Channel) finished in {duration:.2f}ms for {url}")
-                return tracks
+                    duration = (time.perf_counter() - start_time) * 1000
+                    logging.info(f"YT Get (Playlist) finished in {duration:.2f}ms for {url} ({len(tracks)} tracks)")
+                    return tracks
+                except Exception as e:
+                    logging.error(f"YT Playlist extraction failed: {e}")
+                    raise errors.ServiceError(f"Playlist extraction failed: {e}") from e
 
-            info = self._bridge.info(url=url)
-            video_id = info.get("id") or info.get("videoId")
-            title = info.get("title", self.bot.translator.translate("Unknown Title"))
-            if info.get("uploader"):
-                title += f" - {info['uploader']}"
-            original_track = Track(
-                service=self.name,
-                url=info.get("webpage_url", url),
-                name=title,
-                type=TrackType.Dynamic,
-                extra_info=info,
-            )
-            if video_id and not getattr(self.bot.player, "is_playlist", False):
-                self._fetch_autoplay_async(video_id)
-            duration = (time.perf_counter() - start_time) * 1000
-            logging.info(f"YT Get (Fast Dynamic) finished in {duration:.2f}ms for {title}")
-            return [original_track]
+            # Single video fallback
+            return [
+                Track(
+                    service=self.name,
+                    url=url,
+                    name=self.bot.translator.translate("YouTube Track"),
+                    type=TrackType.Dynamic,
+                    extra_info=info,
+                )
+            ]
 
-        if not video_id:
-            if not url:
-                raise errors.ServiceError("No YouTube video ID available for stream resolution")
-            resolved = self._bridge.resolve(url=url)
-        else:
-            resolved = self._bridge.resolve(video_id=video_id)
+        # Process: Extract direct stream URL
+        source_url = url or (f"https://www.youtube.com/watch?v={video_id}" if video_id else "")
+        if not source_url:
+            raise errors.ServiceError("No URL provided for stream extraction")
 
-        stream = {**info, **resolved}
-        stream_url = resolved.get("url")
+        opts = dict(self._ydl_opts_base)
+        opts["skip_download"] = True
+        try:
+            with yt_dlp.YoutubeDL(opts) as ydl:
+                extracted = ydl.extract_info(source_url, download=False)
+        except Exception as e:
+            logging.error(f"YT stream extraction failed for '{source_url}': {e}")
+            raise errors.ServiceError(f"Failed to extract stream: {e}") from e
+
+        stream_url = extracted.get("url")
         if not stream_url:
-            raise errors.ServiceError("YouTube.js returned no stream URL")
-        title = resolved.get("title") or info.get("title") or self.bot.translator.translate("Unknown")
-        uploader = resolved.get("uploader") or info.get("uploader")
-        if uploader:
-            title += f" - {uploader}"
-        track_type = TrackType.Live if resolved.get("is_live") else TrackType.Default
-        current_video_id = resolved.get("id") or video_id
+            raise errors.ServiceError("yt-dlp returned no stream URL for this video")
 
-        if current_video_id and not getattr(self.bot.player, "is_playlist", False):
-            try:
-                remaining = len(self.bot.player.track_list) - 1 - self.bot.player.track_index
-                if remaining <= 4:
-                    self._fetch_autoplay_async(current_video_id)
-            except Exception as e:
-                logging.debug(f"[YT] Trace bot player state error: {e}")
+        title = extracted.get("title") or info.get("title") or self.bot.translator.translate("Unknown Title")
+        uploader = extracted.get("uploader") or extracted.get("channel") or info.get("uploader")
+        full_title = f"{title} - {uploader}" if uploader and uploader not in title else title
+        fmt = extracted.get("ext") or "m4a"
+        is_live = bool(extracted.get("is_live"))
+        track_type = TrackType.Live if is_live else TrackType.Default
 
         duration = (time.perf_counter() - start_time) * 1000
-        logging.info(f"YT Get (Process/YouTube.js) finished in {duration:.2f}ms for {title}")
+        logging.info(f"YT Get (Stream) resolved in {duration:.2f}ms format={fmt} for {full_title}")
+
         return [
             Track(
                 service=self.name,
                 url=stream_url,
-                name=title,
-                format="mp3",
+                name=full_title,
+                format=fmt,
                 type=track_type,
-                extra_info=stream,
+                extra_info=extracted,
                 extracted_at=time.perf_counter(),
             )
         ]
 
-    def _get_recommendations(self, video_id: str, limit: int = 15) -> List[Track]:
+    def download(self, track: Track, file_path: str, video: bool = False) -> None:
+        info = track.extra_info or {}
+        video_id = info.get("videoId") or info.get("id") or info.get("contentId")
+        source_url = f"https://www.youtube.com/watch?v={video_id}" if video_id else track.url
+
+        opts = dict(self._ydl_opts_base)
+        opts["outtmpl"] = file_path
+        if video:
+            opts["format"] = "bestvideo+bestaudio/best"
+        else:
+            opts["format"] = "bestaudio[ext=m4a]/bestaudio/best"
+
+        with yt_dlp.YoutubeDL(opts) as ydl:
+            ydl.download([source_url])
+
+    def get_related(self, video_id: str, count: int = 5) -> List[Track]:
+        if not video_id:
+            return []
+        url = f"https://www.youtube.com/watch?v={video_id}&list=RD{video_id}"
+        opts = dict(self._ydl_opts_base)
+        opts.update({
+            "extract_flat": "in_playlist",
+            "skip_download": True,
+            "playlist_items": f"2-{count + 1}",
+        })
         try:
-             logging.info(f"[YT] Fetching recommendations for {video_id}")
-             url = f"https://www.youtube.com/watch?v={video_id}"
-             headers = {
-                 "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/111.0.0.0 Safari/537.36",
-                 "Accept-Language": "en-US,en;q=0.9"
-             }
-             
-             import httpx
-             import re
-             import json
-             import http.cookiejar
-             
-             jar = None
-             if self.config.cookiefile_path and os.path.isfile(self.config.cookiefile_path):
-                 try:
-                     jar = http.cookiejar.MozillaCookieJar(self.config.cookiefile_path)
-                     jar.load(ignore_discard=True, ignore_expires=True)
-                     logging.info(f"[YT] Recommendations: Loaded cookies from {self.config.cookiefile_path}")
-                 except Exception as e:
-                     logging.warning(f"[YT] Recommendations: Could not load cookies from {self.config.cookiefile_path}: {e}")
-                     jar = None
-
-             with httpx.Client(http2=True, follow_redirects=True, timeout=10.0, cookies=jar) as client:
-                 response = client.get(url, headers=headers)
-             if response.status_code != 200:
-                 logging.error(f"[YT] Recommendations fetch failed: HTTP {response.status_code}")
-                 return []
-                 
-             pattern = r"var ytInitialData = ({.*?});"
-             match = re.search(pattern, response.text)
-             if not match:
-                 pattern = r"window\[['\"]ytInitialData['\"].*? = ({.*?});"
-                 match = re.search(pattern, response.text)
-                 
-             if not match:
-                 logging.error("[YT] Recommendations fetch failed: Could not find ytInitialData")
-                 return []
-                 
-             data = json.loads(match.group(1))
-             
-             # Extract both compactVideoRenderer and lockupViewModel items
-             items = []
-             def find_videos_and_lockups(obj):
-                 if isinstance(obj, dict):
-                     if 'compactVideoRenderer' in obj:
-                         items.append(('video', obj['compactVideoRenderer']))
-                     elif 'lockupViewModel' in obj:
-                         items.append(('lockup', obj['lockupViewModel']))
-                     else:
-                         for v in obj.values():
-                             find_videos_and_lockups(v)
-                 elif isinstance(obj, list):
-                     for item in obj:
-                         find_videos_and_lockups(item)
-             
-             try:
-                 find_videos_and_lockups(data)
-             except Exception as ex:
-                 logging.debug(f"[YT] Recursive search error: {ex}")
-             
-             new_tracks = []
-             count = 0
-             for kind, item in items:
-                  if count >= limit:
-                      break
-                  if not item or not isinstance(item, dict):
-                      continue
-                      
-                  v_id = None
-                  title = ""
-                  channel = ""
-                  
-                  if kind == 'video':
-                      v_id = item.get('videoId')
-                      if not v_id:
-                          continue
-                      title_obj = item.get('title', {})
-                      if 'simpleText' in title_obj:
-                          title = title_obj['simpleText']
-                      elif 'runs' in title_obj and isinstance(title_obj['runs'], list) and len(title_obj['runs']) > 0:
-                          title = title_obj['runs'][0].get('text', '')
-                          
-                      channel_obj = item.get('longBylineText', {}) or item.get('shortBylineText', {})
-                      if 'runs' in channel_obj and isinstance(channel_obj['runs'], list) and len(channel_obj['runs']) > 0:
-                          channel = channel_obj['runs'][0].get('text', '')
-                  
-                  elif kind == 'lockup':
-                      v_id = item.get('contentId')
-                      content_type = item.get('contentType')
-                      if content_type != 'LOCKUP_CONTENT_TYPE_VIDEO':
-                          continue
-                      if not v_id:
-                          continue
-                      
-                      metadata = item.get('metadata', {}).get('lockupMetadataViewModel', {})
-                      title = metadata.get('title', {}).get('content', '')
-                      
-                      rows = metadata.get('metadata', {}).get('contentMetadataViewModel', {}).get('metadataRows', [])
-                      if len(rows) > 0:
-                          parts = rows[0].get('metadataParts', [])
-                          if len(parts) > 0:
-                              txt_obj = parts[0].get('text', {})
-                              if isinstance(txt_obj, dict):
-                                  channel = txt_obj.get('content', '')
-                              elif isinstance(txt_obj, str):
-                                  channel = txt_obj
-                  
-                  if not v_id:
-                      continue
-                      
-                  full_title = f"{title} - {channel}" if channel else title
-                  
-                  track = Track(
-                       service=self.name,
-                       name=full_title,
-                       url=f"https://www.youtube.com/watch?v={v_id}",
-                       type=TrackType.Dynamic,
-                       extra_info=item
-                  )
-                  new_tracks.append(track)
-                  count += 1
-             
-             return new_tracks
-        except Exception as e:
-             logging.error(f"[YT] Recommendations fetch error: {e}")
-             return []
-
-    def _fetch_autoplay_async(self, video_id: str) -> None:
-         threading.Thread(target=self._fetch_autoplay_sync, args=(video_id,), daemon=True, name=f"Autoplay_{video_id}").start()
-
-    def _fetch_autoplay_sync(self, video_id: str) -> bool:
-         try:
-              logging.info(f"[YT] Fetching continuous recommendations for {video_id}")
-              recs: List[Track] = []
-              try:
-                  entries = self._bridge.recommendations(video_id, 50).get("entries", [])
-                  for item in entries:
-                      t_vid = item.get("videoId")
-                      if not t_vid:
-                          continue
-                      title = item.get("title", "")
-                      uploader = item.get("uploader", "")
-                      full_title = f"{title} - {uploader}" if uploader else title
-                      recs.append(
-                          Track(
-                              service=self.name,
-                              name=full_title,
-                              url=item.get("webpage_url") or f"https://www.youtube.com/watch?v={t_vid}",
-                              type=TrackType.Dynamic,
-                              extra_info=item,
-                          )
-                      )
-              except Exception as ex:
-                  logging.debug(f"[YT] Bridge recommendations query failed: {ex}")
-
-              if len(recs) < 5:
-                  try:
-                      fallback_recs = self._get_recommendations(video_id, limit=20)
-                      if fallback_recs:
-                          recs.extend(fallback_recs)
-                  except Exception as ex:
-                      logging.debug(f"[YT] Web scraping fallback error: {ex}")
-
-              if recs:
-                   # Deduplica apenas contra as faixas à frente no buffer e as últimas 15 tocadas
-                   current_idx = self.bot.player.track_index
-                   recent_tracks = self.bot.player.track_list[max(0, current_idx - 15):]
-                   existing_ids = set()
-                   for t in recent_tracks:
-                        t_info = getattr(t, "extra_info", None) or {}
-                        vid = t_info.get("id") or t_info.get("videoId") or t_info.get("contentId")
-                        if vid:
-                             existing_ids.add(vid)
-                   existing_ids.add(video_id)
-
-                   new_tracks = []
-                   for t in recs:
-                        t_info = getattr(t, "extra_info", None) or {}
-                        t_vid = t_info.get("id") or t_info.get("videoId") or t_info.get("contentId")
-                        if not t_vid and hasattr(t, "_url") and t._url and "v=" in t._url:
-                             t_vid = t._url.split("v=")[1].split("&")[0].split("?")[0]
-                        if not t_vid or t_vid in existing_ids:
-                             continue
-                        existing_ids.add(t_vid)
-                        new_tracks.append(t)
-                        if len(new_tracks) >= 15:
-                             break
-
-                   if new_tracks:
-                        logging.info(f"[YT] Adding {len(new_tracks)} continuous recommendations to track list (total: {len(self.bot.player.track_list) + len(new_tracks)})")
-                        self.bot.player.track_list.extend(new_tracks)
-                        if hasattr(self.bot.player, "_schedule_prefetch"):
-                             self.bot.player._schedule_prefetch()
-                        return True
-                   else:
-                        logging.info(f"[YT] No new unique recommendations found for video_id {video_id}")
-         except Exception as e:
-              logging.error(f"[YT] Autoplay fetch failed: {e}")
-         return False
-
-
-    def search(self, query: str, limit: Optional[int] = None) -> List[Track]:
-        if limit is None:
-            limit = self.config.search_results
-        start_time = time.perf_counter()
-        try:
-            entries = self._bridge.search(query, limit).get("entries", [])
-            tracks = []
-            for video in entries:
-                if not video.get("webpage_url") and not video.get("stream_url"):
+            with yt_dlp.YoutubeDL(opts) as ydl:
+                info = ydl.extract_info(url, download=False)
+            entries = info.get("entries") or []
+            tracks: List[Track] = []
+            for entry in entries:
+                if not entry or entry.get("ie_key") == "YoutubeTab":
                     continue
-                title = video.get("title") or self.bot.translator.translate("Unknown Title")
-                uploader = video.get("uploader")
-                if uploader and uploader not in title:
-                    title += f" - {uploader}"
-                stream_url = video.get("stream_url")
-                if stream_url:
-                    track = Track(
+                vid = entry.get("id") or entry.get("videoId")
+                if not vid or vid == video_id:
+                    continue
+                title = entry.get("title") or self.bot.translator.translate("Unknown Title")
+                uploader = entry.get("uploader") or entry.get("channel")
+                full_title = f"{title} - {uploader}" if uploader and uploader not in title else title
+                tracks.append(
+                    Track(
                         service=self.name,
-                        url=stream_url,
-                        name=title,
-                        format="mp3",
-                        type=TrackType.Live if video.get("is_live") else TrackType.Default,
-                        extra_info=video,
-                        extracted_at=time.perf_counter(),
-                    )
-                    track._is_fetched = True
-                else:
-                    track = Track(
-                        service=self.name,
-                        url=video.get("webpage_url", ""),
-                        name=title,
+                        url=f"https://www.youtube.com/watch?v={vid}",
+                        name=full_title,
                         type=TrackType.Dynamic,
-                        extra_info=video,
+                        extra_info=entry,
                     )
-                tracks.append(track)
-            if not tracks:
-                raise errors.NothingFoundError("")
-            player = getattr(self.bot, "player", None)
-            if len(tracks) == 1 and not getattr(player, "is_playlist", False):
-                vid = entries[0].get("id") or entries[0].get("videoId")
-                if vid:
-                    self._fetch_autoplay_async(vid)
-            duration = (time.perf_counter() - start_time) * 1000
-            logging.info(f"YT Search (YouTube.js) finished in {duration:.2f}ms for query: {query}")
+                )
             return tracks
         except Exception as e:
-            logging.error(f"YT Search failed: {e}")
-            raise errors.NothingFoundError("")
+            logging.warning(f"Failed to fetch related tracks for {video_id}: {e}")
+            return []
+
+    def _fetch_autoplay_sync(self, video_id: str) -> bool:
+        if not video_id or not hasattr(self.bot, "player"):
+            return False
+        related = self.get_related(video_id, count=5)
+        if not related:
+            return False
+
+        existing_ids = set()
+        for t in self.bot.player.track_list:
+            info = getattr(t, "extra_info", None) or {}
+            vid = info.get("id") or info.get("videoId")
+            if vid:
+                existing_ids.add(vid)
+
+        added = 0
+        for track in related:
+            info = getattr(track, "extra_info", None) or {}
+            vid = info.get("id") or info.get("videoId")
+            if vid and vid not in existing_ids:
+                self.bot.player.track_list.append(track)
+                existing_ids.add(vid)
+                added += 1
+
+        if added > 0:
+            logging.info(f"[Autoplay] Appended {added} related tracks to player track_list")
+            # Immediately pre-resolve the direct m4a stream URL for the next track in this background thread
+            try:
+                next_idx = self.bot.player.track_index + 1
+                if next_idx < len(self.bot.player.track_list):
+                    next_t = self.bot.player.track_list[next_idx]
+                    if not next_t._is_fetched:
+                        logging.info(f"[Autoplay] Pre-resolving direct m4a stream for next track: {next_t.name}")
+                        _ = next_t.url
+                        logging.info(f"[Autoplay] Next track m4a stream ready: {next_t.name}")
+            except Exception as e:
+                logging.warning(f"[Autoplay] Error pre-resolving next track: {e}")
+
+            # Schedule player prefetch for subsequent tracks
+            if hasattr(self.bot.player, "_schedule_prefetch"):
+                self.bot.player._schedule_prefetch()
+            return True
+        return False
+
+    def _fetch_autoplay_async(self, video_id: str) -> None:
+        if not video_id:
+            return
+        t = threading.Thread(
+            target=self._fetch_autoplay_sync,
+            args=(video_id,),
+            daemon=True,
+            name="YT_Autoplay_Fetcher",
+        )
+        t.start()

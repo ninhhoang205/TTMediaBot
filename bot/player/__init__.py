@@ -1,6 +1,7 @@
 from __future__ import annotations
 import html
 import logging
+import sys
 import time
 import threading
 from typing import Any, Dict, Callable, List, Optional, TYPE_CHECKING
@@ -29,7 +30,7 @@ class Player:
         self.cache = bot.cache
         self.cache_manager = bot.cache_manager
         mpv_options = {
-            "ao": "pulse",
+            "ao": "wasapi" if sys.platform == "win32" else "pulse",
             "audio_samplerate": 48000,
             "audio_channels": "stereo",
             "audio_format": "s16",
@@ -72,10 +73,116 @@ class Player:
         self._prefetch_timer: Optional[threading.Timer] = None
 
         self.queue: QueueManager = QueueManager()
+        self.silence_trim: bool = getattr(self.config, "silence_trim", False)
+        self.silence_trim_threshold: float = getattr(self.config, "silence_trim_threshold", -30.0)
+        self.pitch_semitones: float = getattr(self.config, "default_pitch", 0.0)
 
     def initialize(self) -> None:
         logging.debug("Initializing player")
+        if self.silence_trim:
+            self.apply_silence_filter(True)
+        if abs(self.pitch_semitones) > 0.001:
+            self.apply_pitch_filter(self.pitch_semitones)
         logging.debug("Player initialized")
+
+    def get_silence_filter_string(self) -> str:
+        threshold = f"{self.silence_trim_threshold:.1f}dB"
+        graph = (
+            f"silenceremove="
+            f"start_periods=1:"
+            f"start_duration=0.1:"
+            f"start_threshold={threshold}:"
+            f"stop_periods=-1:"
+            f"stop_duration=0.5:"
+            f"stop_threshold={threshold}:"
+            f"stop_silence=0.2:"
+            f"window=0.02:"
+            f"detection=peak"
+        )
+        return f"@silenceremove:lavfi=[{graph}]"
+
+    def apply_silence_filter(self, enabled: bool) -> bool:
+        try:
+            self._player.command("af", "remove", "@silenceremove")
+        except Exception:
+            pass
+        if enabled:
+            try:
+                filter_str = self.get_silence_filter_string()
+                self._player.command("af", "add", filter_str)
+                logging.info(f"[Player] Applied silence filter: {filter_str}")
+                return True
+            except Exception as e:
+                logging.error(f"[Player] Failed to apply silence filter: {e}")
+                return False
+        else:
+            logging.info("[Player] Removed silence filter")
+            return True
+
+    def set_silence_trim(self, enable: bool, threshold: Optional[float] = None) -> bool:
+        if threshold is not None:
+            self.silence_trim_threshold = threshold
+        self.silence_trim = enable
+        self.config.silence_trim = enable
+        self.config.silence_trim_threshold = self.silence_trim_threshold
+        try:
+            self.bot.config_manager.save()
+        except Exception as e:
+            logging.warning(f"[Player] Failed to save config after updating silence_trim: {e}")
+        return self.apply_silence_filter(enable)
+
+    def get_pitch_filter_string(self, semitones: float) -> str:
+        scale = 2.0 ** (semitones / 12.0)
+        # Optimized Rubberband configuration to prevent:
+        # 1. Smearing of drums / percussive transients (transients=crisp, detector=compound)
+        # 2. Phasing / warbling / metallic timbre of piano chords and strings (phase=laminar, smoothing=on, channels=together, engine=finer)
+        options = (
+            f"pitch-scale={scale:.6f}:"
+            f"transients=crisp:"
+            f"detector=compound:"
+            f"phase=laminar:"
+            f"window=standard:"
+            f"smoothing=on:"
+            f"channels=together:"
+            f"engine=finer"
+        )
+        return f"@pitch:rubberband={options}"
+
+    def apply_pitch_filter(self, semitones: float) -> bool:
+        try:
+            self._player.command("af", "remove", "@pitch")
+        except Exception:
+            pass
+        if abs(semitones) > 0.001:
+            try:
+                filter_str = self.get_pitch_filter_string(semitones)
+                self._player.command("af", "add", filter_str)
+                logging.info(f"[Player] Applied pitch filter: {filter_str}")
+                return True
+            except Exception as e:
+                logging.error(f"[Player] Failed to apply rubberband pitch filter: {e}, falling back to mpv pitch property")
+                try:
+                    self._player.pitch = 2.0 ** (semitones / 12.0)
+                    return True
+                except Exception as ex:
+                    logging.error(f"[Player] Failed to apply fallback pitch: {ex}")
+                    return False
+        else:
+            try:
+                self._player.pitch = 1.0
+            except Exception:
+                pass
+            logging.info("[Player] Removed pitch filter (original pitch restored)")
+            return True
+
+    def get_pitch(self) -> float:
+        return self.pitch_semitones
+
+    def set_pitch(self, semitones: float) -> bool:
+        if semitones < -12.0 or semitones > 12.0:
+            raise ValueError("Semitones must be between -12 and +12")
+        self.pitch_semitones = semitones
+        return self.apply_pitch_filter(semitones)
 
     def run(self) -> None:
         logging.debug("Registering player callbacks")
@@ -121,6 +228,7 @@ class Player:
                 self.track = tracks[self.track_index]
             self._pending_playback_context = timing_context or {}
             self._play(self.track.url)
+            self._check_and_trigger_autoplay()
         else:
             self._player.pause = False
         self._player.volume = self.volume
@@ -177,6 +285,16 @@ class Player:
             except Exception as e:
                 logging.debug(f"[Player] Failed to apply HTTP headers to MPV: {e}")
                 
+        if self.silence_trim:
+            current_af = self._player.af or []
+            if not any(f.get("label") == "silenceremove" for f in current_af):
+                self.apply_silence_filter(True)
+
+        if abs(self.pitch_semitones) > 0.001:
+            current_af = self._player.af or []
+            if not any(f.get("label") == "pitch" for f in current_af):
+                self.apply_pitch_filter(self.pitch_semitones)
+
         self._player.pause = False
         self._player.play(arg)
         self._log_playback_timing("mpv_play_submitted", trace)
@@ -350,6 +468,13 @@ class Player:
                         f"elapsed_ms={elapsed_ms:.2f} source=track_list "
                         f"service={next_track.service} track={next_track.name!r}"
                     )
+                # Also prefetch following track so skipping multiple tracks is instant
+                following_index = next_index + 1
+                if following_index < len(self.track_list):
+                    following_track = self.track_list[following_index]
+                    if not following_track._is_fetched:
+                        logging.info(f"Prefetching following track: {following_track.name}")
+                        _ = following_track.url
         except Exception as e:
             elapsed_ms = (time.perf_counter() - started_at) * 1000
             logging.warning(
@@ -382,7 +507,18 @@ class Player:
         vid = info.get("videoId") or info.get("id") or info.get("contentId")
         if vid:
             return str(vid)
-        url = getattr(track, "_url", "")
+        original = getattr(track, "_original_track", None)
+        if original:
+            orig_info = getattr(original, "extra_info", None) or {}
+            vid = orig_info.get("videoId") or orig_info.get("id") or orig_info.get("contentId")
+            if vid:
+                return str(vid)
+            orig_url = getattr(original, "_url", "") or getattr(original, "url", "")
+            if "v=" in orig_url:
+                return orig_url.split("v=")[1].split("&")[0].split("?")[0]
+            elif "youtu.be" in orig_url:
+                return orig_url.split("/")[-1].split("?")[0]
+        url = getattr(track, "_url", "") or getattr(track, "url", "")
         if url:
             if "v=" in url:
                 return url.split("v=")[1].split("&")[0].split("?")[0]
@@ -392,10 +528,10 @@ class Player:
 
     def _check_and_trigger_autoplay(self) -> None:
         try:
-            if not self.track_list or self.mode == Mode.SingleTrack or self.is_playlist:
+            if not self.track_list or self.mode == Mode.SingleTrack:
                 return
             remaining = len(self.track_list) - 1 - self.track_index
-            if remaining <= 4:
+            if remaining <= 2:
                 candidates = []
                 if self.track:
                     candidates.append(self.track)
@@ -416,7 +552,7 @@ class Player:
 
     def _replenish_autoplay_sync(self) -> bool:
         try:
-            if not self.track_list or self.mode == Mode.SingleTrack or self.is_playlist:
+            if not self.track_list or self.mode == Mode.SingleTrack:
                 return False
             candidates = []
             if self.track:
@@ -481,8 +617,7 @@ class Player:
                 self.play_by_index(0)
                 self._log_next_track_completed(started_at, "repeat_track_list")
                 return
-            if not self.is_playlist:
-                self._replenish_autoplay_sync()
+            self._replenish_autoplay_sync()
             if track_index >= len(self.track_list):
                 raise errors.NoNextTrackError()
 
@@ -518,6 +653,9 @@ class Player:
         )
 
     def previous(self) -> None:
+        if self.state == State.Stopped:
+            raise errors.NothingIsPlayingError()
+
         track_index = self.track_index
         if len(self.track_list) > 0:
             if self.mode == Mode.Random:
@@ -526,24 +664,26 @@ class Player:
                     current_position = self._index_list.index(self.track_index)
                     if current_position > 0:
                         track_index = self._index_list[current_position - 1]
-                    else:
+                    elif self.mode == Mode.RepeatTrackList and len(self._index_list) > 0:
                         track_index = self._index_list[-1]
+                    else:
+                        raise errors.NoPreviousTrackError()
                 except (IndexError, ValueError, AttributeError):
-                    track_index = self.track_index
+                    raise errors.NoPreviousTrackError()
             else:
-                if track_index == 0 and self.mode != Mode.RepeatTrackList:
-                    raise errors.NoPreviousTrackError
-                else:
+                if track_index > 0:
                     track_index -= 1
+                elif self.mode == Mode.RepeatTrackList and len(self.track_list) > 0:
+                    track_index = len(self.track_list) - 1
+                else:
+                    raise errors.NoPreviousTrackError()
         else:
-            track_index = 0
+            raise errors.NoPreviousTrackError()
+
         try:
             self.play_by_index(track_index)
         except errors.IncorrectTrackIndexError:
-            if self.mode == Mode.RepeatTrackList:
-                self.play_by_index(len(self.track_list) - 1)
-            else:
-                raise errors.NoPreviousTrackError
+            raise errors.NoPreviousTrackError()
 
     def play_by_index(self, index: int) -> None:
         if index < len(self.track_list) and index >= (0 - len(self.track_list)):

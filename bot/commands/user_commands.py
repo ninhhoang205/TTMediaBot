@@ -145,6 +145,11 @@ class StopCommand(Command):
                     ),
                     type=2,
                 )
+            else:
+                self.ttclient.send_message(
+                    self.translator.translate("Playback stopped"),
+                    user,
+                )
         else:
             return self.translator.translate("Nothing is playing")
 
@@ -463,6 +468,25 @@ class SpeedCommand(Command):
                 raise errors.InvalidArgumentError()
 
 
+class PitchCommand(Command):
+    @property
+    def help(self) -> str:
+        return self.translator.translate(
+            "SEMITONES Sets playback pitch from -12 to 12 semitones. If no pitch is given, shows current pitch"
+        )
+
+    def __call__(self, arg: str, user: User) -> Optional[str]:
+        if not arg:
+            return self.translator.translate("Current pitch: {}").format(
+                str(self.player.get_pitch())
+            )
+        else:
+            try:
+                self.player.set_pitch(float(arg))
+            except ValueError:
+                raise errors.InvalidArgumentError()
+
+
 class FavoritesCommand(Command):
     @property
     def help(self) -> str:
@@ -557,6 +581,40 @@ class GetLinkCommand(Command):
                 return shortener.get(url) if shortener else url
             else:
                 return self.translator.translate("URL is not available")
+        else:
+            return self.translator.translate("Nothing is playing")
+
+
+class YouTubeLinkCommand(Command):
+    @property
+    def help(self) -> str:
+        return self.translator.translate("Gets the original YouTube link to the current track")
+
+    def _get_youtube_url(self, track: Track) -> Optional[str]:
+        raw = track.get_raw() if hasattr(track, "get_raw") else track
+        for t in (raw, track):
+            u = getattr(t, "_url", "") or getattr(t, "url", "")
+            if any(h in u for h in ("youtube.com/watch", "youtu.be/", "music.youtube.com/watch")):
+                return u
+        for t in (raw, track):
+            info = getattr(t, "extra_info", None) or {}
+            for key in ("webpage_url", "original_url"):
+                url = info.get(key)
+                if url and any(h in url for h in ("youtube.com", "youtu.be")):
+                    return url
+            vid = info.get("videoId") or info.get("id") or info.get("contentId")
+            if vid and isinstance(vid, str) and len(vid) == 11:
+                return f"https://www.youtube.com/watch?v={vid}"
+        return None
+
+    def __call__(self, arg: str, user: User) -> Optional[str]:
+        if self.player.state != State.Stopped:
+            yt_url = self._get_youtube_url(self.player.track)
+            if yt_url:
+                shortener = self.module_manager.shortener
+                return shortener.get(yt_url) if shortener else yt_url
+            else:
+                return self.translator.translate("Current track is not from YouTube")
         else:
             return self.translator.translate("Nothing is playing")
 
@@ -1455,4 +1513,21 @@ class ToggleLocalDownloadCommand(Command):
             return self.translator.translate("Local download mode (adsc) enabled.")
         else:
             return self.translator.translate("Local download mode (adsc) disabled.")
+
+
+class TrimSilenceCommand(Command):
+    @property
+    def help(self) -> str:
+        return self.translator.translate(
+            "Toggles silence trimming mode. When active, automatically removes leading and trailing silence from tracks."
+        )
+
+    def __call__(self, arg: str, user: User) -> Optional[str]:
+        new_state = not self.player.silence_trim
+        self.player.set_silence_trim(new_state)
+        if new_state:
+            return self.translator.translate("Silence trimming (ts) enabled.")
+        else:
+            return self.translator.translate("Silence trimming (ts) disabled.")
+
 

@@ -6,14 +6,15 @@ if TYPE_CHECKING:
     from bot.translator import Translator
 
 app_name = "TTMediaBot"
-app_version = "4.0"
+app_version = "3.0"
 client_name = app_name + "-V" + app_version
 about_text: Callable[[Translator], str] = lambda translator: translator.translate(
     """\
-Hello! I am João Almeida. This is my fork of TTMediaBot for TeamTalk 5.
-This repository focuses on stability and support for YouTube Music.
-Repository: https://github.com/JoaoDEVWHADS/TTMediaBot
-Original Authors: Amir Gumerov, Vladislav Kopylov, Beqa Gozalishvili, Kirill Belousov.
+Hello, I'm Smart Thinh.
+This is a TTMediaBot edition for TeamTalk 5, based on João Almeida's fork.
+Ported to run seamlessly on Windows with high stability and ultra-fast response.
+Repository: https://github.com/smartthinh/TTMediaBot
+\fOriginal Authors: Amir Gumerov, Vladislav Kopylov, Beqa Gozalishvili, Kirill Belousov.
 """
 )
 fallback_service = "yt"

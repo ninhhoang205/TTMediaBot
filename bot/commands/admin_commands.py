@@ -266,18 +266,22 @@ class ChannelMessagesCommand(Command):
     @property
     def help(self) -> str:
         return self.translator.translate(
-            "Enables or disables sending of channel messages"
+            "Toggles channel messages. When disabled, notifications are sent privately instead of public channel"
         )
 
     def __call__(self, arg: str, user: User) -> Optional[str]:
         self.config.general.send_channel_messages = (
             not self.config.general.send_channel_messages
         )
-        return (
-            self.translator.translate("Channel messages enabled")
-            if self.config.general.send_channel_messages
-            else self.translator.translate("Channel messages disabled")
-        )
+        self.config_manager.save()
+        if self.config.general.send_channel_messages:
+            return self.translator.translate(
+                "Public channel messages enabled (bot will announce in channel)."
+            )
+        else:
+            return self.translator.translate(
+                "Private messages mode enabled (bot will send notifications privately instead of public channel)."
+            )
 
 
 class SaveConfigCommand(Command):

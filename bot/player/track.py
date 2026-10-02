@@ -80,10 +80,11 @@ class Track:
             )
             source_url = original._url
             service: Service = get_service_by_name(self.service)
-            service._bridge.invalidate(
-                video_id=video_id or "",
-                url="" if video_id else source_url,
-            )
+            if hasattr(service, "_bridge") and service._bridge:
+                service._bridge.invalidate(
+                    video_id=video_id or "",
+                    url="" if video_id else source_url,
+                )
 
             self._url = source_url
             self._name = original._name

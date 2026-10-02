@@ -4,13 +4,69 @@ All notable updates to this fork are documented here, in reverse chronological o
 
 ---
 
-## 🔧 Unreleased — Generic Stream Resolver
+## 🆕 v3.0.0 — "Windows Native Architecture, Audio DSP & Music Control Suite" *(10/02/2026)*
 
-- Added an extensible page-to-media resolver registry for the `u` command.
-- Added GETEM player-page support by extracting embedded audio URLs and forwarding required HTTP headers to mpv.
-- Stopped sending unrelated non-YouTube URLs through the YouTube.js fallback service.
-- Reset per-track HTTP headers when playback moves back to a plain direct URL.
-- Added regression tests for GETEM HTML/JavaScript extraction, direct URL fallback, and mpv header cleanup.
+### 🪟 Windows Native Architecture & Streamlined Deployment
+- **🔊 Native Windows Audio Backend (WASAPI):**
+  Auto-detects Windows environments and automatically configures `ao="wasapi"` in mpv for ultra-low latency, jitter-free playback, while seamlessly retaining `pulse` on Linux.
+- **🔕 Windows Modal Dialog Bypass:**
+  Implemented automatic runtime memory patching (`_disable_trial_dialog`) in `TeamTalkPy/TeamTalk5.py` to prevent blocking modal popups during Windows operation.
+- **🌐 UTF-8 Console Encoding & Fast IPv4 DNS Resolution:**
+  Enforced UTF-8 reconfiguration on `sys.stdout` and `sys.stderr` for Windows console to correctly render Unicode and Vietnamese track titles, alongside monkey-patching `socket.getaddrinfo` to prioritize IPv4 and eliminate lengthy network lookup timeouts.
+- **🧹 Decoupled Linux Overhead:**
+  Completely removed legacy Linux-specific shell scripts (`*.sh`), Docker build files (`Dockerfile`, `ttbotdocker.sh`), and systemd daemon units in favor of a clean, lightweight, Windows-first repository.
+
+### 🎛️ Studio-Grade Audio DSP Suite (Pitch Shift & Silence Trimming)
+- **🎼 Musical Pitch & Tone Shift (`pt` command):**
+  Added user command `pt [SEMITONES]` allowing real-time pitch adjustment between `-12` and `+12` semitones, or inspecting the active pitch setting when called without arguments (`pt`).
+- **🎚️ Rubber Band v3 Engine Tuning:**
+  Engineered custom FFmpeg/mpv filter parameters (`@pitch:rubberband`) using `transients=crisp` and `detector=compound` to preserve punchy drum attacks without smearing, coupled with `phase=laminar` and `channels=together` to eliminate harmonic phasing, chorus artifacts, and metallic resonance on piano chords and vocals. Automatically bypasses the filter when pitch is 0.0 for 100% bit-perfect audio, with fallback to mpv's native pitch scaler.
+- **🔁 Pitch Persistence:**
+  Retains user-selected pitch across subsequent track transitions in `Player._play()`, with support for a default startup pitch (`default_pitch`) in `config.json`.
+- **✂️ Intelligent Silence Trimming (`ts` command):**
+  Added `ts` command to toggle silence trimming mode with `@silenceremove` filter (`silence_trim` and `silence_trim_threshold` in config), stripping leading and trailing dead silence from streams for seamless transitions.
+
+### 🔗 Canonical YouTube URL Extraction (`yl` command)
+- **📺 Original Video Link Retrieval (`yl` command):**
+  Added `yl` command to extract and output the permanent canonical YouTube URL (`https://www.youtube.com/watch?v=...`) directly from track metadata, extra info, or dynamic resolvers. This solves the long-standing limitation of `gl`, which only returned expiring raw CDN stream URLs.
+- **🔗 Shortener Service Integration:**
+  Seamlessly integrates with configured link shorteners (such as TinyURL), automatically shortening the canonical link when `shorten_links` is enabled.
+
+### ⚡ Standalone Direct `yt-dlp` Engine
+- **🐍 Pure Python Media Resolution:**
+  Decoupled the bot from the external Node.js `youtube_bridge` daemon on port 4417, replacing it with a self-contained, native Python `yt-dlp` service in `bot/services/yt.py` and `ytm.py`. Added `yt-dlp` directly to `requirements.txt`.
+- **⚡ Multi-Track Prefetch Pipeline:**
+  Upgraded player prefetching to resolve not only the next track in queue, but also the following track (`following_track`), making consecutive track skips instantaneous without buffering.
+- **🍪 Authentication & Cookie Support:**
+  Added `cookiefile_path` support to `YtModel` for authenticated access and bypassing age/region restrictions using Netscape cookies (`data/cookies.txt`).
+- **📻 Streamlined Autoplay Replenishment:**
+  Retained continuous autoplay and recommendation queue replenishment with simplified, native thread-safe routines.
+
+### 💬 TeamTalk Protocol & Usability Enhancements
+- **🔍 Resilient Help Command (`h <command>`):**
+  Sanitized command lookup with `arg.strip().lower()`, providing whitespace tolerance and full case-insensitivity (e.g., `h PT`, `h  yl`).
+- **👮 Unified Admin Permission Handling:**
+  Synchronized permission checks to validate both `user.is_admin` and `user.type == UserType.Admin`.
+- **📄 Form-Feed Message Paging (`\f`):**
+  Updated `split_text()` in `bot/TeamTalk/__init__.py` to parse form-feed delimiters (`\f`), keeping multiline command listings and long help menus neatly organized within TeamTalk's packet size limits without breaking words or lines.
+- **💾 Persistent Channel Message Toggling (`cm` command):**
+  Admin `cm` command now automatically persists setting changes to `config.json` via `config_manager.save()` and provides clear, unambiguous confirmation of public vs. private message mode.
+- **🔊 Sound Device Enumeration Fallback:**
+  Added graceful fallback on Windows to scan available sound devices when primary device enumeration yields empty results.
+
+### 🛡️ Reliability, Graceful Fallbacks & Resource Cleanup
+- **🔒 Safe File Locker Release:**
+  Added existence checks (`hasattr`) and exception handling for `file_locker.release()` in `bot/cache.py` and `bot/config/__init__.py` to ensure clean bot termination without uncaught exceptions.
+- **📦 Optional Module Protection:**
+  Made `pyshorteners` safely optional in `bot/modules/shortener.py`, allowing the bot to run smoothly even without the optional dependency installed.
+- **🌊 Chunked Stream Streaming:**
+  Modernized `downloader.py` using chunked streaming (`iter_content(chunk_size=8192)`) with `r.raise_for_status()`, replacing `shutil.copyfileobj` to prevent memory spikes and handle connection drops cleanly.
+- **⏹️ Graceful Stop Handling:**
+  Improved `s` (stop) command feedback when playback is already stopped.
+- **⏮️ Queue Navigation Fixes:**
+  Resolved edge-case index errors in `previous()` command during repeat modes.
+
+---
 
 ## 🆕 v2.8.0 — "Unified Music Discovery & Expiry-Aware Playback" *(08/31/2026)*
 
