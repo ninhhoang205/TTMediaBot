@@ -7,3 +7,8 @@ pyshorteners
 requests
 httpx[http2]
 yt-dlp
+shazamio
+shazamio-core
+audioop-lts
+static-ffmpeg
+SpeechRecognition

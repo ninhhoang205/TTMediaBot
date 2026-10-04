@@ -60,6 +60,7 @@ class CommandProcessor:
             "ts": user_commands.TrimSilenceCommand,
             "gl": user_commands.GetLinkCommand,
             "yl": user_commands.YouTubeLinkCommand,
+            "ws": user_commands.WhatSongCommand,
             "dl": user_commands.DownloadCommand,
             "dlv": user_commands.DownloadVideoCommand,
             "dlp": user_commands.DownloadPlaylistCommand,

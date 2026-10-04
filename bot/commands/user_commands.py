@@ -9,6 +9,7 @@ from bot.commands.command import Command
 from bot.player.enums import Mode, State, TrackType
 from bot.TeamTalk.structs import User, UserRight
 from bot import errors, app_vars, utils
+from bot.song_recognizer import song_recognizer, format_duration
 
 if TYPE_CHECKING:
     from bot.TeamTalk.structs import User
@@ -1529,5 +1530,97 @@ class TrimSilenceCommand(Command):
             return self.translator.translate("Silence trimming (ts) enabled.")
         else:
             return self.translator.translate("Silence trimming (ts) disabled.")
+
+
+class WhatSongCommand(Command):
+    @property
+    def help(self) -> str:
+        return self.translator.translate(
+            "[-s] Identifies the currently playing song in a mix or compilation using YouTube Chapters, Shazam, or Google Voice AI. Use 'ws -s' to force audio/voice recognition."
+        )
+
+    def _process_audio_identify(self, user: User) -> None:
+        try:
+            result = song_recognizer.identify(self.player, force_audio=True)
+            if not result:
+                self.ttclient.send_message(
+                    self.translator.translate(
+                        "Could not identify the song. If this is a song with lyrics, please try again when the vocals/lyrics are clearly heard."
+                    ),
+                    user,
+                )
+                return
+
+            current_pos = float(getattr(self.player._player, "time_pos", 0.0) or 0.0)
+            duration = float(self.player.get_duration() or 0.0)
+            pos_str = (
+                f"{format_duration(current_pos)} / {format_duration(duration)}"
+                if duration > 0
+                else format_duration(current_pos)
+            )
+
+            lines = [
+                f"🎵 {self.translator.translate('Song')}: {result.get('title')}",
+            ]
+            if result.get("artist"):
+                lines.append(f"👤 {self.translator.translate('Artist')}: {result.get('artist')}")
+            if result.get("lyrics"):
+                lines.append(f"🗣 {self.translator.translate('Lyrics heard')}: \"{result.get('lyrics')}\"")
+            lines.append(f"⏱ {self.translator.translate('Position')}: {pos_str}")
+            lines.append(f"🔍 {self.translator.translate('Source')}: {result.get('source')}")
+            if result.get("url"):
+                lines.append(f"🔗 {result.get('url')}")
+
+            msg = "\n".join(lines)
+            self.ttclient.send_message(msg, user)
+            if self.config.general.send_channel_messages:
+                self.send_message_async(msg, type=2)
+
+        except Exception as e:
+            logging.error(f"[WhatSongCommand] Audio identification failed: {e}", exc_info=True)
+            self.ttclient.send_message(
+                self.translator.translate("Error identifying song: {}").format(str(e)),
+                user,
+            )
+
+    def __call__(self, arg: str, user: User) -> Optional[str]:
+        if self.player.state == State.Stopped:
+            return self.translator.translate("Nothing is playing")
+
+        force_audio = arg.strip().lower() in ("-s", "s")
+
+        if not force_audio:
+            current_pos = float(getattr(self.player._player, "time_pos", 0.0) or 0.0)
+            ch_res = song_recognizer.check_chapters(self.player, current_pos)
+            if not ch_res:
+                ch_res = song_recognizer.check_description_tracklist(self.player, current_pos)
+
+            if ch_res:
+                duration = float(self.player.get_duration() or 0.0)
+                pos_str = (
+                    f"{format_duration(current_pos)} / {format_duration(duration)}"
+                    if duration > 0
+                    else format_duration(current_pos)
+                )
+                lines = [
+                    f"🎵 {self.translator.translate('Song')}: {ch_res.get('title')}",
+                ]
+                if ch_res.get("artist"):
+                    lines.append(f"👤 {self.translator.translate('Artist')}: {ch_res.get('artist')}")
+                lines.append(f"⏱ {self.translator.translate('Position')}: {pos_str}")
+                lines.append(f"🔍 {self.translator.translate('Source')}: {ch_res.get('source')}")
+                msg = "\n".join(lines)
+                if self.config.general.send_channel_messages:
+                    self.send_message_async(msg, type=2)
+                return msg
+
+        # Run AI recognition in background
+        self.send_message_async(
+            self.translator.translate("🔍 Listening and identifying the currently playing song..."),
+            user,
+        )
+        self.run_async(self._process_audio_identify, user)
+        return None
+
 
 

@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version:  TTMediaBot\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2026-10-02 15:08+0700\n"
+"POT-Creation-Date: 2026-10-03 11:17+0700\n"
 "PO-Revision-Date: 2024-01-18 16:31+0100\n"
 "Last-Translator: Гумеров Амир Эдуардович <gumerov.amir.e@gmail.com>\n"
 "Language: hu\n"
@@ -34,13 +34,14 @@ msgstr ""
 msgid "The bot is restarting now to apply the update. See you in a moment!"
 msgstr "A bot most újraindul a frissítés telepítéséhez. Hamarosan találkozunk!"
 
+# | msgid "" "Hello! I am João Almeida. This is my fork of TTMediaBot for
+# | TeamTalk 5.\n" "This repository focuses on stability and support for
+# YouTube
+# | Music.\n" "Repository: https://github.com/JoaoDEVWHADS/TTMediaBot\n"
+# | "Original Authors: Amir Gumerov, Vladislav Kopylov, Beqa Gozalishvili, "
+# | "Kirill Belousov.\n"
 #: D:/TTMediaBot-master/bot/app_vars.py:12
 #, fuzzy
-#| msgid "" "Hello! I am João Almeida. This is my fork of TTMediaBot for
-#| TeamTalk 5.\n" "This repository focuses on stability and support for YouTube
-#| Music.\n" "Repository: https://github.com/JoaoDEVWHADS/TTMediaBot\n"
-#| "Original Authors: Amir Gumerov, Vladislav Kopylov, Beqa Gozalishvili, "
-#| "Kirill Belousov.\n"
 msgid ""
 "Hello, I'm Smart Thinh.\n"
 "This is a TTMediaBot edition for TeamTalk 5, based on João Almeida's "
@@ -63,17 +64,17 @@ msgstr ""
 msgid "Send \"h\" for help"
 msgstr "Küldj egy h-t a parancsok megismeréséhez"
 
-#: D:/TTMediaBot-master/bot/commands/__init__.py:159
+#: D:/TTMediaBot-master/bot/commands/__init__.py:160
 msgid "Unknown command. Send \"h\" for help."
 msgstr "Ismeretlen parancs. Küldj egy h-t a parancsok megismeréséhez."
 
-#: D:/TTMediaBot-master/bot/commands/__init__.py:165
-#: D:/TTMediaBot-master/bot/commands/user_commands.py:843
-#: D:/TTMediaBot-master/bot/commands/user_commands.py:849
-#: D:/TTMediaBot-master/bot/commands/user_commands.py:1256
-#: D:/TTMediaBot-master/bot/commands/user_commands.py:1338
-#: D:/TTMediaBot-master/bot/commands/user_commands.py:1410
-#: D:/TTMediaBot-master/bot/commands/user_commands.py:1484
+#: D:/TTMediaBot-master/bot/commands/__init__.py:166
+#: D:/TTMediaBot-master/bot/commands/user_commands.py:844
+#: D:/TTMediaBot-master/bot/commands/user_commands.py:850
+#: D:/TTMediaBot-master/bot/commands/user_commands.py:1257
+#: D:/TTMediaBot-master/bot/commands/user_commands.py:1339
+#: D:/TTMediaBot-master/bot/commands/user_commands.py:1411
+#: D:/TTMediaBot-master/bot/commands/user_commands.py:1485
 #: D:/TTMediaBot-master/bot/modules/playlist_uploader.py:130
 #: D:/TTMediaBot-master/bot/modules/playlist_uploader.py:144
 #: D:/TTMediaBot-master/bot/modules/uploader.py:85
@@ -81,23 +82,23 @@ msgstr "Ismeretlen parancs. Küldj egy h-t a parancsok megismeréséhez."
 msgid "Error: {}"
 msgstr "Hiba: {}"
 
-#: D:/TTMediaBot-master/bot/commands/__init__.py:177
+#: D:/TTMediaBot-master/bot/commands/__init__.py:178
 msgid "You are banned"
 msgstr "Tiltva vagy"
 
-#: D:/TTMediaBot-master/bot/commands/__init__.py:181
+#: D:/TTMediaBot-master/bot/commands/__init__.py:182
 msgid "You are not in bot's channel"
 msgstr "Nem tartózkodsz a bottal egy csatornában"
 
-#: D:/TTMediaBot-master/bot/commands/__init__.py:185
+#: D:/TTMediaBot-master/bot/commands/__init__.py:186
 msgid "Bot is locked"
 msgstr "A bot zárolva van"
 
-#: D:/TTMediaBot-master/bot/commands/__init__.py:189
+#: D:/TTMediaBot-master/bot/commands/__init__.py:190
 msgid "This command is blocked"
 msgstr "Tiltott parancs"
 
-#: D:/TTMediaBot-master/bot/commands/__init__.py:215
+#: D:/TTMediaBot-master/bot/commands/__init__.py:216
 msgid "Unknown command"
 msgstr "Ismeretlen parancs"
 
@@ -114,19 +115,19 @@ msgstr ""
 #: D:/TTMediaBot-master/bot/commands/admin_commands.py:32
 #: D:/TTMediaBot-master/bot/commands/admin_commands.py:326
 #: D:/TTMediaBot-master/bot/commands/admin_commands.py:356
-#: D:/TTMediaBot-master/bot/commands/user_commands.py:556
-#: D:/TTMediaBot-master/bot/commands/user_commands.py:568
-#: D:/TTMediaBot-master/bot/commands/user_commands.py:658
-#: D:/TTMediaBot-master/bot/commands/user_commands.py:1186
-#: D:/TTMediaBot-master/bot/commands/user_commands.py:1208
-#: D:/TTMediaBot-master/bot/commands/user_commands.py:1271
+#: D:/TTMediaBot-master/bot/commands/user_commands.py:557
+#: D:/TTMediaBot-master/bot/commands/user_commands.py:569
+#: D:/TTMediaBot-master/bot/commands/user_commands.py:659
+#: D:/TTMediaBot-master/bot/commands/user_commands.py:1187
+#: D:/TTMediaBot-master/bot/commands/user_commands.py:1209
+#: D:/TTMediaBot-master/bot/commands/user_commands.py:1272
 msgid "The list is empty"
 msgstr "A lista üres"
 
 #: D:/TTMediaBot-master/bot/commands/admin_commands.py:37
 #: D:/TTMediaBot-master/bot/commands/admin_commands.py:308
 #: D:/TTMediaBot-master/bot/commands/admin_commands.py:340
-#: D:/TTMediaBot-master/bot/commands/user_commands.py:519
+#: D:/TTMediaBot-master/bot/commands/user_commands.py:520
 msgid "Added"
 msgstr "Hozzáadva"
 
@@ -137,7 +138,7 @@ msgstr "Ez a parancs már hozzá van adva"
 #: D:/TTMediaBot-master/bot/commands/admin_commands.py:45
 #: D:/TTMediaBot-master/bot/commands/admin_commands.py:314
 #: D:/TTMediaBot-master/bot/commands/admin_commands.py:346
-#: D:/TTMediaBot-master/bot/commands/user_commands.py:531
+#: D:/TTMediaBot-master/bot/commands/user_commands.py:532
 msgid "Deleted"
 msgstr "Törölve"
 
@@ -327,16 +328,16 @@ msgstr "Megadja az aktuális csatorna azonosítóját"
 msgid "help text not found"
 msgstr "nem található segédszöveg"
 
-#: D:/TTMediaBot-master/bot/commands/user_commands.py:20
+#: D:/TTMediaBot-master/bot/commands/user_commands.py:21
 msgid "Shows command help"
 msgstr "Megjeleníti a parancsok súgóját"
 
-#: D:/TTMediaBot-master/bot/commands/user_commands.py:29
+#: D:/TTMediaBot-master/bot/commands/user_commands.py:30
 msgid "Shows information about the bot"
 msgstr "Megjeleníti a botra vonatkozó információkat"
 
 # --- Search Results Mode (sr/sl/slc) ---
-#: D:/TTMediaBot-master/bot/commands/user_commands.py:39
+#: D:/TTMediaBot-master/bot/commands/user_commands.py:40
 msgid ""
 "QUERY Plays tracks found for the query. If no query is given, plays or "
 "pauses current track. When search results mode (sr) is active, shows a "
@@ -346,116 +347,117 @@ msgstr ""
 "lejátssza vagy szünetelteti az aktuális számot. Keresési eredmény módban "
 "(sr) számozott listát jelenít meg"
 
-#: D:/TTMediaBot-master/bot/commands/user_commands.py:45
-#: D:/TTMediaBot-master/bot/commands/user_commands.py:770
-#: D:/TTMediaBot-master/bot/commands/user_commands.py:870
+#: D:/TTMediaBot-master/bot/commands/user_commands.py:46
+#: D:/TTMediaBot-master/bot/commands/user_commands.py:771
+#: D:/TTMediaBot-master/bot/commands/user_commands.py:871
 msgid "Searching..."
 msgstr "Keresés..."
 
-#: D:/TTMediaBot-master/bot/commands/user_commands.py:54
+#: D:/TTMediaBot-master/bot/commands/user_commands.py:55
 msgid "Search results:"
 msgstr "Keresési eredmények:"
 
-#: D:/TTMediaBot-master/bot/commands/user_commands.py:57
+#: D:/TTMediaBot-master/bot/commands/user_commands.py:58
 msgid "Use 'sl NUMBER' to select a track"
 msgstr "Használd az 'sl SZÁM' parancsot egy szám kiválasztásához"
 
-#: D:/TTMediaBot-master/bot/commands/user_commands.py:73
+#: D:/TTMediaBot-master/bot/commands/user_commands.py:74
 #, python-brace-format
 msgid "{nickname} requested {request}"
 msgstr "{nickname} kérte {request}"
 
-#: D:/TTMediaBot-master/bot/commands/user_commands.py:77
-#: D:/TTMediaBot-master/bot/commands/user_commands.py:229
-#: D:/TTMediaBot-master/bot/commands/user_commands.py:255
-#: D:/TTMediaBot-master/bot/commands/user_commands.py:272
-#: D:/TTMediaBot-master/bot/commands/user_commands.py:418
-#: D:/TTMediaBot-master/bot/commands/user_commands.py:896
-#: D:/TTMediaBot-master/bot/commands/user_commands.py:1006
-#: D:/TTMediaBot-master/bot/commands/user_commands.py:1094
+#: D:/TTMediaBot-master/bot/commands/user_commands.py:78
+#: D:/TTMediaBot-master/bot/commands/user_commands.py:230
+#: D:/TTMediaBot-master/bot/commands/user_commands.py:256
+#: D:/TTMediaBot-master/bot/commands/user_commands.py:273
+#: D:/TTMediaBot-master/bot/commands/user_commands.py:419
+#: D:/TTMediaBot-master/bot/commands/user_commands.py:897
+#: D:/TTMediaBot-master/bot/commands/user_commands.py:1007
+#: D:/TTMediaBot-master/bot/commands/user_commands.py:1095
 #, python-brace-format
 msgid "Playing {}"
 msgstr "Lejátszás"
 
-#: D:/TTMediaBot-master/bot/commands/user_commands.py:81
-#: D:/TTMediaBot-master/bot/commands/user_commands.py:107
-#: D:/TTMediaBot-master/bot/commands/user_commands.py:778
-#: D:/TTMediaBot-master/bot/commands/user_commands.py:877
-#: D:/TTMediaBot-master/bot/commands/user_commands.py:1248
+#: D:/TTMediaBot-master/bot/commands/user_commands.py:82
+#: D:/TTMediaBot-master/bot/commands/user_commands.py:108
+#: D:/TTMediaBot-master/bot/commands/user_commands.py:779
+#: D:/TTMediaBot-master/bot/commands/user_commands.py:878
+#: D:/TTMediaBot-master/bot/commands/user_commands.py:1249
 msgid "Nothing is found for your query"
 msgstr "Keresésed nem hozott eredményt"
 
-#: D:/TTMediaBot-master/bot/commands/user_commands.py:84
-#: D:/TTMediaBot-master/bot/commands/user_commands.py:880
+#: D:/TTMediaBot-master/bot/commands/user_commands.py:85
+#: D:/TTMediaBot-master/bot/commands/user_commands.py:881
 msgid "The selected service is currently unavailable"
 msgstr "A kiválasztott szolgáltatás jelenleg nem elérhető"
 
 # | msgid "URL Plays a stream from bot given URL"
-#: D:/TTMediaBot-master/bot/commands/user_commands.py:96
+#: D:/TTMediaBot-master/bot/commands/user_commands.py:97
 msgid "URL Plays a stream from a given URL"
 msgstr "URL Egy megadott URL-ről játszik le"
 
-#: D:/TTMediaBot-master/bot/commands/user_commands.py:101
+#: D:/TTMediaBot-master/bot/commands/user_commands.py:102
 msgid "Loading URL / playlist..."
 msgstr "URL / lejátszási lista betöltése..."
 
-#: D:/TTMediaBot-master/bot/commands/user_commands.py:112
+# | msgid "{nickname} requested playing from a URL"
+#: D:/TTMediaBot-master/bot/commands/user_commands.py:113
 #, fuzzy, python-brace-format
-#| msgid "{nickname} requested playing from a URL"
 msgid "{nickname} requested playing from a URL ({count} tracks)"
 msgstr "{nickname} kért egy lejátszást egy URL-ről"
 
-#: D:/TTMediaBot-master/bot/commands/user_commands.py:119
+#: D:/TTMediaBot-master/bot/commands/user_commands.py:120
 #, python-brace-format
 msgid "Loaded {count} tracks"
 msgstr "{count} szám betöltve"
 
-#: D:/TTMediaBot-master/bot/commands/user_commands.py:124
+#: D:/TTMediaBot-master/bot/commands/user_commands.py:125
 msgid "Incorrect protocol"
 msgstr "Helytelen protokoll"
 
-#: D:/TTMediaBot-master/bot/commands/user_commands.py:126
+#: D:/TTMediaBot-master/bot/commands/user_commands.py:127
 msgid "Cannot process stream URL"
 msgstr "Nem sikerült feldolgozni a stream URL-t"
 
-#: D:/TTMediaBot-master/bot/commands/user_commands.py:128
+#: D:/TTMediaBot-master/bot/commands/user_commands.py:129
 msgid "The path cannot be found"
 msgstr "Az útvonal nem található"
 
-#: D:/TTMediaBot-master/bot/commands/user_commands.py:136
+#: D:/TTMediaBot-master/bot/commands/user_commands.py:137
 msgid "Stops playback"
 msgstr "Szünetelteti a lejátszást"
 
-#: D:/TTMediaBot-master/bot/commands/user_commands.py:143
+#: D:/TTMediaBot-master/bot/commands/user_commands.py:144
 #, python-brace-format
 msgid "{nickname} stopped playback"
 msgstr "{nickname} szüneteltette a lejátszást"
 
-#: D:/TTMediaBot-master/bot/commands/user_commands.py:150
+#: D:/TTMediaBot-master/bot/commands/user_commands.py:151
 msgid "Playback stopped"
 msgstr ""
 
-#: D:/TTMediaBot-master/bot/commands/user_commands.py:154
-#: D:/TTMediaBot-master/bot/commands/user_commands.py:187
-#: D:/TTMediaBot-master/bot/commands/user_commands.py:206
-#: D:/TTMediaBot-master/bot/commands/user_commands.py:233
-#: D:/TTMediaBot-master/bot/commands/user_commands.py:249
-#: D:/TTMediaBot-master/bot/commands/user_commands.py:261
-#: D:/TTMediaBot-master/bot/commands/user_commands.py:278
-#: D:/TTMediaBot-master/bot/commands/user_commands.py:422
-#: D:/TTMediaBot-master/bot/commands/user_commands.py:438
-#: D:/TTMediaBot-master/bot/commands/user_commands.py:449
-#: D:/TTMediaBot-master/bot/commands/user_commands.py:521
-#: D:/TTMediaBot-master/bot/commands/user_commands.py:539
-#: D:/TTMediaBot-master/bot/commands/user_commands.py:585
-#: D:/TTMediaBot-master/bot/commands/user_commands.py:619
-#: D:/TTMediaBot-master/bot/commands/user_commands.py:680
-#: D:/TTMediaBot-master/bot/commands/user_commands.py:701
-#: D:/TTMediaBot-master/bot/commands/user_commands.py:993
+#: D:/TTMediaBot-master/bot/commands/user_commands.py:155
+#: D:/TTMediaBot-master/bot/commands/user_commands.py:188
+#: D:/TTMediaBot-master/bot/commands/user_commands.py:207
+#: D:/TTMediaBot-master/bot/commands/user_commands.py:234
+#: D:/TTMediaBot-master/bot/commands/user_commands.py:250
+#: D:/TTMediaBot-master/bot/commands/user_commands.py:262
+#: D:/TTMediaBot-master/bot/commands/user_commands.py:279
+#: D:/TTMediaBot-master/bot/commands/user_commands.py:423
+#: D:/TTMediaBot-master/bot/commands/user_commands.py:439
+#: D:/TTMediaBot-master/bot/commands/user_commands.py:450
+#: D:/TTMediaBot-master/bot/commands/user_commands.py:522
+#: D:/TTMediaBot-master/bot/commands/user_commands.py:540
+#: D:/TTMediaBot-master/bot/commands/user_commands.py:586
+#: D:/TTMediaBot-master/bot/commands/user_commands.py:620
+#: D:/TTMediaBot-master/bot/commands/user_commands.py:681
+#: D:/TTMediaBot-master/bot/commands/user_commands.py:702
+#: D:/TTMediaBot-master/bot/commands/user_commands.py:994
+#: D:/TTMediaBot-master/bot/commands/user_commands.py:1588
 msgid "Nothing is playing"
 msgstr "Semmi nincs lejátszás alatt"
 
-#: D:/TTMediaBot-master/bot/commands/user_commands.py:161
+#: D:/TTMediaBot-master/bot/commands/user_commands.py:162
 #, python-brace-format
 msgid ""
 "VOLUME Sets the volume to a value between 0 and {max_volume}. If no "
@@ -464,7 +466,7 @@ msgstr ""
 "HANGERŐ A hangerőt 0 és {max_volume} közötti értékre állítja. Ha nincs "
 "megadva érték, akkor az aktuális hangerőszint jelenik meg"
 
-#: D:/TTMediaBot-master/bot/commands/user_commands.py:182
+#: D:/TTMediaBot-master/bot/commands/user_commands.py:183
 #, python-brace-format
 msgid "STEP Seeks current track backward. the default step is {seek_step} seconds"
 msgstr ""
@@ -472,7 +474,7 @@ msgstr ""
 "secondsVISSZA az aktuális tartalmat visszafelé pörgeti. Az "
 "alapértelmezett idő {seek_step} másodperc"
 
-#: D:/TTMediaBot-master/bot/commands/user_commands.py:201
+#: D:/TTMediaBot-master/bot/commands/user_commands.py:202
 #, python-brace-format
 msgid "STEP Seeks current track forward. the default step is {seek_step} seconds"
 msgstr ""
@@ -480,49 +482,49 @@ msgstr ""
 "secondsELŐRE Az aktuális tartalmat előre pörgeti. Az alapértelmezett idő "
 "{seek_step} másodperc"
 
-#: D:/TTMediaBot-master/bot/commands/user_commands.py:219
+#: D:/TTMediaBot-master/bot/commands/user_commands.py:220
 msgid ""
 "[NUMBER|?] Plays next track, jumps to track number, or shows current "
 "position with ?"
 msgstr ""
 
-#: D:/TTMediaBot-master/bot/commands/user_commands.py:241
-#: D:/TTMediaBot-master/bot/commands/user_commands.py:430
+#: D:/TTMediaBot-master/bot/commands/user_commands.py:242
+#: D:/TTMediaBot-master/bot/commands/user_commands.py:431
 msgid "Incorrect number"
 msgstr "Helytelen szám"
 
-#: D:/TTMediaBot-master/bot/commands/user_commands.py:243
-#: D:/TTMediaBot-master/bot/commands/user_commands.py:432
-#: D:/TTMediaBot-master/bot/commands/user_commands.py:445
+#: D:/TTMediaBot-master/bot/commands/user_commands.py:244
+#: D:/TTMediaBot-master/bot/commands/user_commands.py:433
+#: D:/TTMediaBot-master/bot/commands/user_commands.py:446
 #, python-brace-format
 msgid "Playing {} {}"
 msgstr "Lejátszás {} {}"
 
-#: D:/TTMediaBot-master/bot/commands/user_commands.py:247
-#: D:/TTMediaBot-master/bot/commands/user_commands.py:436
-#: D:/TTMediaBot-master/bot/commands/user_commands.py:533
-#: D:/TTMediaBot-master/bot/commands/user_commands.py:566
-#: D:/TTMediaBot-master/bot/commands/user_commands.py:639
-#: D:/TTMediaBot-master/bot/commands/user_commands.py:961
-#: D:/TTMediaBot-master/bot/commands/user_commands.py:1078
-#: D:/TTMediaBot-master/bot/commands/user_commands.py:1215
+#: D:/TTMediaBot-master/bot/commands/user_commands.py:248
+#: D:/TTMediaBot-master/bot/commands/user_commands.py:437
+#: D:/TTMediaBot-master/bot/commands/user_commands.py:534
+#: D:/TTMediaBot-master/bot/commands/user_commands.py:567
+#: D:/TTMediaBot-master/bot/commands/user_commands.py:640
+#: D:/TTMediaBot-master/bot/commands/user_commands.py:962
+#: D:/TTMediaBot-master/bot/commands/user_commands.py:1079
+#: D:/TTMediaBot-master/bot/commands/user_commands.py:1216
 msgid "Out of list"
 msgstr "Listán kívül"
 
-#: D:/TTMediaBot-master/bot/commands/user_commands.py:259
-#: D:/TTMediaBot-master/bot/commands/user_commands.py:1010
+#: D:/TTMediaBot-master/bot/commands/user_commands.py:260
+#: D:/TTMediaBot-master/bot/commands/user_commands.py:1011
 msgid "No next track"
 msgstr "Nincs több tartalom"
 
-#: D:/TTMediaBot-master/bot/commands/user_commands.py:267
+#: D:/TTMediaBot-master/bot/commands/user_commands.py:268
 msgid "Plays previous track"
 msgstr "Az előző tartalom lejátszása"
 
-#: D:/TTMediaBot-master/bot/commands/user_commands.py:276
+#: D:/TTMediaBot-master/bot/commands/user_commands.py:277
 msgid "No previous track"
 msgstr "Nincs előző tartalom"
 
-#: D:/TTMediaBot-master/bot/commands/user_commands.py:285
+#: D:/TTMediaBot-master/bot/commands/user_commands.py:286
 msgid ""
 "MODE Sets the playback mode. If no mode is specified, the current mode "
 "and a list of modes are displayed"
@@ -530,27 +532,27 @@ msgstr ""
 "MÓD Lejátszási mód beállítása. Ha nincs megadva mód, az aktuálisan "
 "beállított mód, illetve a lehetséges opciók listája jelenik meg"
 
-#: D:/TTMediaBot-master/bot/commands/user_commands.py:290
+#: D:/TTMediaBot-master/bot/commands/user_commands.py:291
 msgid "Single Track"
 msgstr "Egyetlen zeneszám"
 
-#: D:/TTMediaBot-master/bot/commands/user_commands.py:291
+#: D:/TTMediaBot-master/bot/commands/user_commands.py:292
 msgid "Repeat Track"
 msgstr "Zeneszám ismétlése"
 
-#: D:/TTMediaBot-master/bot/commands/user_commands.py:292
+#: D:/TTMediaBot-master/bot/commands/user_commands.py:293
 msgid "Track list"
 msgstr "Lejátszási lista"
 
-#: D:/TTMediaBot-master/bot/commands/user_commands.py:293
+#: D:/TTMediaBot-master/bot/commands/user_commands.py:294
 msgid "Repeat track list"
 msgstr "Lejátszási lista ismétlése"
 
-#: D:/TTMediaBot-master/bot/commands/user_commands.py:294
+#: D:/TTMediaBot-master/bot/commands/user_commands.py:295
 msgid "Random"
 msgstr "Véletlenszerű lejátszás"
 
-#: D:/TTMediaBot-master/bot/commands/user_commands.py:297
+#: D:/TTMediaBot-master/bot/commands/user_commands.py:298
 #, python-brace-format
 msgid ""
 "Current mode: {current_mode}\n"
@@ -559,16 +561,16 @@ msgstr ""
 "Jelenlegi mód: {current_mode}\n"
 "{modes}"
 
-#: D:/TTMediaBot-master/bot/commands/user_commands.py:315
+#: D:/TTMediaBot-master/bot/commands/user_commands.py:316
 #, python-brace-format
 msgid "Current mode: {mode}"
 msgstr "Jelenlegi mód: {mode}"
 
-#: D:/TTMediaBot-master/bot/commands/user_commands.py:319
+#: D:/TTMediaBot-master/bot/commands/user_commands.py:320
 msgid "Incorrect mode"
 msgstr "Helytelen mód"
 
-#: D:/TTMediaBot-master/bot/commands/user_commands.py:328
+#: D:/TTMediaBot-master/bot/commands/user_commands.py:329
 msgid ""
 "SERVICE Selects the service to play from, sv SERVICE h returns additional"
 " help. If no service is specified, the current service and a list of "
@@ -578,14 +580,14 @@ msgstr ""
 "további segítséget kaphatsz. Ha nincs megadva paraméter, az aktuális "
 "szolgáltatás és az elérhető opciók listája jelenik meg"
 
-#: D:/TTMediaBot-master/bot/commands/user_commands.py:336
+#: D:/TTMediaBot-master/bot/commands/user_commands.py:337
 #, python-brace-format
 msgid ""
 "Unknown service.\n"
 "{}"
 msgstr "Ismeretlen szolgáltatás"
 
-#: D:/TTMediaBot-master/bot/commands/user_commands.py:345
+#: D:/TTMediaBot-master/bot/commands/user_commands.py:346
 #, python-brace-format
 msgid ""
 "Current service: {}\n"
@@ -594,12 +596,12 @@ msgstr ""
 "Jelenlegi szolgáltatás: {}\n"
 "Figyelmeztetés: {}"
 
-#: D:/TTMediaBot-master/bot/commands/user_commands.py:347
+#: D:/TTMediaBot-master/bot/commands/user_commands.py:348
 #, python-brace-format
 msgid "Current service: {}"
 msgstr "Jelenlegi szolgáltatás: {}"
 
-#: D:/TTMediaBot-master/bot/commands/user_commands.py:353
+#: D:/TTMediaBot-master/bot/commands/user_commands.py:354
 #, python-brace-format
 msgid ""
 "Error: {error}\n"
@@ -608,26 +610,26 @@ msgstr ""
 "Hiba: {error}\n"
 "A {service} le van tiltva"
 
-#: D:/TTMediaBot-master/bot/commands/user_commands.py:360
+#: D:/TTMediaBot-master/bot/commands/user_commands.py:361
 #, python-brace-format
 msgid "{service} is disabled"
 msgstr "A {service} le van tiltva"
 
-#: D:/TTMediaBot-master/bot/commands/user_commands.py:367
+#: D:/TTMediaBot-master/bot/commands/user_commands.py:368
 msgid "This service has no additional help"
 msgstr "Ez a szolgáltatás nem tartalmaz további segítséget"
 
-#: D:/TTMediaBot-master/bot/commands/user_commands.py:384
+#: D:/TTMediaBot-master/bot/commands/user_commands.py:385
 #, python-brace-format
 msgid "{} (Error)"
 msgstr "{} (Hiba)"
 
-#: D:/TTMediaBot-master/bot/commands/user_commands.py:388
+#: D:/TTMediaBot-master/bot/commands/user_commands.py:389
 #, python-brace-format
 msgid "{} (Warning: {})"
 msgstr "{} (Figyelmeztetés: {})"
 
-#: D:/TTMediaBot-master/bot/commands/user_commands.py:395
+#: D:/TTMediaBot-master/bot/commands/user_commands.py:396
 #, python-brace-format
 msgid ""
 "Current service: {current_service}\n"
@@ -640,9 +642,9 @@ msgstr ""
 "Add ki az \"sv h\" parancsot egy adott szolgáltatással kapcsolatos "
 "további segítségért"
 
-#: D:/TTMediaBot-master/bot/commands/user_commands.py:407
+# | msgid "NUMBER Selects track by number from the list of current results"
+#: D:/TTMediaBot-master/bot/commands/user_commands.py:408
 #, fuzzy
-#| msgid "NUMBER Selects track by number from the list of current results"
 msgid "[NUMBER|?] Selects track by number, or shows current position with ?"
 msgstr ""
 "NUMBER Selects track by number from the list of current resultsSZÁM "
@@ -652,7 +654,7 @@ msgstr ""
 # | msgid "" "SPEED Sets playback speed from bot.25 to 4. If no speed is
 # given,
 # | shows " "current speed"
-#: D:/TTMediaBot-master/bot/commands/user_commands.py:456
+#: D:/TTMediaBot-master/bot/commands/user_commands.py:457
 msgid ""
 "SPEED Sets playback speed from 0.25 to 4. If no speed is given, shows "
 "current speed"
@@ -660,7 +662,7 @@ msgstr ""
 "SEBESSÉG Beállítja a lejátszási sebességet 0,25 és 4 között. Ha nincs "
 "megadva paraméter, az aktuális sebességet mutatja"
 
-#: D:/TTMediaBot-master/bot/commands/user_commands.py:461
+#: D:/TTMediaBot-master/bot/commands/user_commands.py:462
 #, python-brace-format
 msgid "Current rate: {}"
 msgstr "Jelenlegi sebesség: {}"
@@ -668,10 +670,9 @@ msgstr "Jelenlegi sebesség: {}"
 # | msgid "" "SPEED Sets playback speed from bot.25 to 4. If no speed is
 # given,
 # | shows " "current speed"
-#: D:/TTMediaBot-master/bot/commands/user_commands.py:475
+# | msgid "" "SPEED Sets playback speed from 0.25 to 4. If no speed is given,
+#: D:/TTMediaBot-master/bot/commands/user_commands.py:476
 #, fuzzy
-#| msgid "" "SPEED Sets playback speed from 0.25 to 4. If no speed is given,
-#| shows " "current speed"
 msgid ""
 "SEMITONES Sets playback pitch from -12 to 12 semitones. If no pitch is "
 "given, shows current pitch"
@@ -679,13 +680,13 @@ msgstr ""
 "SEBESSÉG Beállítja a lejátszási sebességet 0,25 és 4 között. Ha nincs "
 "megadva paraméter, az aktuális sebességet mutatja"
 
-#: D:/TTMediaBot-master/bot/commands/user_commands.py:480
+# | msgid "Current rate: {}"
+#: D:/TTMediaBot-master/bot/commands/user_commands.py:481
 #, fuzzy, python-brace-format
-#| msgid "Current rate: {}"
 msgid "Current pitch: {}"
 msgstr "Jelenlegi sebesség: {}"
 
-#: D:/TTMediaBot-master/bot/commands/user_commands.py:494
+#: D:/TTMediaBot-master/bot/commands/user_commands.py:495
 msgid ""
 "+/-NUMBER Manages favorite tracks. + adds the current track to favorites."
 " - removes a track requested from favorites. If a number is specified "
@@ -695,43 +696,43 @@ msgstr ""
 " a kedvencekhez, a - eltávolítja azt. Ha a +/- után egy szám van megadva,"
 " hozzáadja/eltávolítja az ezzel a számmal rendelkező zeneszámot"
 
-#: D:/TTMediaBot-master/bot/commands/user_commands.py:500
+#: D:/TTMediaBot-master/bot/commands/user_commands.py:501
 msgid "This command is not available for guest users"
 msgstr "Ez a parancs vendégfelhasználók számára nem elérhető"
 
-#: D:/TTMediaBot-master/bot/commands/user_commands.py:537
+#: D:/TTMediaBot-master/bot/commands/user_commands.py:538
 msgid "This track is not in favorites"
 msgstr "Ez a szám nincs a kedvencek között"
 
-#: D:/TTMediaBot-master/bot/commands/user_commands.py:546
-#: D:/TTMediaBot-master/bot/commands/user_commands.py:645
+#: D:/TTMediaBot-master/bot/commands/user_commands.py:547
+#: D:/TTMediaBot-master/bot/commands/user_commands.py:646
 #, python-brace-format
 msgid "{number}: {track_name}"
 msgstr "{number}: {track_name}"
 
-#: D:/TTMediaBot-master/bot/commands/user_commands.py:574
+#: D:/TTMediaBot-master/bot/commands/user_commands.py:575
 msgid "Gets a direct link to the current track"
 msgstr "Közvetlen linket kap az aktuális zeneszámhoz"
 
-#: D:/TTMediaBot-master/bot/commands/user_commands.py:583
+#: D:/TTMediaBot-master/bot/commands/user_commands.py:584
 msgid "URL is not available"
 msgstr "Ez az URL nem elérhető"
 
-#: D:/TTMediaBot-master/bot/commands/user_commands.py:591
+# | msgid "Gets a direct link to the current track"
+#: D:/TTMediaBot-master/bot/commands/user_commands.py:592
 #, fuzzy
-#| msgid "Gets a direct link to the current track"
 msgid "Gets the original YouTube link to the current track"
 msgstr "Közvetlen linket kap az aktuális zeneszámhoz"
 
-#: D:/TTMediaBot-master/bot/commands/user_commands.py:617
+# | msgid "This track is not in favorites"
+#: D:/TTMediaBot-master/bot/commands/user_commands.py:618
 #, fuzzy
-#| msgid "This track is not in favorites"
 msgid "Current track is not from YouTube"
 msgstr "Ez a szám nincs a kedvencek között"
 
 # | msgid "" "NUMBER Plays a track with  the given number from bot list of
 # | recent " "tracks. Without a number shows recent tracks"
-#: D:/TTMediaBot-master/bot/commands/user_commands.py:626
+#: D:/TTMediaBot-master/bot/commands/user_commands.py:627
 msgid ""
 "NUMBER Plays a track with  the given number from a list of recent tracks."
 " Without a number shows recent tracks"
@@ -739,53 +740,53 @@ msgstr ""
 "SZÁM A megadott számmal rendelkező zeneszámot játssza le a legutóbbi "
 "zeneszámok listájából. Szám megadása nélkül az előzményeket mutatja"
 
-#: D:/TTMediaBot-master/bot/commands/user_commands.py:651
+#: D:/TTMediaBot-master/bot/commands/user_commands.py:652
 #, python-brace-format
 msgid "{number}: {track_url}"
 msgstr "{number}: {track_url}"
 
-#: D:/TTMediaBot-master/bot/commands/user_commands.py:666
+#: D:/TTMediaBot-master/bot/commands/user_commands.py:667
 msgid "Downloads the current track and uploads it to the channel."
 msgstr "Letölti az aktuális számot és feltölti a csatornára."
 
-#: D:/TTMediaBot-master/bot/commands/user_commands.py:676
+#: D:/TTMediaBot-master/bot/commands/user_commands.py:677
 msgid "Downloading..."
 msgstr "Letöltés..."
 
-#: D:/TTMediaBot-master/bot/commands/user_commands.py:678
-#: D:/TTMediaBot-master/bot/commands/user_commands.py:699
+#: D:/TTMediaBot-master/bot/commands/user_commands.py:679
+#: D:/TTMediaBot-master/bot/commands/user_commands.py:700
 msgid "Live streams cannot be downloaded"
 msgstr "Élő adásokat nem lehet letölteni"
 
-#: D:/TTMediaBot-master/bot/commands/user_commands.py:687
+#: D:/TTMediaBot-master/bot/commands/user_commands.py:688
 msgid "Downloads the current track as video and uploads it to the channel."
 msgstr "Letölti az aktuális számot videóként, és feltölti a csatornára."
 
-#: D:/TTMediaBot-master/bot/commands/user_commands.py:697
+#: D:/TTMediaBot-master/bot/commands/user_commands.py:698
 msgid "Downloading video..."
 msgstr "Videó letöltése..."
 
-#: D:/TTMediaBot-master/bot/commands/user_commands.py:707
+#: D:/TTMediaBot-master/bot/commands/user_commands.py:708
 msgid "Makes the bot join your current channel"
 msgstr "A bot csatlakozik az aktuális csatornádhoz"
 
-#: D:/TTMediaBot-master/bot/commands/user_commands.py:728
-#: D:/TTMediaBot-master/bot/commands/user_commands.py:745
+#: D:/TTMediaBot-master/bot/commands/user_commands.py:729
+#: D:/TTMediaBot-master/bot/commands/user_commands.py:746
 #, python-brace-format
 msgid "Joining channel: {}"
 msgstr "Csatlakozás a csatornához: {}"
 
-#: D:/TTMediaBot-master/bot/commands/user_commands.py:737
+#: D:/TTMediaBot-master/bot/commands/user_commands.py:738
 #, python-brace-format
 msgid "Failed to join channel. Error: {}"
 msgstr "Nem sikerült csatlakozni a csatornához. Hiba: {}"
 
-#: D:/TTMediaBot-master/bot/commands/user_commands.py:748
+#: D:/TTMediaBot-master/bot/commands/user_commands.py:749
 #, python-brace-format
 msgid "Failed to join channel: {}"
 msgstr "Nem sikerült csatlakozni a csatornához: {}"
 
-#: D:/TTMediaBot-master/bot/commands/user_commands.py:755
+#: D:/TTMediaBot-master/bot/commands/user_commands.py:756
 msgid ""
 "Downloads all tracks from a playlist/album URL, zips them, and uploads to"
 " the channel."
@@ -793,25 +794,25 @@ msgstr ""
 "Letölti a lejátszási lista/album URL összes számát, ZIP-be csomagolja és "
 "feltölti a csatornára."
 
-#: D:/TTMediaBot-master/bot/commands/user_commands.py:763
+#: D:/TTMediaBot-master/bot/commands/user_commands.py:764
 #, python-brace-format
 msgid "Current progress: {}"
 msgstr "Jelenlegi folyamat: {}"
 
-#: D:/TTMediaBot-master/bot/commands/user_commands.py:767
+#: D:/TTMediaBot-master/bot/commands/user_commands.py:768
 msgid "Please send the link to the playlist or album."
 msgstr "Kérlek küldd el a lejátszási lista vagy album linkjét."
 
-#: D:/TTMediaBot-master/bot/commands/user_commands.py:786
+# | msgid "This command is for playlists and albums. For single tracks, use
+# | 'dl'."
+#: D:/TTMediaBot-master/bot/commands/user_commands.py:787
 #, fuzzy
-#| msgid "This command is for playlists and albums. For single tracks, use
-#| 'dl'."
 msgid ""
 "This command is for playlists, albums, and channels. For single tracks, "
 "use 'dl'."
 msgstr "Ez a parancs lejátszási listákhoz van. Egyetlen számhoz használd a 'dl'-t."
 
-#: D:/TTMediaBot-master/bot/commands/user_commands.py:861
+#: D:/TTMediaBot-master/bot/commands/user_commands.py:862
 msgid ""
 "QUERY Searches for a track and adds it to the queue. If nothing is "
 "playing, starts immediately"
@@ -819,51 +820,51 @@ msgstr ""
 "LEKÉRDEZÉS Zeneszámot keres és hozzáadja a sorhoz. Ha semmi sem szól, "
 "azonnal elkezdi"
 
-#: D:/TTMediaBot-master/bot/commands/user_commands.py:905
+#: D:/TTMediaBot-master/bot/commands/user_commands.py:906
 #, python-brace-format
 msgid "{nickname} added to queue: {track}"
 msgstr "{nickname} hozzáadta a sorhoz: {track}"
 
-#: D:/TTMediaBot-master/bot/commands/user_commands.py:911
+#: D:/TTMediaBot-master/bot/commands/user_commands.py:912
 #, python-brace-format
 msgid "Added to queue [{position}]: {track}"
 msgstr "Hozzáadva a sorhoz [{position}]: {track}"
 
-#: D:/TTMediaBot-master/bot/commands/user_commands.py:918
+#: D:/TTMediaBot-master/bot/commands/user_commands.py:919
 msgid "Lists all tracks in the queue"
 msgstr "Kilistázza a sorban lévő összes számot"
 
-#: D:/TTMediaBot-master/bot/commands/user_commands.py:924
+#: D:/TTMediaBot-master/bot/commands/user_commands.py:925
 msgid "The queue is empty"
 msgstr "A sor üres"
 
-#: D:/TTMediaBot-master/bot/commands/user_commands.py:932
+#: D:/TTMediaBot-master/bot/commands/user_commands.py:933
 #, python-brace-format
 msgid "Queue ({count} track(s)):"
 msgstr "Sor ({count} szám):"
 
-#: D:/TTMediaBot-master/bot/commands/user_commands.py:942
+#: D:/TTMediaBot-master/bot/commands/user_commands.py:943
 msgid "NUMBER Removes track number NUMBER from the queue"
 msgstr "NUMBER Eltávolítja a NUMBER számú elemet a sorból"
 
-#: D:/TTMediaBot-master/bot/commands/user_commands.py:967
+#: D:/TTMediaBot-master/bot/commands/user_commands.py:968
 #, python-brace-format
 msgid "Removed from queue: {track}"
 msgstr "Eltávolítva a sorból: {track}"
 
-#: D:/TTMediaBot-master/bot/commands/user_commands.py:974
+#: D:/TTMediaBot-master/bot/commands/user_commands.py:975
 msgid "Clears the entire queue"
 msgstr "A teljes sor törlése"
 
-#: D:/TTMediaBot-master/bot/commands/user_commands.py:978
+#: D:/TTMediaBot-master/bot/commands/user_commands.py:979
 msgid "The queue is already empty"
 msgstr "A sor már üres"
 
-#: D:/TTMediaBot-master/bot/commands/user_commands.py:981
+#: D:/TTMediaBot-master/bot/commands/user_commands.py:982
 msgid "Queue cleared"
 msgstr "A sor törölve"
 
-#: D:/TTMediaBot-master/bot/commands/user_commands.py:988
+#: D:/TTMediaBot-master/bot/commands/user_commands.py:989
 msgid ""
 "Skips current track and plays the next one from the queue. Falls back to "
 "normal next if queue is empty"
@@ -871,29 +872,29 @@ msgstr ""
 "Átugrorja az aktuális számot és a következőt játssza a sorból. Ha a sor "
 "üres, a normál következőre lép"
 
-#: D:/TTMediaBot-master/bot/commands/user_commands.py:999
+#: D:/TTMediaBot-master/bot/commands/user_commands.py:1000
 #, python-brace-format
 msgid "Playing next from queue: {}"
 msgstr "A következő lejátszása a sorból: {}"
 
-#: D:/TTMediaBot-master/bot/commands/user_commands.py:1023
+#: D:/TTMediaBot-master/bot/commands/user_commands.py:1024
 msgid ""
 "Toggles search results mode. When active, 'p QUERY' shows a numbered "
 "list. Use 'sr on' or 'sr off' to set explicitly. Save permanently with "
 "'sc'"
 msgstr ""
 
-#: D:/TTMediaBot-master/bot/commands/user_commands.py:1031
-#: D:/TTMediaBot-master/bot/commands/user_commands.py:1041
+#: D:/TTMediaBot-master/bot/commands/user_commands.py:1032
+#: D:/TTMediaBot-master/bot/commands/user_commands.py:1042
 msgid "Search results mode: ON"
 msgstr "Keresési eredmény mód: BE"
 
-#: D:/TTMediaBot-master/bot/commands/user_commands.py:1035
-#: D:/TTMediaBot-master/bot/commands/user_commands.py:1043
+#: D:/TTMediaBot-master/bot/commands/user_commands.py:1036
+#: D:/TTMediaBot-master/bot/commands/user_commands.py:1044
 msgid "Search results mode: OFF"
 msgstr "Keresési eredmény mód: KI"
 
-#: D:/TTMediaBot-master/bot/commands/user_commands.py:1055
+#: D:/TTMediaBot-master/bot/commands/user_commands.py:1056
 msgid ""
 "NUMBER Selects and plays result NUMBER from the last search list "
 "(requires search results mode to be active)"
@@ -901,11 +902,11 @@ msgstr ""
 "SZÁM Kiválasztja és lejátssza a SZÁM sorszámú eredményt az utolsó "
 "keresési listából (keresési eredmény mód szükséges)"
 
-#: D:/TTMediaBot-master/bot/commands/user_commands.py:1074
+#: D:/TTMediaBot-master/bot/commands/user_commands.py:1075
 msgid "No search results available. Use 'p QUERY' to search first"
 msgstr "Nincs elérhető keresési eredmény. Először keressen 'p KERESÉS' paranccsal"
 
-#: D:/TTMediaBot-master/bot/commands/user_commands.py:1088
+#: D:/TTMediaBot-master/bot/commands/user_commands.py:1089
 #, python-brace-format
 msgid "{nickname} selected: {track}"
 msgstr "{nickname} kiválasztotta: {track}"
@@ -913,7 +914,7 @@ msgstr "{nickname} kiválasztotta: {track}"
 # | msgid "" "NUMBER Sets how many results are shown when search results mode
 # is
 # | " "active. Without a number shows current count. Resets to 5 on restart"
-#: D:/TTMediaBot-master/bot/commands/user_commands.py:1105
+#: D:/TTMediaBot-master/bot/commands/user_commands.py:1106
 #, fuzzy
 msgid ""
 "NUMBER Sets how many results are shown when search results mode is "
@@ -922,68 +923,68 @@ msgstr ""
 "SZÁM Meghatározza a megjelenített eredmények számát keresési módban. Szám"
 " nélkül az aktuális értéket mutatja. Újraindításkor 5-re áll vissza"
 
-#: D:/TTMediaBot-master/bot/commands/user_commands.py:1111
+#: D:/TTMediaBot-master/bot/commands/user_commands.py:1112
 #, python-brace-format
 msgid "Search results count: {count}"
 msgstr "Eredmények száma: {count}"
 
-#: D:/TTMediaBot-master/bot/commands/user_commands.py:1121
+#: D:/TTMediaBot-master/bot/commands/user_commands.py:1122
 msgid "Invalid count. Please enter a number greater than 0"
 msgstr "Érvénytelen szám. Adj meg 0-nál nagyobb számot"
 
-#: D:/TTMediaBot-master/bot/commands/user_commands.py:1126
+#: D:/TTMediaBot-master/bot/commands/user_commands.py:1127
 #, python-brace-format
 msgid "Search results count set to {count}"
 msgstr "Eredmények száma beállítva: {count}"
 
-#: D:/TTMediaBot-master/bot/commands/user_commands.py:1134
+#: D:/TTMediaBot-master/bot/commands/user_commands.py:1135
 msgid "LINK Adds a link to the download list."
 msgstr "LINK Hozzáad egy linket a letöltési listához."
 
-#: D:/TTMediaBot-master/bot/commands/user_commands.py:1146
+#: D:/TTMediaBot-master/bot/commands/user_commands.py:1147
 #, python-brace-format
 msgid "Added link to the list. Total: {count}"
 msgstr "Link hozzáadva a listához. Összesen: {count}"
 
-#: D:/TTMediaBot-master/bot/commands/user_commands.py:1155
+#: D:/TTMediaBot-master/bot/commands/user_commands.py:1156
 msgid "LINK1 LINK2 ... Adds multiple space-separated links to the download list."
 msgstr ""
 "LINK1 LINK2 ... Több szöközzel elválasztott linket ad a letöltési "
 "listához."
 
-#: D:/TTMediaBot-master/bot/commands/user_commands.py:1170
+#: D:/TTMediaBot-master/bot/commands/user_commands.py:1171
 #, python-brace-format
 msgid "Added {added_count} links. Total list size: {count}"
 msgstr "{added_count} link hozzáadva. Lista teljes mérete: {count}"
 
-#: D:/TTMediaBot-master/bot/commands/user_commands.py:1180
+#: D:/TTMediaBot-master/bot/commands/user_commands.py:1181
 msgid "Lists all links in the download list."
 msgstr "Listázza a letöltési listában szereplő összes linket."
 
-#: D:/TTMediaBot-master/bot/commands/user_commands.py:1199
+#: D:/TTMediaBot-master/bot/commands/user_commands.py:1200
 msgid "NUMBER_OR_LINK Removes a link from the download list by its index or URL."
 msgstr ""
 "SZÁM_VAGY_LINK Eltávolít egy linket a letöltési listából az indexe vagy "
 "URL-je alapján."
 
-#: D:/TTMediaBot-master/bot/commands/user_commands.py:1224
+#: D:/TTMediaBot-master/bot/commands/user_commands.py:1225
 msgid "Link not found in the list"
 msgstr "A link nem található a listában"
 
-#: D:/TTMediaBot-master/bot/commands/user_commands.py:1226
+#: D:/TTMediaBot-master/bot/commands/user_commands.py:1227
 #, python-brace-format
 msgid "Removed link: {link}"
 msgstr "Eltávolított link: {link}"
 
-#: D:/TTMediaBot-master/bot/commands/user_commands.py:1233
+#: D:/TTMediaBot-master/bot/commands/user_commands.py:1234
 msgid "LINK Downloads a link directly and uploads it to the channel."
 msgstr "LINK Közvetlenül letölt egy linket, és feltölti a csatornára."
 
-#: D:/TTMediaBot-master/bot/commands/user_commands.py:1241
+#: D:/TTMediaBot-master/bot/commands/user_commands.py:1242
 msgid "Searching and downloading..."
 msgstr "Keresés és letöltés..."
 
-#: D:/TTMediaBot-master/bot/commands/user_commands.py:1265
+#: D:/TTMediaBot-master/bot/commands/user_commands.py:1266
 msgid ""
 "Downloads all links in your list and uploads them to the channel. Can "
 "download normally or as a ZIP archive."
@@ -991,7 +992,7 @@ msgstr ""
 "Letölti a listádon lévő összes linket, és feltölti őket a csatornára. "
 "Letölthető normálisan vagy ZIP archívumként."
 
-#: D:/TTMediaBot-master/bot/commands/user_commands.py:1277
+#: D:/TTMediaBot-master/bot/commands/user_commands.py:1278
 msgid ""
 "How do you want to download these links?\n"
 "1. Download individually (Normal)\n"
@@ -1003,78 +1004,78 @@ msgstr ""
 "2. Összes tömörítése egy ZIP fájlba\n"
 "Csak 1-gyel vagy 2-vel válaszoljon."
 
-#: D:/TTMediaBot-master/bot/commands/user_commands.py:1288
+#: D:/TTMediaBot-master/bot/commands/user_commands.py:1289
 #, python-brace-format
 msgid "Starting local download of {count} links..."
 msgstr "Helyi letöltés indítása {count} linkkel..."
 
-#: D:/TTMediaBot-master/bot/commands/user_commands.py:1291
+#: D:/TTMediaBot-master/bot/commands/user_commands.py:1292
 #, python-brace-format
 msgid "Starting download of {count} links..."
 msgstr "{count} link letöltésének indítása..."
 
-#: D:/TTMediaBot-master/bot/commands/user_commands.py:1297
+#: D:/TTMediaBot-master/bot/commands/user_commands.py:1298
 #, python-brace-format
 msgid "Resolving and zipping locally {count} links..."
 msgstr "{count} link helyi feloldása és ZIP-be tömörítése..."
 
-#: D:/TTMediaBot-master/bot/commands/user_commands.py:1300
+#: D:/TTMediaBot-master/bot/commands/user_commands.py:1301
 #, python-brace-format
 msgid "Resolving and zipping {count} links..."
 msgstr "{count} link feloldása és ZIP-be tömörítése..."
 
-#: D:/TTMediaBot-master/bot/commands/user_commands.py:1302
+#: D:/TTMediaBot-master/bot/commands/user_commands.py:1303
 msgid "Invalid option. Please send 'ads' again to select."
 msgstr ""
 "Érvénytelen opció. Kérjük, küldje el újra az 'ads' parancsot a "
 "választáshoz."
 
-#: D:/TTMediaBot-master/bot/commands/user_commands.py:1308
-#: D:/TTMediaBot-master/bot/commands/user_commands.py:1346
+#: D:/TTMediaBot-master/bot/commands/user_commands.py:1309
+#: D:/TTMediaBot-master/bot/commands/user_commands.py:1347
 #, python-brace-format
 msgid "Processing link {number}/{total}: {link}"
 msgstr "Link feldolgozása {number}/{total}: {link}"
 
-#: D:/TTMediaBot-master/bot/commands/user_commands.py:1316
-#: D:/TTMediaBot-master/bot/commands/user_commands.py:1354
+#: D:/TTMediaBot-master/bot/commands/user_commands.py:1317
+#: D:/TTMediaBot-master/bot/commands/user_commands.py:1355
 #, python-brace-format
 msgid "Nothing is found for: {link}"
 msgstr "Nem található semmi ehhez: {link}"
 
-#: D:/TTMediaBot-master/bot/commands/user_commands.py:1324
+#: D:/TTMediaBot-master/bot/commands/user_commands.py:1325
 #, python-brace-format
 msgid "Error downloading {link}: {error}"
 msgstr "Hiba a(z) {link} letöltése közben: {error}"
 
-#: D:/TTMediaBot-master/bot/commands/user_commands.py:1374
-#: D:/TTMediaBot-master/bot/commands/user_commands.py:1491
+#: D:/TTMediaBot-master/bot/commands/user_commands.py:1375
+#: D:/TTMediaBot-master/bot/commands/user_commands.py:1492
 msgid "All downloads completed successfully!"
 msgstr "Minden letöltés sikeresen befejeződött!"
 
-#: D:/TTMediaBot-master/bot/commands/user_commands.py:1379
-#: D:/TTMediaBot-master/bot/commands/user_commands.py:1496
+#: D:/TTMediaBot-master/bot/commands/user_commands.py:1380
+#: D:/TTMediaBot-master/bot/commands/user_commands.py:1497
 #, python-brace-format
 msgid "Downloads completed with {error_count} error(s)."
 msgstr "A letöltések {error_count} hibával fejeződtek be."
 
-#: D:/TTMediaBot-master/bot/commands/user_commands.py:1388
-#: D:/TTMediaBot-master/bot/commands/user_commands.py:1418
+#: D:/TTMediaBot-master/bot/commands/user_commands.py:1389
+#: D:/TTMediaBot-master/bot/commands/user_commands.py:1419
 msgid "Resolving links..."
 msgstr "Linkek feloldása..."
 
-#: D:/TTMediaBot-master/bot/commands/user_commands.py:1402
-#: D:/TTMediaBot-master/bot/commands/user_commands.py:1435
+#: D:/TTMediaBot-master/bot/commands/user_commands.py:1403
+#: D:/TTMediaBot-master/bot/commands/user_commands.py:1436
 msgid "Error: No valid tracks found to download."
 msgstr "Hiba: Nem található letölthető érvényes sáv."
 
-#: D:/TTMediaBot-master/bot/commands/user_commands.py:1455
+#: D:/TTMediaBot-master/bot/commands/user_commands.py:1456
 #: D:/TTMediaBot-master/bot/modules/playlist_uploader.py:88
 msgid "Error: Failed to download any tracks from this playlist."
 msgstr ""
 "Error: Failed to download any tracks from this playlist.Hiba: Nem "
 "sikerült letölteni egyetlen számot sem ebből a lejátszási listából."
 
-#: D:/TTMediaBot-master/bot/commands/user_commands.py:1507
+#: D:/TTMediaBot-master/bot/commands/user_commands.py:1508
 msgid ""
 "Toggles local download mode for the 'ads' command. When active, files are"
 " saved locally to the VPS instead of uploaded to TeamTalk."
@@ -1082,31 +1083,78 @@ msgstr ""
 "Váltja a helyi letöltési módot az 'ads' parancshoz. Ha aktív, a fájlok "
 "helyben mentődnek a VPS-re, ahelyett, hogy feltöltődnének a TeamTalkra."
 
-#: D:/TTMediaBot-master/bot/commands/user_commands.py:1513
+#: D:/TTMediaBot-master/bot/commands/user_commands.py:1514
 msgid "Local download mode (adsc) enabled."
 msgstr "Helyi letöltési mód (adsc) engedélyezve."
 
-#: D:/TTMediaBot-master/bot/commands/user_commands.py:1515
+#: D:/TTMediaBot-master/bot/commands/user_commands.py:1516
 msgid "Local download mode (adsc) disabled."
 msgstr "Helyi letöltési mód (adsc) letiltva."
 
-#: D:/TTMediaBot-master/bot/commands/user_commands.py:1522
+#: D:/TTMediaBot-master/bot/commands/user_commands.py:1523
 msgid ""
 "Toggles silence trimming mode. When active, automatically removes leading"
 " and trailing silence from tracks."
 msgstr ""
 
-#: D:/TTMediaBot-master/bot/commands/user_commands.py:1529
+# | msgid "Voice transmission enabled"
+#: D:/TTMediaBot-master/bot/commands/user_commands.py:1530
 #, fuzzy
-#| msgid "Voice transmission enabled"
 msgid "Silence trimming (ts) enabled."
 msgstr "Hangaktiválás engedélyezve"
 
-#: D:/TTMediaBot-master/bot/commands/user_commands.py:1531
+# | msgid "Voice transmission disabled"
+#: D:/TTMediaBot-master/bot/commands/user_commands.py:1532
 #, fuzzy
-#| msgid "Voice transmission disabled"
 msgid "Silence trimming (ts) disabled."
 msgstr "Hangaktiválás letiltva"
+
+#: D:/TTMediaBot-master/bot/commands/user_commands.py:1539
+msgid ""
+"[-s] Identifies the currently playing song in a mix or compilation using "
+"YouTube Chapters, Shazam, or Google Voice AI. Use 'ws -s' to force "
+"audio/voice recognition."
+msgstr ""
+
+#: D:/TTMediaBot-master/bot/commands/user_commands.py:1548
+msgid ""
+"Could not identify the song. If this is a song with lyrics, please try "
+"again when the vocals/lyrics are clearly heard."
+msgstr ""
+
+#: D:/TTMediaBot-master/bot/commands/user_commands.py:1563
+#: D:/TTMediaBot-master/bot/commands/user_commands.py:1606
+msgid "Song"
+msgstr ""
+
+#: D:/TTMediaBot-master/bot/commands/user_commands.py:1566
+#: D:/TTMediaBot-master/bot/commands/user_commands.py:1609
+msgid "Artist"
+msgstr ""
+
+#: D:/TTMediaBot-master/bot/commands/user_commands.py:1568
+msgid "Lyrics heard"
+msgstr ""
+
+#: D:/TTMediaBot-master/bot/commands/user_commands.py:1569
+#: D:/TTMediaBot-master/bot/commands/user_commands.py:1610
+msgid "Position"
+msgstr ""
+
+#: D:/TTMediaBot-master/bot/commands/user_commands.py:1570
+#: D:/TTMediaBot-master/bot/commands/user_commands.py:1611
+msgid "Source"
+msgstr ""
+
+# | msgid "Error joining channel: {error}"
+#: D:/TTMediaBot-master/bot/commands/user_commands.py:1582
+#, fuzzy, python-brace-format
+msgid "Error identifying song: {}"
+msgstr "Hiba a csatornához való csatlakozás közben: {error}"
+
+#: D:/TTMediaBot-master/bot/commands/user_commands.py:1619
+msgid "🔍 Listening and identifying the currently playing song..."
+msgstr ""
 
 #: D:/TTMediaBot-master/bot/connectors/tt_player_connector.py:36
 #, python-brace-format
@@ -1158,9 +1206,9 @@ msgstr "Hiba: A letöltött fájl nem található."
 msgid "Unknown Title"
 msgstr "Ismeretlen cím"
 
+# | msgid "No next track"
 #: D:/TTMediaBot-master/bot/services/yt.py:186
 #, fuzzy
-#| msgid "No next track"
 msgid "YouTube Track"
 msgstr "Nincs több tartalom"
 

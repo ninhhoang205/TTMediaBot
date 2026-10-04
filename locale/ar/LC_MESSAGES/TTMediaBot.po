@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2026-10-02 15:08+0700\n"
+"POT-Creation-Date: 2026-10-03 11:17+0700\n"
 "PO-Revision-Date: 2026-05-10 11:43+0000\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: ar\n"
@@ -35,13 +35,14 @@ msgstr ""
 msgid "The bot is restarting now to apply the update. See you in a moment!"
 msgstr "البوت يعيد التشغيل الآن لتطبيق التحديث. نلتقي بعد قليل!"
 
+# | msgid "" "Hello! I am João Almeida. This is my fork of TTMediaBot for
+# | TeamTalk 5.\n" "This repository focuses on stability and support for
+# YouTube
+# | Music.\n" "Repository: https://github.com/JoaoDEVWHADS/TTMediaBot\n"
+# | "Original Authors: Amir Gumerov, Vladislav Kopylov, Beqa Gozalishvili, "
+# | "Kirill Belousov.\n"
 #: D:/TTMediaBot-master/bot/app_vars.py:12
 #, fuzzy
-#| msgid "" "Hello! I am João Almeida. This is my fork of TTMediaBot for
-#| TeamTalk 5.\n" "This repository focuses on stability and support for YouTube
-#| Music.\n" "Repository: https://github.com/JoaoDEVWHADS/TTMediaBot\n"
-#| "Original Authors: Amir Gumerov, Vladislav Kopylov, Beqa Gozalishvili, "
-#| "Kirill Belousov.\n"
 msgid ""
 "Hello, I'm Smart Thinh.\n"
 "This is a TTMediaBot edition for TeamTalk 5, based on João Almeida's "
@@ -64,17 +65,17 @@ msgstr ""
 msgid "Send \"h\" for help"
 msgstr "أرسل \"h\" للمساعدة"
 
-#: D:/TTMediaBot-master/bot/commands/__init__.py:159
+#: D:/TTMediaBot-master/bot/commands/__init__.py:160
 msgid "Unknown command. Send \"h\" for help."
 msgstr "أمر غير معروف. أرسل \"h\" للمساعدة."
 
-#: D:/TTMediaBot-master/bot/commands/__init__.py:165
-#: D:/TTMediaBot-master/bot/commands/user_commands.py:843
-#: D:/TTMediaBot-master/bot/commands/user_commands.py:849
-#: D:/TTMediaBot-master/bot/commands/user_commands.py:1256
-#: D:/TTMediaBot-master/bot/commands/user_commands.py:1338
-#: D:/TTMediaBot-master/bot/commands/user_commands.py:1410
-#: D:/TTMediaBot-master/bot/commands/user_commands.py:1484
+#: D:/TTMediaBot-master/bot/commands/__init__.py:166
+#: D:/TTMediaBot-master/bot/commands/user_commands.py:844
+#: D:/TTMediaBot-master/bot/commands/user_commands.py:850
+#: D:/TTMediaBot-master/bot/commands/user_commands.py:1257
+#: D:/TTMediaBot-master/bot/commands/user_commands.py:1339
+#: D:/TTMediaBot-master/bot/commands/user_commands.py:1411
+#: D:/TTMediaBot-master/bot/commands/user_commands.py:1485
 #: D:/TTMediaBot-master/bot/modules/playlist_uploader.py:130
 #: D:/TTMediaBot-master/bot/modules/playlist_uploader.py:144
 #: D:/TTMediaBot-master/bot/modules/uploader.py:85
@@ -82,23 +83,23 @@ msgstr "أمر غير معروف. أرسل \"h\" للمساعدة."
 msgid "Error: {}"
 msgstr "خطأ: {}"
 
-#: D:/TTMediaBot-master/bot/commands/__init__.py:177
+#: D:/TTMediaBot-master/bot/commands/__init__.py:178
 msgid "You are banned"
 msgstr "أنت محظور"
 
-#: D:/TTMediaBot-master/bot/commands/__init__.py:181
+#: D:/TTMediaBot-master/bot/commands/__init__.py:182
 msgid "You are not in bot's channel"
 msgstr "أنت لست في قناة البوت"
 
-#: D:/TTMediaBot-master/bot/commands/__init__.py:185
+#: D:/TTMediaBot-master/bot/commands/__init__.py:186
 msgid "Bot is locked"
 msgstr "البوت مقفل"
 
-#: D:/TTMediaBot-master/bot/commands/__init__.py:189
+#: D:/TTMediaBot-master/bot/commands/__init__.py:190
 msgid "This command is blocked"
 msgstr "هذا الأمر محظور"
 
-#: D:/TTMediaBot-master/bot/commands/__init__.py:215
+#: D:/TTMediaBot-master/bot/commands/__init__.py:216
 msgid "Unknown command"
 msgstr "أمر غير معروف"
 
@@ -114,19 +115,19 @@ msgstr ""
 #: D:/TTMediaBot-master/bot/commands/admin_commands.py:32
 #: D:/TTMediaBot-master/bot/commands/admin_commands.py:326
 #: D:/TTMediaBot-master/bot/commands/admin_commands.py:356
-#: D:/TTMediaBot-master/bot/commands/user_commands.py:556
-#: D:/TTMediaBot-master/bot/commands/user_commands.py:568
-#: D:/TTMediaBot-master/bot/commands/user_commands.py:658
-#: D:/TTMediaBot-master/bot/commands/user_commands.py:1186
-#: D:/TTMediaBot-master/bot/commands/user_commands.py:1208
-#: D:/TTMediaBot-master/bot/commands/user_commands.py:1271
+#: D:/TTMediaBot-master/bot/commands/user_commands.py:557
+#: D:/TTMediaBot-master/bot/commands/user_commands.py:569
+#: D:/TTMediaBot-master/bot/commands/user_commands.py:659
+#: D:/TTMediaBot-master/bot/commands/user_commands.py:1187
+#: D:/TTMediaBot-master/bot/commands/user_commands.py:1209
+#: D:/TTMediaBot-master/bot/commands/user_commands.py:1272
 msgid "The list is empty"
 msgstr "القائمة فارغة"
 
 #: D:/TTMediaBot-master/bot/commands/admin_commands.py:37
 #: D:/TTMediaBot-master/bot/commands/admin_commands.py:308
 #: D:/TTMediaBot-master/bot/commands/admin_commands.py:340
-#: D:/TTMediaBot-master/bot/commands/user_commands.py:519
+#: D:/TTMediaBot-master/bot/commands/user_commands.py:520
 msgid "Added"
 msgstr "تمت الإضافة"
 
@@ -137,7 +138,7 @@ msgstr "هذا الأمر مضاف بالفعل"
 #: D:/TTMediaBot-master/bot/commands/admin_commands.py:45
 #: D:/TTMediaBot-master/bot/commands/admin_commands.py:314
 #: D:/TTMediaBot-master/bot/commands/admin_commands.py:346
-#: D:/TTMediaBot-master/bot/commands/user_commands.py:531
+#: D:/TTMediaBot-master/bot/commands/user_commands.py:532
 msgid "Deleted"
 msgstr "تم الحذف"
 
@@ -320,16 +321,16 @@ msgstr "يعيد معرف القناة الحالية"
 msgid "help text not found"
 msgstr "نص المساعدة غير موجود"
 
-#: D:/TTMediaBot-master/bot/commands/user_commands.py:20
+#: D:/TTMediaBot-master/bot/commands/user_commands.py:21
 msgid "Shows command help"
 msgstr "يعرض مساعدة الأوامر"
 
-#: D:/TTMediaBot-master/bot/commands/user_commands.py:29
+#: D:/TTMediaBot-master/bot/commands/user_commands.py:30
 msgid "Shows information about the bot"
 msgstr "يعرض معلومات عن البوت"
 
 # --- Search Results Mode (sr/sl/slc) ---
-#: D:/TTMediaBot-master/bot/commands/user_commands.py:39
+#: D:/TTMediaBot-master/bot/commands/user_commands.py:40
 msgid ""
 "QUERY Plays tracks found for the query. If no query is given, plays or "
 "pauses current track. When search results mode (sr) is active, shows a "
@@ -338,115 +339,116 @@ msgstr ""
 "QUERY يشغل المقاطع الموجودة للاستعلام. بدون استعلام يشغل أو يوقف المقطع "
 "الحالي. في وضع نتائج البحث (sr) يعرض قائمة مرقمة"
 
-#: D:/TTMediaBot-master/bot/commands/user_commands.py:45
-#: D:/TTMediaBot-master/bot/commands/user_commands.py:770
-#: D:/TTMediaBot-master/bot/commands/user_commands.py:870
+#: D:/TTMediaBot-master/bot/commands/user_commands.py:46
+#: D:/TTMediaBot-master/bot/commands/user_commands.py:771
+#: D:/TTMediaBot-master/bot/commands/user_commands.py:871
 msgid "Searching..."
 msgstr "جاري البحث..."
 
-#: D:/TTMediaBot-master/bot/commands/user_commands.py:54
+#: D:/TTMediaBot-master/bot/commands/user_commands.py:55
 msgid "Search results:"
 msgstr "نتائج البحث:"
 
-#: D:/TTMediaBot-master/bot/commands/user_commands.py:57
+#: D:/TTMediaBot-master/bot/commands/user_commands.py:58
 msgid "Use 'sl NUMBER' to select a track"
 msgstr "استخدم 'sl رقم' لاختيار مقطع"
 
-#: D:/TTMediaBot-master/bot/commands/user_commands.py:73
+#: D:/TTMediaBot-master/bot/commands/user_commands.py:74
 #, python-brace-format
 msgid "{nickname} requested {request}"
 msgstr "{nickname} طلب {request}"
 
-#: D:/TTMediaBot-master/bot/commands/user_commands.py:77
-#: D:/TTMediaBot-master/bot/commands/user_commands.py:229
-#: D:/TTMediaBot-master/bot/commands/user_commands.py:255
-#: D:/TTMediaBot-master/bot/commands/user_commands.py:272
-#: D:/TTMediaBot-master/bot/commands/user_commands.py:418
-#: D:/TTMediaBot-master/bot/commands/user_commands.py:896
-#: D:/TTMediaBot-master/bot/commands/user_commands.py:1006
-#: D:/TTMediaBot-master/bot/commands/user_commands.py:1094
+#: D:/TTMediaBot-master/bot/commands/user_commands.py:78
+#: D:/TTMediaBot-master/bot/commands/user_commands.py:230
+#: D:/TTMediaBot-master/bot/commands/user_commands.py:256
+#: D:/TTMediaBot-master/bot/commands/user_commands.py:273
+#: D:/TTMediaBot-master/bot/commands/user_commands.py:419
+#: D:/TTMediaBot-master/bot/commands/user_commands.py:897
+#: D:/TTMediaBot-master/bot/commands/user_commands.py:1007
+#: D:/TTMediaBot-master/bot/commands/user_commands.py:1095
 #, python-brace-format
 msgid "Playing {}"
 msgstr "تشغيل {}"
 
-#: D:/TTMediaBot-master/bot/commands/user_commands.py:81
-#: D:/TTMediaBot-master/bot/commands/user_commands.py:107
-#: D:/TTMediaBot-master/bot/commands/user_commands.py:778
-#: D:/TTMediaBot-master/bot/commands/user_commands.py:877
-#: D:/TTMediaBot-master/bot/commands/user_commands.py:1248
+#: D:/TTMediaBot-master/bot/commands/user_commands.py:82
+#: D:/TTMediaBot-master/bot/commands/user_commands.py:108
+#: D:/TTMediaBot-master/bot/commands/user_commands.py:779
+#: D:/TTMediaBot-master/bot/commands/user_commands.py:878
+#: D:/TTMediaBot-master/bot/commands/user_commands.py:1249
 msgid "Nothing is found for your query"
 msgstr "لم يتم العثور على شيء للاستعلام الخاص بك"
 
-#: D:/TTMediaBot-master/bot/commands/user_commands.py:84
-#: D:/TTMediaBot-master/bot/commands/user_commands.py:880
+#: D:/TTMediaBot-master/bot/commands/user_commands.py:85
+#: D:/TTMediaBot-master/bot/commands/user_commands.py:881
 msgid "The selected service is currently unavailable"
 msgstr "الخدمة المختارة غير متاحة حالياً"
 
-#: D:/TTMediaBot-master/bot/commands/user_commands.py:96
+#: D:/TTMediaBot-master/bot/commands/user_commands.py:97
 msgid "URL Plays a stream from a given URL"
 msgstr "URL يشغل بثاً من رابط معين"
 
-#: D:/TTMediaBot-master/bot/commands/user_commands.py:101
+#: D:/TTMediaBot-master/bot/commands/user_commands.py:102
 msgid "Loading URL / playlist..."
 msgstr "جارٍ تحميل الرابط / قائمة التشغيل..."
 
-#: D:/TTMediaBot-master/bot/commands/user_commands.py:112
+# | msgid "{nickname} requested playing from a URL"
+#: D:/TTMediaBot-master/bot/commands/user_commands.py:113
 #, fuzzy, python-brace-format
-#| msgid "{nickname} requested playing from a URL"
 msgid "{nickname} requested playing from a URL ({count} tracks)"
 msgstr "{nickname} طلب التشغيل من رابط"
 
-#: D:/TTMediaBot-master/bot/commands/user_commands.py:119
+#: D:/TTMediaBot-master/bot/commands/user_commands.py:120
 #, python-brace-format
 msgid "Loaded {count} tracks"
 msgstr "تم تحميل {count} مسار"
 
-#: D:/TTMediaBot-master/bot/commands/user_commands.py:124
+#: D:/TTMediaBot-master/bot/commands/user_commands.py:125
 msgid "Incorrect protocol"
 msgstr "بروتوكول غير صحيح"
 
-#: D:/TTMediaBot-master/bot/commands/user_commands.py:126
+#: D:/TTMediaBot-master/bot/commands/user_commands.py:127
 msgid "Cannot process stream URL"
 msgstr "لا يمكن معالجة رابط البث"
 
-#: D:/TTMediaBot-master/bot/commands/user_commands.py:128
+#: D:/TTMediaBot-master/bot/commands/user_commands.py:129
 msgid "The path cannot be found"
 msgstr "لا يمكن العثور على المسار"
 
-#: D:/TTMediaBot-master/bot/commands/user_commands.py:136
+#: D:/TTMediaBot-master/bot/commands/user_commands.py:137
 msgid "Stops playback"
 msgstr "إيقاف التشغيل"
 
-#: D:/TTMediaBot-master/bot/commands/user_commands.py:143
+#: D:/TTMediaBot-master/bot/commands/user_commands.py:144
 #, python-brace-format
 msgid "{nickname} stopped playback"
 msgstr "{nickname} أوقف التشغيل"
 
-#: D:/TTMediaBot-master/bot/commands/user_commands.py:150
+#: D:/TTMediaBot-master/bot/commands/user_commands.py:151
 msgid "Playback stopped"
 msgstr ""
 
-#: D:/TTMediaBot-master/bot/commands/user_commands.py:154
-#: D:/TTMediaBot-master/bot/commands/user_commands.py:187
-#: D:/TTMediaBot-master/bot/commands/user_commands.py:206
-#: D:/TTMediaBot-master/bot/commands/user_commands.py:233
-#: D:/TTMediaBot-master/bot/commands/user_commands.py:249
-#: D:/TTMediaBot-master/bot/commands/user_commands.py:261
-#: D:/TTMediaBot-master/bot/commands/user_commands.py:278
-#: D:/TTMediaBot-master/bot/commands/user_commands.py:422
-#: D:/TTMediaBot-master/bot/commands/user_commands.py:438
-#: D:/TTMediaBot-master/bot/commands/user_commands.py:449
-#: D:/TTMediaBot-master/bot/commands/user_commands.py:521
-#: D:/TTMediaBot-master/bot/commands/user_commands.py:539
-#: D:/TTMediaBot-master/bot/commands/user_commands.py:585
-#: D:/TTMediaBot-master/bot/commands/user_commands.py:619
-#: D:/TTMediaBot-master/bot/commands/user_commands.py:680
-#: D:/TTMediaBot-master/bot/commands/user_commands.py:701
-#: D:/TTMediaBot-master/bot/commands/user_commands.py:993
+#: D:/TTMediaBot-master/bot/commands/user_commands.py:155
+#: D:/TTMediaBot-master/bot/commands/user_commands.py:188
+#: D:/TTMediaBot-master/bot/commands/user_commands.py:207
+#: D:/TTMediaBot-master/bot/commands/user_commands.py:234
+#: D:/TTMediaBot-master/bot/commands/user_commands.py:250
+#: D:/TTMediaBot-master/bot/commands/user_commands.py:262
+#: D:/TTMediaBot-master/bot/commands/user_commands.py:279
+#: D:/TTMediaBot-master/bot/commands/user_commands.py:423
+#: D:/TTMediaBot-master/bot/commands/user_commands.py:439
+#: D:/TTMediaBot-master/bot/commands/user_commands.py:450
+#: D:/TTMediaBot-master/bot/commands/user_commands.py:522
+#: D:/TTMediaBot-master/bot/commands/user_commands.py:540
+#: D:/TTMediaBot-master/bot/commands/user_commands.py:586
+#: D:/TTMediaBot-master/bot/commands/user_commands.py:620
+#: D:/TTMediaBot-master/bot/commands/user_commands.py:681
+#: D:/TTMediaBot-master/bot/commands/user_commands.py:702
+#: D:/TTMediaBot-master/bot/commands/user_commands.py:994
+#: D:/TTMediaBot-master/bot/commands/user_commands.py:1588
 msgid "Nothing is playing"
 msgstr "لا يوجد شيء قيد التشغيل"
 
-#: D:/TTMediaBot-master/bot/commands/user_commands.py:161
+#: D:/TTMediaBot-master/bot/commands/user_commands.py:162
 #, python-brace-format
 msgid ""
 "VOLUME Sets the volume to a value between 0 and {max_volume}. If no "
@@ -455,85 +457,85 @@ msgstr ""
 "VOLUME يضبط الصوت لقيمة بين 0 و {max_volume}. إذا لم يُحدد، يعرض مستوى "
 "الصوت الحالي"
 
-#: D:/TTMediaBot-master/bot/commands/user_commands.py:182
+#: D:/TTMediaBot-master/bot/commands/user_commands.py:183
 #, python-brace-format
 msgid "STEP Seeks current track backward. the default step is {seek_step} seconds"
 msgstr "STEP يبحث في المسار الحالي للخلف. الخطوة الافتراضية هي {seek_step} ثانية"
 
-#: D:/TTMediaBot-master/bot/commands/user_commands.py:201
+#: D:/TTMediaBot-master/bot/commands/user_commands.py:202
 #, python-brace-format
 msgid "STEP Seeks current track forward. the default step is {seek_step} seconds"
 msgstr "STEP يبحث في المسار الحالي للأمام. الخطوة الافتراضية هي {seek_step} ثانية"
 
-#: D:/TTMediaBot-master/bot/commands/user_commands.py:219
+#: D:/TTMediaBot-master/bot/commands/user_commands.py:220
 msgid ""
 "[NUMBER|?] Plays next track, jumps to track number, or shows current "
 "position with ?"
 msgstr ""
 
-#: D:/TTMediaBot-master/bot/commands/user_commands.py:241
-#: D:/TTMediaBot-master/bot/commands/user_commands.py:430
+#: D:/TTMediaBot-master/bot/commands/user_commands.py:242
+#: D:/TTMediaBot-master/bot/commands/user_commands.py:431
 msgid "Incorrect number"
 msgstr "رقم غير صحيح"
 
-#: D:/TTMediaBot-master/bot/commands/user_commands.py:243
-#: D:/TTMediaBot-master/bot/commands/user_commands.py:432
-#: D:/TTMediaBot-master/bot/commands/user_commands.py:445
+#: D:/TTMediaBot-master/bot/commands/user_commands.py:244
+#: D:/TTMediaBot-master/bot/commands/user_commands.py:433
+#: D:/TTMediaBot-master/bot/commands/user_commands.py:446
 #, python-brace-format
 msgid "Playing {} {}"
 msgstr "تشغيل {} {}"
 
-#: D:/TTMediaBot-master/bot/commands/user_commands.py:247
-#: D:/TTMediaBot-master/bot/commands/user_commands.py:436
-#: D:/TTMediaBot-master/bot/commands/user_commands.py:533
-#: D:/TTMediaBot-master/bot/commands/user_commands.py:566
-#: D:/TTMediaBot-master/bot/commands/user_commands.py:639
-#: D:/TTMediaBot-master/bot/commands/user_commands.py:961
-#: D:/TTMediaBot-master/bot/commands/user_commands.py:1078
-#: D:/TTMediaBot-master/bot/commands/user_commands.py:1215
+#: D:/TTMediaBot-master/bot/commands/user_commands.py:248
+#: D:/TTMediaBot-master/bot/commands/user_commands.py:437
+#: D:/TTMediaBot-master/bot/commands/user_commands.py:534
+#: D:/TTMediaBot-master/bot/commands/user_commands.py:567
+#: D:/TTMediaBot-master/bot/commands/user_commands.py:640
+#: D:/TTMediaBot-master/bot/commands/user_commands.py:962
+#: D:/TTMediaBot-master/bot/commands/user_commands.py:1079
+#: D:/TTMediaBot-master/bot/commands/user_commands.py:1216
 msgid "Out of list"
 msgstr "خارج القائمة"
 
-#: D:/TTMediaBot-master/bot/commands/user_commands.py:259
-#: D:/TTMediaBot-master/bot/commands/user_commands.py:1010
+#: D:/TTMediaBot-master/bot/commands/user_commands.py:260
+#: D:/TTMediaBot-master/bot/commands/user_commands.py:1011
 msgid "No next track"
 msgstr "لا يوجد مسار تالي"
 
-#: D:/TTMediaBot-master/bot/commands/user_commands.py:267
+#: D:/TTMediaBot-master/bot/commands/user_commands.py:268
 msgid "Plays previous track"
 msgstr "يشغل المسار السابق"
 
-#: D:/TTMediaBot-master/bot/commands/user_commands.py:276
+#: D:/TTMediaBot-master/bot/commands/user_commands.py:277
 msgid "No previous track"
 msgstr "لا يوجد مسار سابق"
 
-#: D:/TTMediaBot-master/bot/commands/user_commands.py:285
+#: D:/TTMediaBot-master/bot/commands/user_commands.py:286
 msgid ""
 "MODE Sets the playback mode. If no mode is specified, the current mode "
 "and a list of modes are displayed"
 msgstr "MODE يضبط وضع التشغيل. إذا لم يُحدد، يعرض الوضع الحالي وقائمة الأوضاع"
 
-#: D:/TTMediaBot-master/bot/commands/user_commands.py:290
+#: D:/TTMediaBot-master/bot/commands/user_commands.py:291
 msgid "Single Track"
 msgstr "مسار واحد"
 
-#: D:/TTMediaBot-master/bot/commands/user_commands.py:291
+#: D:/TTMediaBot-master/bot/commands/user_commands.py:292
 msgid "Repeat Track"
 msgstr "تكرار المسار"
 
-#: D:/TTMediaBot-master/bot/commands/user_commands.py:292
+#: D:/TTMediaBot-master/bot/commands/user_commands.py:293
 msgid "Track list"
 msgstr "قائمة المسارات"
 
-#: D:/TTMediaBot-master/bot/commands/user_commands.py:293
+#: D:/TTMediaBot-master/bot/commands/user_commands.py:294
 msgid "Repeat track list"
 msgstr "تكرار قائمة المسارات"
 
-#: D:/TTMediaBot-master/bot/commands/user_commands.py:294
+#: D:/TTMediaBot-master/bot/commands/user_commands.py:295
 msgid "Random"
 msgstr "عشوائي"
 
-#: D:/TTMediaBot-master/bot/commands/user_commands.py:297
+#: D:/TTMediaBot-master/bot/commands/user_commands.py:298
 #, python-brace-format
 msgid ""
 "Current mode: {current_mode}\n"
@@ -542,16 +544,16 @@ msgstr ""
 "الوضع الحالي: {current_mode}\n"
 "{modes}"
 
-#: D:/TTMediaBot-master/bot/commands/user_commands.py:315
+#: D:/TTMediaBot-master/bot/commands/user_commands.py:316
 #, python-brace-format
 msgid "Current mode: {mode}"
 msgstr "الوضع الحالي: {mode}"
 
-#: D:/TTMediaBot-master/bot/commands/user_commands.py:319
+#: D:/TTMediaBot-master/bot/commands/user_commands.py:320
 msgid "Incorrect mode"
 msgstr "وضع غير صحيح"
 
-#: D:/TTMediaBot-master/bot/commands/user_commands.py:328
+#: D:/TTMediaBot-master/bot/commands/user_commands.py:329
 msgid ""
 "SERVICE Selects the service to play from, sv SERVICE h returns additional"
 " help. If no service is specified, the current service and a list of "
@@ -560,7 +562,7 @@ msgstr ""
 "SERVICE يختار الخدمة للتشغيل. sv SERVICE h يعيد مساعدة إضافية. بدون خدمة "
 "يعرض الخدمة الحالية والخدمات المتاحة"
 
-#: D:/TTMediaBot-master/bot/commands/user_commands.py:336
+#: D:/TTMediaBot-master/bot/commands/user_commands.py:337
 #, python-brace-format
 msgid ""
 "Unknown service.\n"
@@ -569,7 +571,7 @@ msgstr ""
 "خدمة غير معروفة.\n"
 "{}"
 
-#: D:/TTMediaBot-master/bot/commands/user_commands.py:345
+#: D:/TTMediaBot-master/bot/commands/user_commands.py:346
 #, python-brace-format
 msgid ""
 "Current service: {}\n"
@@ -578,38 +580,38 @@ msgstr ""
 "الخدمة الحالية: {}\n"
 "تحذير: {}"
 
-#: D:/TTMediaBot-master/bot/commands/user_commands.py:347
+#: D:/TTMediaBot-master/bot/commands/user_commands.py:348
 #, python-brace-format
 msgid "Current service: {}"
 msgstr "الخدمة الحالية: {}"
 
-#: D:/TTMediaBot-master/bot/commands/user_commands.py:353
+#: D:/TTMediaBot-master/bot/commands/user_commands.py:354
 #, python-brace-format
 msgid ""
 "Error: {error}\n"
 "{service} is disabled"
 msgstr ""
 
-#: D:/TTMediaBot-master/bot/commands/user_commands.py:360
+#: D:/TTMediaBot-master/bot/commands/user_commands.py:361
 #, python-brace-format
 msgid "{service} is disabled"
 msgstr "{service} معطل"
 
-#: D:/TTMediaBot-master/bot/commands/user_commands.py:367
+#: D:/TTMediaBot-master/bot/commands/user_commands.py:368
 msgid "This service has no additional help"
 msgstr "هذه الخدمة ليس لها مساعدة إضافية"
 
-#: D:/TTMediaBot-master/bot/commands/user_commands.py:384
+#: D:/TTMediaBot-master/bot/commands/user_commands.py:385
 #, python-brace-format
 msgid "{} (Error)"
 msgstr "{} (خطأ)"
 
-#: D:/TTMediaBot-master/bot/commands/user_commands.py:388
+#: D:/TTMediaBot-master/bot/commands/user_commands.py:389
 #, python-brace-format
 msgid "{} (Warning: {})"
 msgstr "{} (تحذير: {})"
 
-#: D:/TTMediaBot-master/bot/commands/user_commands.py:395
+#: D:/TTMediaBot-master/bot/commands/user_commands.py:396
 #, python-brace-format
 msgid ""
 "Current service: {current_service}\n"
@@ -622,39 +624,39 @@ msgstr ""
 "{available_services}\n"
 "أرسل sv SERVICE h للمساعدة الإضافية"
 
-#: D:/TTMediaBot-master/bot/commands/user_commands.py:407
+# | msgid "NUMBER Selects track by number from the list of current results"
+#: D:/TTMediaBot-master/bot/commands/user_commands.py:408
 #, fuzzy
-#| msgid "NUMBER Selects track by number from the list of current results"
 msgid "[NUMBER|?] Selects track by number, or shows current position with ?"
 msgstr "NUMBER يختار المسار بالرقم من قائمة النتائج الحالية"
 
-#: D:/TTMediaBot-master/bot/commands/user_commands.py:456
+#: D:/TTMediaBot-master/bot/commands/user_commands.py:457
 msgid ""
 "SPEED Sets playback speed from 0.25 to 4. If no speed is given, shows "
 "current speed"
 msgstr "SPEED يضبط سرعة التشغيل من 0.25 إلى 4. بدون قيمة يعرض السرعة الحالية"
 
-#: D:/TTMediaBot-master/bot/commands/user_commands.py:461
+#: D:/TTMediaBot-master/bot/commands/user_commands.py:462
 #, python-brace-format
 msgid "Current rate: {}"
 msgstr "المعدل الحالي: {}"
 
-#: D:/TTMediaBot-master/bot/commands/user_commands.py:475
+# | msgid "" "SPEED Sets playback speed from 0.25 to 4. If no speed is given,
+# | shows " "current speed"
+#: D:/TTMediaBot-master/bot/commands/user_commands.py:476
 #, fuzzy
-#| msgid "" "SPEED Sets playback speed from 0.25 to 4. If no speed is given,
-#| shows " "current speed"
 msgid ""
 "SEMITONES Sets playback pitch from -12 to 12 semitones. If no pitch is "
 "given, shows current pitch"
 msgstr "SPEED يضبط سرعة التشغيل من 0.25 إلى 4. بدون قيمة يعرض السرعة الحالية"
 
-#: D:/TTMediaBot-master/bot/commands/user_commands.py:480
+# | msgid "Current rate: {}"
+#: D:/TTMediaBot-master/bot/commands/user_commands.py:481
 #, fuzzy, python-brace-format
-#| msgid "Current rate: {}"
 msgid "Current pitch: {}"
 msgstr "المعدل الحالي: {}"
 
-#: D:/TTMediaBot-master/bot/commands/user_commands.py:494
+#: D:/TTMediaBot-master/bot/commands/user_commands.py:495
 msgid ""
 "+/-NUMBER Manages favorite tracks. + adds the current track to favorites."
 " - removes a track requested from favorites. If a number is specified "
@@ -663,41 +665,41 @@ msgstr ""
 "+/-رقم يدير المسارات المفضلة. + يضيف المسار الحالي للمفضلة. - يزيل المسار"
 " المطلوب. إذا حُدد رقم بعد +/-، يضيف/يزيل المسار بهذا الرقم"
 
-#: D:/TTMediaBot-master/bot/commands/user_commands.py:500
+#: D:/TTMediaBot-master/bot/commands/user_commands.py:501
 msgid "This command is not available for guest users"
 msgstr "هذا الأمر غير متاح للمستخدمين الضيوف"
 
-#: D:/TTMediaBot-master/bot/commands/user_commands.py:537
+#: D:/TTMediaBot-master/bot/commands/user_commands.py:538
 msgid "This track is not in favorites"
 msgstr "هذا المسار ليس في المفضلة"
 
-#: D:/TTMediaBot-master/bot/commands/user_commands.py:546
-#: D:/TTMediaBot-master/bot/commands/user_commands.py:645
+#: D:/TTMediaBot-master/bot/commands/user_commands.py:547
+#: D:/TTMediaBot-master/bot/commands/user_commands.py:646
 #, python-brace-format
 msgid "{number}: {track_name}"
 msgstr "{number}: {track_name}"
 
-#: D:/TTMediaBot-master/bot/commands/user_commands.py:574
+#: D:/TTMediaBot-master/bot/commands/user_commands.py:575
 msgid "Gets a direct link to the current track"
 msgstr "يحصل على رابط مباشر للمسار الحالي"
 
-#: D:/TTMediaBot-master/bot/commands/user_commands.py:583
+#: D:/TTMediaBot-master/bot/commands/user_commands.py:584
 msgid "URL is not available"
 msgstr "الرابط غير متاح"
 
-#: D:/TTMediaBot-master/bot/commands/user_commands.py:591
+# | msgid "Gets a direct link to the current track"
+#: D:/TTMediaBot-master/bot/commands/user_commands.py:592
 #, fuzzy
-#| msgid "Gets a direct link to the current track"
 msgid "Gets the original YouTube link to the current track"
 msgstr "يحصل على رابط مباشر للمسار الحالي"
 
-#: D:/TTMediaBot-master/bot/commands/user_commands.py:617
+# | msgid "This track is not in favorites"
+#: D:/TTMediaBot-master/bot/commands/user_commands.py:618
 #, fuzzy
-#| msgid "This track is not in favorites"
 msgid "Current track is not from YouTube"
 msgstr "هذا المسار ليس في المفضلة"
 
-#: D:/TTMediaBot-master/bot/commands/user_commands.py:626
+#: D:/TTMediaBot-master/bot/commands/user_commands.py:627
 msgid ""
 "NUMBER Plays a track with  the given number from a list of recent tracks."
 " Without a number shows recent tracks"
@@ -705,77 +707,77 @@ msgstr ""
 "رقم يشغل مساراً بالرقم المحدد من قائمة المسارات الأخيرة. بدون رقم يعرض "
 "المسارات الأخيرة"
 
-#: D:/TTMediaBot-master/bot/commands/user_commands.py:651
+#: D:/TTMediaBot-master/bot/commands/user_commands.py:652
 #, python-brace-format
 msgid "{number}: {track_url}"
 msgstr "{number}: {track_url}"
 
-#: D:/TTMediaBot-master/bot/commands/user_commands.py:666
+#: D:/TTMediaBot-master/bot/commands/user_commands.py:667
 msgid "Downloads the current track and uploads it to the channel."
 msgstr "ينزل المسار الحالي ويرفعه للقناة."
 
-#: D:/TTMediaBot-master/bot/commands/user_commands.py:676
+#: D:/TTMediaBot-master/bot/commands/user_commands.py:677
 msgid "Downloading..."
 msgstr "جاري التنزيل..."
 
-#: D:/TTMediaBot-master/bot/commands/user_commands.py:678
-#: D:/TTMediaBot-master/bot/commands/user_commands.py:699
+#: D:/TTMediaBot-master/bot/commands/user_commands.py:679
+#: D:/TTMediaBot-master/bot/commands/user_commands.py:700
 msgid "Live streams cannot be downloaded"
 msgstr "لا يمكن تنزيل البث المباشر"
 
-#: D:/TTMediaBot-master/bot/commands/user_commands.py:687
+#: D:/TTMediaBot-master/bot/commands/user_commands.py:688
 msgid "Downloads the current track as video and uploads it to the channel."
 msgstr "تنزيل المسار الحالي كفيديو وتحميله إلى القناة."
 
-#: D:/TTMediaBot-master/bot/commands/user_commands.py:697
+#: D:/TTMediaBot-master/bot/commands/user_commands.py:698
 msgid "Downloading video..."
 msgstr "جاري تنزيل الفيديو..."
 
-#: D:/TTMediaBot-master/bot/commands/user_commands.py:707
+#: D:/TTMediaBot-master/bot/commands/user_commands.py:708
 msgid "Makes the bot join your current channel"
 msgstr "يجعل البوت ينضم لقناتك الحالية"
 
-#: D:/TTMediaBot-master/bot/commands/user_commands.py:728
-#: D:/TTMediaBot-master/bot/commands/user_commands.py:745
+#: D:/TTMediaBot-master/bot/commands/user_commands.py:729
+#: D:/TTMediaBot-master/bot/commands/user_commands.py:746
 #, python-brace-format
 msgid "Joining channel: {}"
 msgstr "الانضمام للقناة: {}"
 
-#: D:/TTMediaBot-master/bot/commands/user_commands.py:737
+#: D:/TTMediaBot-master/bot/commands/user_commands.py:738
 #, python-brace-format
 msgid "Failed to join channel. Error: {}"
 msgstr "فشل الانضمام للقناة. خطأ: {}"
 
-#: D:/TTMediaBot-master/bot/commands/user_commands.py:748
+#: D:/TTMediaBot-master/bot/commands/user_commands.py:749
 #, python-brace-format
 msgid "Failed to join channel: {}"
 msgstr "فشل الانضمام للقناة: {}"
 
-#: D:/TTMediaBot-master/bot/commands/user_commands.py:755
+#: D:/TTMediaBot-master/bot/commands/user_commands.py:756
 msgid ""
 "Downloads all tracks from a playlist/album URL, zips them, and uploads to"
 " the channel."
 msgstr "ينزل جميع المسارات من URL قائمة تشغيل/ألبوم، يضغطها ويرفعها للقناة."
 
-#: D:/TTMediaBot-master/bot/commands/user_commands.py:763
+#: D:/TTMediaBot-master/bot/commands/user_commands.py:764
 #, python-brace-format
 msgid "Current progress: {}"
 msgstr "التقدم الحالي: {}"
 
-#: D:/TTMediaBot-master/bot/commands/user_commands.py:767
+#: D:/TTMediaBot-master/bot/commands/user_commands.py:768
 msgid "Please send the link to the playlist or album."
 msgstr "يرجى إرسال رابط قائمة التشغيل أو الألبوم."
 
-#: D:/TTMediaBot-master/bot/commands/user_commands.py:786
+# | msgid "This command is for playlists and albums. For single tracks, use
+# | 'dl'."
+#: D:/TTMediaBot-master/bot/commands/user_commands.py:787
 #, fuzzy
-#| msgid "This command is for playlists and albums. For single tracks, use
-#| 'dl'."
 msgid ""
 "This command is for playlists, albums, and channels. For single tracks, "
 "use 'dl'."
 msgstr "هذا الأمر لقوائم التشغيل والألبومات. للمسارات المفردة، استخدم 'dl'."
 
-#: D:/TTMediaBot-master/bot/commands/user_commands.py:861
+#: D:/TTMediaBot-master/bot/commands/user_commands.py:862
 msgid ""
 "QUERY Searches for a track and adds it to the queue. If nothing is "
 "playing, starts immediately"
@@ -783,51 +785,51 @@ msgstr ""
 "QUERY يبحث عن مسار ويضيفه لقائمة الانتظار. إذا لم يكن هناك شيء قيد "
 "التشغيل، يبدأ فوراً"
 
-#: D:/TTMediaBot-master/bot/commands/user_commands.py:905
+#: D:/TTMediaBot-master/bot/commands/user_commands.py:906
 #, python-brace-format
 msgid "{nickname} added to queue: {track}"
 msgstr "{nickname} أضاف إلى قائمة الانتظار: {track}"
 
-#: D:/TTMediaBot-master/bot/commands/user_commands.py:911
+#: D:/TTMediaBot-master/bot/commands/user_commands.py:912
 #, python-brace-format
 msgid "Added to queue [{position}]: {track}"
 msgstr "تمت الإضافة إلى قائمة الانتظار [{position}]: {track}"
 
-#: D:/TTMediaBot-master/bot/commands/user_commands.py:918
+#: D:/TTMediaBot-master/bot/commands/user_commands.py:919
 msgid "Lists all tracks in the queue"
 msgstr "يسرد جميع المسارات في قائمة الانتظار"
 
-#: D:/TTMediaBot-master/bot/commands/user_commands.py:924
+#: D:/TTMediaBot-master/bot/commands/user_commands.py:925
 msgid "The queue is empty"
 msgstr "قائمة الانتظار فارغة"
 
-#: D:/TTMediaBot-master/bot/commands/user_commands.py:932
+#: D:/TTMediaBot-master/bot/commands/user_commands.py:933
 #, python-brace-format
 msgid "Queue ({count} track(s)):"
 msgstr "قائمة الانتظار ({count} مسار/مسارات):"
 
-#: D:/TTMediaBot-master/bot/commands/user_commands.py:942
+#: D:/TTMediaBot-master/bot/commands/user_commands.py:943
 msgid "NUMBER Removes track number NUMBER from the queue"
 msgstr "NUMBER يزيل المسار رقم NUMBER من قائمة الانتظار"
 
-#: D:/TTMediaBot-master/bot/commands/user_commands.py:967
+#: D:/TTMediaBot-master/bot/commands/user_commands.py:968
 #, python-brace-format
 msgid "Removed from queue: {track}"
 msgstr "تمت الإزالة من قائمة الانتظار: {track}"
 
-#: D:/TTMediaBot-master/bot/commands/user_commands.py:974
+#: D:/TTMediaBot-master/bot/commands/user_commands.py:975
 msgid "Clears the entire queue"
 msgstr "يمسح قائمة الانتظار بالكامل"
 
-#: D:/TTMediaBot-master/bot/commands/user_commands.py:978
+#: D:/TTMediaBot-master/bot/commands/user_commands.py:979
 msgid "The queue is already empty"
 msgstr "قائمة الانتظار فارغة بالفعل"
 
-#: D:/TTMediaBot-master/bot/commands/user_commands.py:981
+#: D:/TTMediaBot-master/bot/commands/user_commands.py:982
 msgid "Queue cleared"
 msgstr "تم مسح قائمة الانتظار"
 
-#: D:/TTMediaBot-master/bot/commands/user_commands.py:988
+#: D:/TTMediaBot-master/bot/commands/user_commands.py:989
 msgid ""
 "Skips current track and plays the next one from the queue. Falls back to "
 "normal next if queue is empty"
@@ -835,12 +837,12 @@ msgstr ""
 "يتخطى المسار الحالي ويشغل التالي من قائمة الانتظار. إذا كانت القائمة "
 "فارغة، يذهب للتالي العادي"
 
-#: D:/TTMediaBot-master/bot/commands/user_commands.py:999
+#: D:/TTMediaBot-master/bot/commands/user_commands.py:1000
 #, python-brace-format
 msgid "Playing next from queue: {}"
 msgstr "تشغيل التالي من قائمة الانتظار: {}"
 
-#: D:/TTMediaBot-master/bot/commands/user_commands.py:1023
+#: D:/TTMediaBot-master/bot/commands/user_commands.py:1024
 msgid ""
 "Toggles search results mode. When active, 'p QUERY' shows a numbered "
 "list. Use 'sr on' or 'sr off' to set explicitly. Save permanently with "
@@ -849,17 +851,17 @@ msgstr ""
 "يبدّل وضع نتائج البحث. عند التفعيل، 'p استعلام' يعرض قائمة مرقمة. استخدم "
 "'sr on' أو 'sr off'. احفظ بشكل دائم باستخدام 'sc'"
 
-#: D:/TTMediaBot-master/bot/commands/user_commands.py:1031
-#: D:/TTMediaBot-master/bot/commands/user_commands.py:1041
+#: D:/TTMediaBot-master/bot/commands/user_commands.py:1032
+#: D:/TTMediaBot-master/bot/commands/user_commands.py:1042
 msgid "Search results mode: ON"
 msgstr "وضع نتائج البحث: مفعّل"
 
-#: D:/TTMediaBot-master/bot/commands/user_commands.py:1035
-#: D:/TTMediaBot-master/bot/commands/user_commands.py:1043
+#: D:/TTMediaBot-master/bot/commands/user_commands.py:1036
+#: D:/TTMediaBot-master/bot/commands/user_commands.py:1044
 msgid "Search results mode: OFF"
 msgstr "وضع نتائج البحث: معطّل"
 
-#: D:/TTMediaBot-master/bot/commands/user_commands.py:1055
+#: D:/TTMediaBot-master/bot/commands/user_commands.py:1056
 msgid ""
 "NUMBER Selects and plays result NUMBER from the last search list "
 "(requires search results mode to be active)"
@@ -867,11 +869,11 @@ msgstr ""
 "رقم يختار ويشغل النتيجة رقم من قائمة البحث الأخيرة (يتطلب تفعيل وضع نتائج"
 " البحث)"
 
-#: D:/TTMediaBot-master/bot/commands/user_commands.py:1074
+#: D:/TTMediaBot-master/bot/commands/user_commands.py:1075
 msgid "No search results available. Use 'p QUERY' to search first"
 msgstr "لا توجد نتائج بحث. استخدم 'p استعلام' للبحث أولاً"
 
-#: D:/TTMediaBot-master/bot/commands/user_commands.py:1088
+#: D:/TTMediaBot-master/bot/commands/user_commands.py:1089
 #, python-brace-format
 msgid "{nickname} selected: {track}"
 msgstr "{nickname} اختار: {track}"
@@ -879,7 +881,7 @@ msgstr "{nickname} اختار: {track}"
 # | msgid "" "NUMBER Sets how many results are shown when search results mode
 # is
 # | " "active. Without a number shows current count. Resets to 5 on restart"
-#: D:/TTMediaBot-master/bot/commands/user_commands.py:1105
+#: D:/TTMediaBot-master/bot/commands/user_commands.py:1106
 #, fuzzy
 msgid ""
 "NUMBER Sets how many results are shown when search results mode is "
@@ -888,64 +890,64 @@ msgstr ""
 "رقم يحدد عدد النتائج في وضع البحث. بدون رقم يعرض العدد الحالي. يُعاد ضبطه"
 " على 5 عند إعادة التشغيل"
 
-#: D:/TTMediaBot-master/bot/commands/user_commands.py:1111
+#: D:/TTMediaBot-master/bot/commands/user_commands.py:1112
 #, python-brace-format
 msgid "Search results count: {count}"
 msgstr "عدد نتائج البحث: {count}"
 
-#: D:/TTMediaBot-master/bot/commands/user_commands.py:1121
+#: D:/TTMediaBot-master/bot/commands/user_commands.py:1122
 msgid "Invalid count. Please enter a number greater than 0"
 msgstr "عدد غير صالح. أدخل رقماً أكبر من 0"
 
-#: D:/TTMediaBot-master/bot/commands/user_commands.py:1126
+#: D:/TTMediaBot-master/bot/commands/user_commands.py:1127
 #, python-brace-format
 msgid "Search results count set to {count}"
 msgstr "تم تعيين عدد نتائج البحث إلى {count}"
 
-#: D:/TTMediaBot-master/bot/commands/user_commands.py:1134
+#: D:/TTMediaBot-master/bot/commands/user_commands.py:1135
 msgid "LINK Adds a link to the download list."
 msgstr "LINK لإضافة رابط إلى قائمة التنزيل."
 
-#: D:/TTMediaBot-master/bot/commands/user_commands.py:1146
+#: D:/TTMediaBot-master/bot/commands/user_commands.py:1147
 #, python-brace-format
 msgid "Added link to the list. Total: {count}"
 msgstr "تمت إضافة الرابط إلى القائمة. الإجمالي: {count}"
 
-#: D:/TTMediaBot-master/bot/commands/user_commands.py:1155
+#: D:/TTMediaBot-master/bot/commands/user_commands.py:1156
 msgid "LINK1 LINK2 ... Adds multiple space-separated links to the download list."
 msgstr "LINK1 LINK2 ... لإضافة روابط متعددة مفصولة بمسافات إلى قائمة التنزيل."
 
-#: D:/TTMediaBot-master/bot/commands/user_commands.py:1170
+#: D:/TTMediaBot-master/bot/commands/user_commands.py:1171
 #, python-brace-format
 msgid "Added {added_count} links. Total list size: {count}"
 msgstr "تمت إضافة {added_count} روابط. إجمالي حجم القائمة: {count}"
 
-#: D:/TTMediaBot-master/bot/commands/user_commands.py:1180
+#: D:/TTMediaBot-master/bot/commands/user_commands.py:1181
 msgid "Lists all links in the download list."
 msgstr "يعرض قائمة بجميع الروابط في قائمة التنزيل."
 
-#: D:/TTMediaBot-master/bot/commands/user_commands.py:1199
+#: D:/TTMediaBot-master/bot/commands/user_commands.py:1200
 msgid "NUMBER_OR_LINK Removes a link from the download list by its index or URL."
 msgstr "NUMBER_OR_LINK لحذف رابط من قائمة التنزيل بواسطة رقمه أو عنوانه (URL)."
 
-#: D:/TTMediaBot-master/bot/commands/user_commands.py:1224
+#: D:/TTMediaBot-master/bot/commands/user_commands.py:1225
 msgid "Link not found in the list"
 msgstr "الرابط غير موجود في القائمة"
 
-#: D:/TTMediaBot-master/bot/commands/user_commands.py:1226
+#: D:/TTMediaBot-master/bot/commands/user_commands.py:1227
 #, python-brace-format
 msgid "Removed link: {link}"
 msgstr "تم حذف الرابط: {link}"
 
-#: D:/TTMediaBot-master/bot/commands/user_commands.py:1233
+#: D:/TTMediaBot-master/bot/commands/user_commands.py:1234
 msgid "LINK Downloads a link directly and uploads it to the channel."
 msgstr "LINK لتنزيل رابط مباشرة ورفعه إلى القناة."
 
-#: D:/TTMediaBot-master/bot/commands/user_commands.py:1241
+#: D:/TTMediaBot-master/bot/commands/user_commands.py:1242
 msgid "Searching and downloading..."
 msgstr "جاري البحث والتنزيل..."
 
-#: D:/TTMediaBot-master/bot/commands/user_commands.py:1265
+#: D:/TTMediaBot-master/bot/commands/user_commands.py:1266
 msgid ""
 "Downloads all links in your list and uploads them to the channel. Can "
 "download normally or as a ZIP archive."
@@ -953,7 +955,7 @@ msgstr ""
 "لتنزيل جميع الروابط في قائمتك ورفعها إلى القناة. يمكن التنزيل بشكل عادي "
 "أو كأرشيف ZIP."
 
-#: D:/TTMediaBot-master/bot/commands/user_commands.py:1277
+#: D:/TTMediaBot-master/bot/commands/user_commands.py:1278
 msgid ""
 "How do you want to download these links?\n"
 "1. Download individually (Normal)\n"
@@ -965,74 +967,74 @@ msgstr ""
 "2. ضغط الكل في ملف ZIP\n"
 "أجب بـ 1 أو 2 فقط."
 
-#: D:/TTMediaBot-master/bot/commands/user_commands.py:1288
+#: D:/TTMediaBot-master/bot/commands/user_commands.py:1289
 #, python-brace-format
 msgid "Starting local download of {count} links..."
 msgstr "بدء التنزيل المحلي لـ {count} من الروابط..."
 
-#: D:/TTMediaBot-master/bot/commands/user_commands.py:1291
+#: D:/TTMediaBot-master/bot/commands/user_commands.py:1292
 #, python-brace-format
 msgid "Starting download of {count} links..."
 msgstr "بدء تنزيل {count} من الروابط..."
 
-#: D:/TTMediaBot-master/bot/commands/user_commands.py:1297
+#: D:/TTMediaBot-master/bot/commands/user_commands.py:1298
 #, python-brace-format
 msgid "Resolving and zipping locally {count} links..."
 msgstr "جاري جلب وضغط {count} من الروابط محليًا..."
 
-#: D:/TTMediaBot-master/bot/commands/user_commands.py:1300
+#: D:/TTMediaBot-master/bot/commands/user_commands.py:1301
 #, python-brace-format
 msgid "Resolving and zipping {count} links..."
 msgstr "جاري جلب وضغط {count} من الروابط..."
 
-#: D:/TTMediaBot-master/bot/commands/user_commands.py:1302
+#: D:/TTMediaBot-master/bot/commands/user_commands.py:1303
 msgid "Invalid option. Please send 'ads' again to select."
 msgstr "خيار غير صالح. يرجى إرسال 'ads' مرة أخرى للاختيار."
 
-#: D:/TTMediaBot-master/bot/commands/user_commands.py:1308
-#: D:/TTMediaBot-master/bot/commands/user_commands.py:1346
+#: D:/TTMediaBot-master/bot/commands/user_commands.py:1309
+#: D:/TTMediaBot-master/bot/commands/user_commands.py:1347
 #, python-brace-format
 msgid "Processing link {number}/{total}: {link}"
 msgstr "جاري معالجة الرابط {number}/{total}: {link}"
 
-#: D:/TTMediaBot-master/bot/commands/user_commands.py:1316
-#: D:/TTMediaBot-master/bot/commands/user_commands.py:1354
+#: D:/TTMediaBot-master/bot/commands/user_commands.py:1317
+#: D:/TTMediaBot-master/bot/commands/user_commands.py:1355
 #, python-brace-format
 msgid "Nothing is found for: {link}"
 msgstr "لم يتم العثور على شيء لـ: {link}"
 
-#: D:/TTMediaBot-master/bot/commands/user_commands.py:1324
+#: D:/TTMediaBot-master/bot/commands/user_commands.py:1325
 #, python-brace-format
 msgid "Error downloading {link}: {error}"
 msgstr "خطأ أثناء تنزيل {link}: {error}"
 
-#: D:/TTMediaBot-master/bot/commands/user_commands.py:1374
-#: D:/TTMediaBot-master/bot/commands/user_commands.py:1491
+#: D:/TTMediaBot-master/bot/commands/user_commands.py:1375
+#: D:/TTMediaBot-master/bot/commands/user_commands.py:1492
 msgid "All downloads completed successfully!"
 msgstr "اكتملت جميع التنزيلات بنجاح!"
 
-#: D:/TTMediaBot-master/bot/commands/user_commands.py:1379
-#: D:/TTMediaBot-master/bot/commands/user_commands.py:1496
+#: D:/TTMediaBot-master/bot/commands/user_commands.py:1380
+#: D:/TTMediaBot-master/bot/commands/user_commands.py:1497
 #, python-brace-format
 msgid "Downloads completed with {error_count} error(s)."
 msgstr "اكتملت التنزيلات مع وجود {error_count} من الأخطاء."
 
-#: D:/TTMediaBot-master/bot/commands/user_commands.py:1388
-#: D:/TTMediaBot-master/bot/commands/user_commands.py:1418
+#: D:/TTMediaBot-master/bot/commands/user_commands.py:1389
+#: D:/TTMediaBot-master/bot/commands/user_commands.py:1419
 msgid "Resolving links..."
 msgstr "جاري جلب الروابط..."
 
-#: D:/TTMediaBot-master/bot/commands/user_commands.py:1402
-#: D:/TTMediaBot-master/bot/commands/user_commands.py:1435
+#: D:/TTMediaBot-master/bot/commands/user_commands.py:1403
+#: D:/TTMediaBot-master/bot/commands/user_commands.py:1436
 msgid "Error: No valid tracks found to download."
 msgstr "خطأ: لم يتم العثres على مسارات صالحة لتنزيلها."
 
-#: D:/TTMediaBot-master/bot/commands/user_commands.py:1455
+#: D:/TTMediaBot-master/bot/commands/user_commands.py:1456
 #: D:/TTMediaBot-master/bot/modules/playlist_uploader.py:88
 msgid "Error: Failed to download any tracks from this playlist."
 msgstr "خطأ: فشل تنزيل أي مسارات من قائمة التشغيل هذه."
 
-#: D:/TTMediaBot-master/bot/commands/user_commands.py:1507
+#: D:/TTMediaBot-master/bot/commands/user_commands.py:1508
 msgid ""
 "Toggles local download mode for the 'ads' command. When active, files are"
 " saved locally to the VPS instead of uploaded to TeamTalk."
@@ -1040,31 +1042,78 @@ msgstr ""
 "لتبديل وضع التنزيل المحلي للأمر 'ads'. عند تفعيله، يتم حفظ الملفات محليًا"
 " على خادم VPS بدلاً من رفعها إلى TeamTalk."
 
-#: D:/TTMediaBot-master/bot/commands/user_commands.py:1513
+#: D:/TTMediaBot-master/bot/commands/user_commands.py:1514
 msgid "Local download mode (adsc) enabled."
 msgstr "تم تفعيل وضع التنزيل المحلي (adsc)."
 
-#: D:/TTMediaBot-master/bot/commands/user_commands.py:1515
+#: D:/TTMediaBot-master/bot/commands/user_commands.py:1516
 msgid "Local download mode (adsc) disabled."
 msgstr "تم تعطيل وضع التنزيل المحلي (adsc)."
 
-#: D:/TTMediaBot-master/bot/commands/user_commands.py:1522
+#: D:/TTMediaBot-master/bot/commands/user_commands.py:1523
 msgid ""
 "Toggles silence trimming mode. When active, automatically removes leading"
 " and trailing silence from tracks."
 msgstr ""
 
-#: D:/TTMediaBot-master/bot/commands/user_commands.py:1529
+# | msgid "Voice transmission enabled"
+#: D:/TTMediaBot-master/bot/commands/user_commands.py:1530
 #, fuzzy
-#| msgid "Voice transmission enabled"
 msgid "Silence trimming (ts) enabled."
 msgstr "تم تفعيل نقل الصوت"
 
-#: D:/TTMediaBot-master/bot/commands/user_commands.py:1531
+# | msgid "Voice transmission disabled"
+#: D:/TTMediaBot-master/bot/commands/user_commands.py:1532
 #, fuzzy
-#| msgid "Voice transmission disabled"
 msgid "Silence trimming (ts) disabled."
 msgstr "تم تعطيل نقل الصوت"
+
+#: D:/TTMediaBot-master/bot/commands/user_commands.py:1539
+msgid ""
+"[-s] Identifies the currently playing song in a mix or compilation using "
+"YouTube Chapters, Shazam, or Google Voice AI. Use 'ws -s' to force "
+"audio/voice recognition."
+msgstr ""
+
+#: D:/TTMediaBot-master/bot/commands/user_commands.py:1548
+msgid ""
+"Could not identify the song. If this is a song with lyrics, please try "
+"again when the vocals/lyrics are clearly heard."
+msgstr ""
+
+#: D:/TTMediaBot-master/bot/commands/user_commands.py:1563
+#: D:/TTMediaBot-master/bot/commands/user_commands.py:1606
+msgid "Song"
+msgstr ""
+
+#: D:/TTMediaBot-master/bot/commands/user_commands.py:1566
+#: D:/TTMediaBot-master/bot/commands/user_commands.py:1609
+msgid "Artist"
+msgstr ""
+
+#: D:/TTMediaBot-master/bot/commands/user_commands.py:1568
+msgid "Lyrics heard"
+msgstr ""
+
+#: D:/TTMediaBot-master/bot/commands/user_commands.py:1569
+#: D:/TTMediaBot-master/bot/commands/user_commands.py:1610
+msgid "Position"
+msgstr ""
+
+#: D:/TTMediaBot-master/bot/commands/user_commands.py:1570
+#: D:/TTMediaBot-master/bot/commands/user_commands.py:1611
+msgid "Source"
+msgstr ""
+
+# | msgid "Error joining channel: {error}"
+#: D:/TTMediaBot-master/bot/commands/user_commands.py:1582
+#, fuzzy, python-brace-format
+msgid "Error identifying song: {}"
+msgstr "خطأ في الانضمام للقناة: {error}"
+
+#: D:/TTMediaBot-master/bot/commands/user_commands.py:1619
+msgid "🔍 Listening and identifying the currently playing song..."
+msgstr ""
 
 #: D:/TTMediaBot-master/bot/connectors/tt_player_connector.py:36
 #, python-brace-format
@@ -1116,9 +1165,9 @@ msgstr "خطأ: الملف المنزل غير موجود."
 msgid "Unknown Title"
 msgstr "عنوان غير معروف"
 
+# | msgid "No next track"
 #: D:/TTMediaBot-master/bot/services/yt.py:186
 #, fuzzy
-#| msgid "No next track"
 msgid "YouTube Track"
 msgstr "لا يوجد مسار تالي"
 
