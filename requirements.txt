@@ -9,6 +9,6 @@ httpx[http2]
 yt-dlp
 shazamio
 shazamio-core
-audioop-lts
+audioop-lts; python_version >= "3.13"
 static-ffmpeg
 SpeechRecognition

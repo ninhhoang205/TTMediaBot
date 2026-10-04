@@ -42,7 +42,7 @@ Compared to the original Linux/Docker implementation, this edition has been comp
 ### 1. Prerequisites
 - **Operating System:** Windows 10, Windows 11, or Windows Server (64-bit).
 - **Python 3.10 or newer** (Python 3.11, 3.12, or 3.13 64-bit recommended). Make sure to check **"Add python.exe to PATH"** during installation.
-- `TeamTalk5.dll` is included directly in the repository.
+- **TeamTalk 5 client installed on Windows** (the bot automatically detects `TeamTalk5.dll` from `C:\Program Files\TeamTalk5\` or the bot root folder).
 - `mpv.dll` (shared C library for the MPV audio engine, setup in Step 2 below).
 
 ### 2. Setup Steps
