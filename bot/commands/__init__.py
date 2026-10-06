@@ -42,6 +42,7 @@ class CommandProcessor:
         self.pending_search_results: Dict[int, List] = {}
         self.commands_dict = {
             "h": user_commands.HelpCommand,
+            "adh": admin_commands.AdminHelpCommand,
             "a": user_commands.AboutCommand,
             "p": user_commands.PlayPauseCommand,
             "u": user_commands.PlayUrlCommand,
@@ -61,6 +62,8 @@ class CommandProcessor:
             "gl": user_commands.GetLinkCommand,
             "yl": user_commands.YouTubeLinkCommand,
             "ws": user_commands.WhatSongCommand,
+            "ly": user_commands.LyricsCommand,
+            "sub": user_commands.SubtitleCommand,
             "dl": user_commands.DownloadCommand,
             "dlv": user_commands.DownloadVideoCommand,
             "dlp": user_commands.DownloadPlaylistCommand,
@@ -86,6 +89,7 @@ class CommandProcessor:
             "adsc": user_commands.ToggleLocalDownloadCommand,
         }
         self.admin_commands_dict = {
+            "adh": admin_commands.AdminHelpCommand,
             "cg": admin_commands.ChangeGenderCommand,
             "cl": admin_commands.ChangeLanguageCommand,
             "cn": admin_commands.ChangeNicknameCommand,
@@ -189,6 +193,10 @@ class CommandProcessor:
                 raise errors.AccessDeniedError(
                     self.translator.translate("This command is blocked"),
                 )
+            elif command == "adh" or command in self.admin_commands_dict:
+                raise errors.AccessDeniedError(
+                    self.translator.translate("Only administrators can use this command"),
+                )
             else:
                 return True
         else:
@@ -222,13 +230,23 @@ class CommandProcessor:
                     help_strings.append(f"\f{line}\f")
                 else:
                     help_strings.append(line)
-            if is_admin:
-                for i in list(self.admin_commands_dict):
-                    line = self.help(i, user)
-                    if i == "cm":
-                        help_strings.append(f"\f{line}\f")
-                    else:
-                        help_strings.append(line)
+            return "\n".join(help_strings)
+
+    def admin_help(self, arg: str, user: User) -> str:
+        arg = arg.strip().lower()
+        if arg:
+            if arg in self.admin_commands_dict:
+                return "{} {}".format(arg, self.admin_commands_dict[arg](self).help)
+            else:
+                return self.translator.translate("Unknown command")
+        else:
+            help_strings: List[str] = []
+            for i in list(self.admin_commands_dict):
+                line = "{} {}".format(i, self.admin_commands_dict[i](self).help)
+                if i == "cm":
+                    help_strings.append(f"\f{line}\f")
+                else:
+                    help_strings.append(line)
             return "\n".join(help_strings)
 
     def parse_command(self, text: str) -> Tuple[str, str]:

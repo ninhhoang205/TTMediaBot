@@ -8,10 +8,24 @@ from queue import Empty
 
 from bot.commands.command import Command
 from bot.player.enums import State
+from bot.TeamTalk.structs import UserType
 from bot import app_vars, errors
 
 if TYPE_CHECKING:
     from bot.TeamTalk.structs import User
+
+
+class AdminHelpCommand(Command):
+    @property
+    def help(self) -> str:
+        return self.translator.translate("Shows administrator commands")
+
+    def __call__(self, arg: str, user: User) -> Optional[str]:
+        if not (user.is_admin or user.type == UserType.Admin):
+            raise errors.AccessDeniedError(
+                self.translator.translate("Only administrators can use this command")
+            )
+        return self.command_processor.admin_help(arg, user)
 
 
 class BlockCommandCommand(Command):

@@ -1,6 +1,7 @@
 from __future__ import annotations
 import logging
 import os
+import re
 import tempfile
 import zipfile
 from typing import List, Optional, TYPE_CHECKING
@@ -188,7 +189,10 @@ class SeekBackCommand(Command):
             return self.translator.translate("Nothing is playing")
         if arg:
             try:
-                self.player.seek_back(float(arg))
+                val = abs(float(arg))
+                if val == 0:
+                    raise errors.InvalidArgumentError
+                self.player.seek_back(val)
             except ValueError:
                 raise errors.InvalidArgumentError
         else:
@@ -207,7 +211,10 @@ class SeekForwardCommand(Command):
             return self.translator.translate("Nothing is playing")
         if arg:
             try:
-                self.player.seek_forward(float(arg))
+                val = abs(float(arg))
+                if val == 0:
+                    raise errors.InvalidArgumentError
+                self.player.seek_forward(val)
             except ValueError:
                 raise errors.InvalidArgumentError
         else:
@@ -1623,4 +1630,135 @@ class WhatSongCommand(Command):
         return None
 
 
+class LyricsCommand(Command):
+    @property
+    def help(self) -> str:
+        return self.translator.translate(
+            "[NAME] Gets lyrics for the currently playing song or specified song name"
+        )
+
+    def _clean_title(self, title: str) -> str:
+        title = re.split(r"\s+[|•]\s+|\|", title)[0]
+        patterns = [
+            r"\[.*?(?:official|m/?v|video|audio|lyrics?|hd|4k|1080p|remix|version|teaser|live|cover).*?\]",
+            r"\(.*?(?:official|m/?v|video|audio|lyrics?|hd|4k|1080p|remix|version|teaser|live|cover).*?\)",
+            r"【.*?】",
+        ]
+        for p in patterns:
+            title = re.sub(p, "", title, flags=re.IGNORECASE)
+        return re.sub(r"\s+", " ", title).strip()
+
+    def _fetch_lyrics(self, query: str) -> Optional[str]:
+        try:
+            import syncedlyrics
+        except ImportError:
+            logging.error("[LyricsCommand] 'syncedlyrics' package is not installed.")
+            return None
+
+        # 1. Try plain text lyrics first
+        try:
+            res = syncedlyrics.search(query, plain_only=True)
+            if res and res.strip():
+                cleaned = re.sub(r"\[[a-zA-Z]+:[^\]]*\]\s*", "", res)
+                cleaned = re.sub(r"\[\d{1,2}:\d{2}(?:\.\d{1,3})?\]\s*", "", cleaned).strip()
+                if cleaned:
+                    return cleaned
+        except Exception as e:
+            logging.debug(f"[LyricsCommand] Plain search error for {query}: {e}")
+
+        # 2. Try synced / all providers, then strip LRC tags
+        try:
+            raw = syncedlyrics.search(query)
+            if raw and raw.strip():
+                cleaned = re.sub(r"\[[a-zA-Z]+:[^\]]*\]\s*", "", raw)
+                cleaned = re.sub(r"\[\d{1,2}:\d{2}(?:\.\d{1,3})?\]\s*", "", cleaned).strip()
+                if cleaned:
+                    return cleaned
+        except Exception as e:
+            logging.debug(f"[LyricsCommand] Synced search error for {query}: {e}")
+
+        return None
+
+    def _process_lyrics(self, query: str, display_title: str, user: User) -> None:
+        try:
+            lyrics = self._fetch_lyrics(query)
+
+            # If not found and query was from track name, try alternative metadata (artist + track)
+            if not lyrics and getattr(self.player, "track", None):
+                track = self.player.track
+                info = getattr(track, "extra_info", None) or {}
+                artist = info.get("artist") or info.get("creator") or info.get("uploader") or ""
+                track_title = info.get("track") or info.get("title") or ""
+                if artist and track_title:
+                    alt_query = f"{artist} {track_title}".strip()
+                    if alt_query.lower() != query.lower():
+                        lyrics = self._fetch_lyrics(alt_query)
+
+            if not lyrics:
+                self.ttclient.send_message(
+                    self.translator.translate("Lyrics not found for '{}'").format(display_title),
+                    user,
+                )
+                return
+
+            lyrics = re.sub(r"\n{3,}", "\n\n", lyrics)
+            msg = f"📜 {self.translator.translate('Lyrics')}: {display_title}\n\n{lyrics}"
+            self.ttclient.send_message(msg, user)
+            if self.config.general.send_channel_messages:
+                self.send_message_async(msg, type=2)
+
+        except Exception as e:
+            logging.error(f"[LyricsCommand] Error fetching lyrics: {e}", exc_info=True)
+            self.ttclient.send_message(
+                self.translator.translate("Error fetching lyrics: {}").format(str(e)),
+                user,
+            )
+
+    def __call__(self, arg: str, user: User) -> Optional[str]:
+        query = arg.strip()
+        display_title = ""
+
+        if query:
+            display_title = query
+        else:
+            if self.player.state == State.Stopped or not self.player.track:
+                return self.translator.translate("Nothing is playing")
+
+            current_pos = float(getattr(self.player._player, "time_pos", 0.0) or 0.0)
+            ch_res = song_recognizer.check_chapters(self.player, current_pos)
+            if not ch_res:
+                ch_res = song_recognizer.check_description_tracklist(self.player, current_pos)
+
+            if ch_res and ch_res.get("title"):
+                ch_artist = ch_res.get("artist", "")
+                ch_title = ch_res.get("title", "")
+                query = f"{ch_artist} {ch_title}".strip()
+                display_title = query
+            else:
+                raw_name = self.player.track.name or ""
+                query = self._clean_title(raw_name)
+                display_title = query or raw_name
+
+        if not query:
+            return self.translator.translate("Nothing is playing")
+
+        self.send_message_async(
+            self.translator.translate("🔍 Fetching lyrics for '{}'...").format(display_title),
+            user,
+        )
+        self.run_async(self._process_lyrics, query, display_title, user)
+        return None
+
+
+class SubtitleCommand(Command):
+    @property
+    def help(self) -> str:
+        return self.translator.translate("Toggles live video subtitles on bot status")
+
+    def __call__(self, arg: str, user: User) -> Optional[str]:
+        enabled = self._bot.tt_player_connector.toggle_subtitles()
+        if enabled:
+            return self.translator.translate("Video subtitles (sub) enabled.")
+        else:
+            return self.translator.translate("Video subtitles (sub) disabled.")
 

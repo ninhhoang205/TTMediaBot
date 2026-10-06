@@ -4,88 +4,74 @@ All notable updates to this fork are documented here, in reverse chronological o
 
 ---
 
-## 🆕 v3.1.0 — "Intelligent Song Recognition & Audio Fingerprinting" *(10/03/2026)*
+## 🆕 v3.2.0 — Live Subtitles, Admin Help Menu & Smooth Audio Seeking *(10/06/2026)*
 
-### 🔍 Song Identification in Mixes & Compilations (`ws` command)
-- **🧠 3-Tier Intelligent Hybrid Recognition:**
-  - **Tier 1 (Instant Metadata & Tracklist Matching):** Checks native MPV chapters, YouTube video chapters, and parses timestamped tracklists in video descriptions (e.g. `03:45 Song Name`) for instant sub-track recognition (0.01s) without external network calls.
-  - **Tier 2 (Shazam Audio Fingerprinting):** Best for piano solos, instrumental covers, classical compositions, and official studio releases. Captures audio around the playback timestamp and queries Apple Shazam using `shazamio`.
-  - **Tier 3 (Google Voice & Lyrics AI Recognition):** Specialized for Vietnamese songs, Bolero, amateur YouTube covers, and live vocals that Shazam cannot match. Uses Google Speech Recognition AI to listen to the sung lyrics in real time (`vi-VN` / `en-US`), quotes the heard lyrics, and searches the Google/YouTube knowledge graph for the true song title.
-- **🎹 Comprehensive Vocal & Instrumental Support:**
-  Accurately identifies both instrumentals without words (piano, guitar, lofi) and vocal tracks (Bolero, pop, rap, covers).
-- **⚡ Ultra-Fast Parallel Concurrency Architecture (3–5s Recognition):**
-  - **Single Fast Audio Slice:** FFmpeg seeks directly via `-ss` before `-i` to extract a single 10-second 16kHz mono WAV slice (`pcm_s16le`), completely eliminating duplicate audio cutting steps.
-  - **Parallel Shazam & Google Speech Race:** Runs Shazam acoustic fingerprinting and Google Voice AI concurrently via `concurrent.futures.ThreadPoolExecutor`.
-  - **Direct HTTP YouTube Search:** Bypasses heavy `yt-dlp` extractor startup overhead by querying YouTube search directly via HTTP GET with intelligent regex title cleaning, slashing lyrics search latency from ~12s down to ~1.5s.
-  - **Smart Race Coordinator:** Instantly returns when high-confidence matches are found, delivering end-to-end recognition within **3 to 5 seconds**.
-- **⚡ Non-Blocking Asynchronous Processing:**
-  Audio slicing, voice transcription, and recognition run completely in the background without stuttering or pausing live room playback.
-- **⌨️ Clean Single Command Standard (`ws`):**
-  Implemented a single canonical command `ws` to identify currently playing songs. Pass `-s` (e.g., `ws -s`) to bypass chapters and force direct acoustic/voice recognition. Fully registered in the help menu (`h ws`) and documentation without redundant aliases.
+### 💬 1. New Feature: Live Video & Song Subtitles (`sub`)
+- **Real-Time Subtitle Display:** While playing a video or song, type `sub` and the lyrics or spoken words will stream live directly onto the bot's status text—just like watching a YouTube video with Closed Captions (CC) turned on.
+- **Works on All YouTube Videos:** Retrieves subtitles from any YouTube video (news broadcasts, podcasts, tutorials, interviews, vlogs, and music). Supports both subtitles uploaded by the creator and YouTube's auto-generated speech subtitles.
+- **Vietnamese & English Priority:** Automatically chooses Vietnamese subtitles first if available, followed by English or the video's original language.
+- **Automatic Song Lyrics Search:** For music videos without YouTube subtitles, the bot automatically searches international lyrics databases to find time-synced lyrics for you.
+- **How to Use:** Type `sub` to turn subtitles on; type `sub` again to turn them off. Your preference is saved automatically (`video_subtitles` in `config.json`).
+
+### ⏩ 2. Bug Fix: Smooth, Instant Seeking Without Audio Cuts (`sf` & `sb`)
+- **Instant Response:** Commands `sf` (seek forward) and `sb` (seek backward) now respond immediately with no delays or pauses.
+- **No More Audio Drops:** Expanded memory buffer and resolved playback issues—now you can seek forward and backward repeatedly without audio stuttering, cutting out, or stopping.
+- **Smart Position Adjustments:** 
+  - Seeking backward past the start of a song automatically rewinds to `0:00` (beginning) without errors.
+  - Seeking forward past the end of a song holds at the very end to finish playing instead of abruptly skipping to the next track.
+- **Flexible Number Input:** Supports both positive and negative numbers (e.g. `sb 10` or `sb -10` both rewind 10 seconds; `sf 15` fast-forwards 15 seconds).
+
+### 🛡️ 3. For Administrators: Dedicated Admin Help Menu (`adh`)
+- **Dedicated Admin Menu:** Administrators can type `adh` to view the full list of admin-only commands without cluttering the regular user command list.
+- **Secure Access:** Regular users cannot view or run this command.
+- **Easy to Discover:** The `adh` command is also mentioned in the main help menu (`h`) so new administrators can discover and use it right away.
 
 ---
 
-## 🆕 v3.0.0 — "Windows Native Architecture, Audio DSP & Music Control Suite" *(10/02/2026)*
+## 🆕 v3.1.0 — Identify Currently Playing Songs & Music (`ws`) *(10/03/2026)*
 
-### 🪟 Windows Native Architecture & Streamlined Deployment
-- **🔊 Native Windows Audio Backend (WASAPI):**
-  Auto-detects Windows environments and automatically configures `ao="wasapi"` in mpv for ultra-low latency, jitter-free playback, while seamlessly retaining `pulse` on Linux.
-- **🔕 Windows Modal Dialog Bypass:**
-  Implemented automatic runtime memory patching (`_disable_trial_dialog`) in `TeamTalkPy/TeamTalk5.py` to prevent blocking modal popups during Windows operation.
-- **🌐 UTF-8 Console Encoding & Fast IPv4 DNS Resolution:**
-  Enforced UTF-8 reconfiguration on `sys.stdout` and `sys.stderr` for Windows console to correctly render Unicode and Vietnamese track titles, alongside monkey-patching `socket.getaddrinfo` to prioritize IPv4 and eliminate lengthy network lookup timeouts.
-- **🧹 Decoupled Linux Overhead:**
-  Completely removed legacy Linux-specific shell scripts (`*.sh`), Docker build files (`Dockerfile`, `ttbotdocker.sh`), and systemd daemon units in favor of a clean, lightweight, Windows-first repository.
+### 🔍 1. Identify Songs in Mixes & Compilations (`ws`)
+- **Find Song Titles on the Fly:** When listening to a long compilation, mashup, or DJ mix and you want to know what song is playing, simply type `ws`.
+- **Identifies Both Instrumental & Vocal Tracks:**
+  - **Instrumental Music (piano, guitar, lofi, orchestra):** Uses melody recognition (Shazam) to identify the song.
+  - **Songs with Singing (pop, acoustic, live covers):** Listens to the lyrics being sung and finds the exact song title.
+  - **Videos with Tracklists:** If a YouTube video includes time stamps or chapters in the description, the bot identifies the song instantly.
+- **Ultra-Fast Results (3 to 5 Seconds):** Recognition takes only a few seconds, and the bot immediately sends the song title and artist to the chat.
+- **No Playback Interruptions:** The recognition process runs quietly in the background without pausing, stuttering, or interrupting the audio in the room.
+- **How to Use:** Type `ws` to find the current song; type `ws -s` to force acoustic recognition.
 
-### 🎛️ Studio-Grade Audio DSP Suite (Pitch Shift & Silence Trimming)
-- **🎼 Musical Pitch & Tone Shift (`pt` command):**
-  Added user command `pt [SEMITONES]` allowing real-time pitch adjustment between `-12` and `+12` semitones, or inspecting the active pitch setting when called without arguments (`pt`).
-- **🎚️ Rubber Band v3 Engine Tuning:**
-  Engineered custom FFmpeg/mpv filter parameters (`@pitch:rubberband`) using `transients=crisp` and `detector=compound` to preserve punchy drum attacks without smearing, coupled with `phase=laminar` and `channels=together` to eliminate harmonic phasing, chorus artifacts, and metallic resonance on piano chords and vocals. Automatically bypasses the filter when pitch is 0.0 for 100% bit-perfect audio, with fallback to mpv's native pitch scaler.
-- **🔁 Pitch Persistence:**
-  Retains user-selected pitch across subsequent track transitions in `Player._play()`, with support for a default startup pitch (`default_pitch`) in `config.json`.
-- **✂️ Intelligent Silence Trimming (`ts` command):**
-  Added `ts` command to toggle silence trimming mode with `@silenceremove` filter (`silence_trim` and `silence_trim_threshold` in config), stripping leading and trailing dead silence from streams for seamless transitions.
+---
 
-### 🔗 Canonical YouTube URL Extraction (`yl` command)
-- **📺 Original Video Link Retrieval (`yl` command):**
-  Added `yl` command to extract and output the permanent canonical YouTube URL (`https://www.youtube.com/watch?v=...`) directly from track metadata, extra info, or dynamic resolvers. This solves the long-standing limitation of `gl`, which only returned expiring raw CDN stream URLs.
-- **🔗 Shortener Service Integration:**
-  Seamlessly integrates with configured link shorteners (such as TinyURL), automatically shortening the canonical link when `shorten_links` is enabled.
+## 🆕 v3.0.0 — Native Windows Optimization, Pitch Control & General Improvements *(10/02/2026)*
 
-### ⚡ Standalone Direct `yt-dlp` Engine
-- **🐍 Pure Python Media Resolution:**
-  Decoupled the bot from the external Node.js `youtube_bridge` daemon on port 4417, replacing it with a self-contained, native Python `yt-dlp` service in `bot/services/yt.py` and `ytm.py`. Added `yt-dlp` directly to `requirements.txt`.
-- **⚡ Multi-Track Prefetch Pipeline:**
-  Upgraded player prefetching to resolve not only the next track in queue, but also the following track (`following_track`), making consecutive track skips instantaneous without buffering.
-- **🍪 Authentication & Cookie Support:**
-  Added `cookiefile_path` support to `YtModel` for authenticated access and bypassing age/region restrictions using Netscape cookies (`data/cookies.txt`).
-- **📻 Streamlined Autoplay Replenishment:**
-  Retained continuous autoplay and recommendation queue replenishment with simplified, native thread-safe routines.
+### 🪟 1. Smooth, Native Windows Performance
+- **Runs Directly on Windows:** Completely redesigned to run natively and smoothly on Windows (Windows 10, Windows 11) without needing Docker, Linux scripts, or complicated third-party tools.
+- **Clear Audio Quality:** Uses the standard Windows audio system to ensure clean, high-quality audio playback without delays or crackling.
+- **Silent Startup:** Automatically blocks popup dialogs that previously appeared when starting up on Windows.
+- **Full Vietnamese & Unicode Support:** The command console correctly displays accented Vietnamese characters and international song titles without font glitches.
 
-### 💬 TeamTalk Protocol & Usability Enhancements
-- **🔍 Resilient Help Command (`h <command>`):**
-  Sanitized command lookup with `arg.strip().lower()`, providing whitespace tolerance and full case-insensitivity (e.g., `h PT`, `h  yl`).
-- **👮 Unified Admin Permission Handling:**
-  Synchronized permission checks to validate both `user.is_admin` and `user.type == UserType.Admin`.
-- **📄 Form-Feed Message Paging (`\f`):**
-  Updated `split_text()` in `bot/TeamTalk/__init__.py` to parse form-feed delimiters (`\f`), keeping multiline command listings and long help menus neatly organized within TeamTalk's packet size limits without breaking words or lines.
-- **💾 Persistent Channel Message Toggling (`cm` command):**
-  Admin `cm` command now automatically persists setting changes to `config.json` via `config_manager.save()` and provides clear, unambiguous confirmation of public vs. private message mode.
-- **🔊 Sound Device Enumeration Fallback:**
-  Added graceful fallback on Windows to scan available sound devices when primary device enumeration yields empty results.
+### 🎛️ 2. Change Pitch & Key of Songs (`pt`)
+- **Easy Key Adjustment:** Raise or lower the pitch of any song from -12 to +12 semitones with the `pt` command (e.g. `pt 2` to raise 2 keys, `pt -2` to lower 2 keys, `pt 0` to reset to original).
+- **Clear Sound:** Keeps vocals natural and audio punchy when changing pitch without sounding robotic or distorted.
+- **Remembers Key Setting:** Your chosen pitch stays active for upcoming songs automatically.
 
-### 🛡️ Reliability, Graceful Fallbacks & Resource Cleanup
-- **🔒 Safe File Locker Release:**
-  Added existence checks (`hasattr`) and exception handling for `file_locker.release()` in `bot/cache.py` and `bot/config/__init__.py` to ensure clean bot termination without uncaught exceptions.
-- **📦 Optional Module Protection:**
-  Made `pyshorteners` safely optional in `bot/modules/shortener.py`, allowing the bot to run smoothly even without the optional dependency installed.
-- **🌊 Chunked Stream Streaming:**
-  Modernized `downloader.py` using chunked streaming (`iter_content(chunk_size=8192)`) with `r.raise_for_status()`, replacing `shutil.copyfileobj` to prevent memory spikes and handle connection drops cleanly.
-- **⏹️ Graceful Stop Handling:**
-  Improved `s` (stop) command feedback when playback is already stopped.
-- **⏮️ Queue Navigation Fixes:**
-  Resolved edge-case index errors in `previous()` command during repeat modes.
+### ✂️ 3. Automatic Silence Trimming (`ts`)
+- **Seamless Music Flow:** Type `ts` to enable automatic trimming of dead silence at the beginning and end of tracks, making transitions between songs smooth and seamless.
+
+### 🔗 4. Get Permanent YouTube Links (`yl`)
+- **Permanent YouTube Links:** Added the `yl` command to get the permanent YouTube watch link (`https://www.youtube.com/watch?v=...`) of the playing song, making it easy to share or save.
+- **Automatic Link Shortening:** Automatically shortens long links if link shortening is enabled in your configuration.
+
+### ⚡ 5. Faster Track Loading & Preloading
+- **Instant Track Skips:** The bot preloads the next 2 songs in the playlist, so clicking next (`n`) plays the next song immediately without waiting for downloads.
+- **YouTube Account Support:** Supports adding a `cookies.txt` file to play age-restricted videos and member-only content.
+- **Download Full Playlists (`dlp`):** Type `dlp [link]` to download an entire playlist and upload it to the TeamTalk channel as a ZIP archive.
+
+### 💬 6. Helpful Improvements & Bug Fixes
+- **Flexible Help Command (`h`):** The help command ignores uppercase, lowercase, and extra spaces (e.g. `h pt` or `h PT` both work).
+- **Automatic Message Paging:** Long lists and menus are automatically split into neat pages so they never flood the chat window.
+- **Remembers Message Mode (`cm`):** The `cm` command (toggling between channel messages and private messages) saves automatically to settings.
+- **Bug Fixes:** Fixed playback stopping issues, previous track navigation bugs during repeat modes, and improved stability during internet reconnects.
 
 ---
 

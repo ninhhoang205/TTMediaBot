@@ -12,6 +12,7 @@ class GeneralModel(BaseModel):
     time_format: str = r"%H:%M"
     start_commands: List[str] = []
     search_results_mode: bool = False
+    video_subtitles: bool = False
 
 class SoundDevicesModel(BaseModel):
     output_device: int = 0

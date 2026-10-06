@@ -36,11 +36,14 @@ class Player:
             "audio_format": "s16",
             "gapless_audio": "yes",
             "cache": "yes",
-            "cache_secs": 30,
-            "demuxer_max_bytes": 16777216,
-            "demuxer_max_back_bytes": 8388608,
-            "demuxer_readahead_secs": 20,
-            "stream_buffer_size": 131072,
+            "cache_secs": 3600,
+            "demuxer_max_bytes": 134217728,
+            "demuxer_max_back_bytes": 134217728,
+            "demuxer_readahead_secs": 3600,
+            "demuxer_seekable_cache": "yes",
+            "force_seekable": "yes",
+            "audio_stream_silence": "yes",
+            "stream_buffer_size": 524288,
             "network_timeout": 30,
             "video": False,
             "user_agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/111.0.0.0 Safari/537.36",
@@ -50,8 +53,14 @@ class Player:
         self._default_user_agent = mpv_options.get("user_agent", "")
         try:
             self._player = mpv.MPV(**mpv_options, log_handler=self.log_handler)
-        except AttributeError:
-            del mpv_options["demuxer_max_back_bytes"]
+        except (AttributeError, Exception):
+            for opt in [
+                "demuxer_seekable_cache",
+                "audio_stream_silence",
+                "force_seekable",
+                "demuxer_max_back_bytes",
+            ]:
+                mpv_options.pop(opt, None)
             self._player = mpv.MPV(**mpv_options, log_handler=self.log_handler)
         self._log_level = 5
         self._current_user_agent: Optional[str] = None
@@ -722,22 +731,37 @@ class Player:
         self._player.speed = arg
 
     def seek_back(self, step: Optional[float] = None) -> None:
-        step = step if step else self.config.seek_step
+        step = step if step is not None else self.config.seek_step
         if step <= 0:
             raise ValueError()
+        if self.state == State.Stopped:
+            return
         try:
-            self._player.seek(-step, reference="relative")
-        except SystemError:
-            self.stop()
+            pos = getattr(self._player, "time_pos", None)
+            if pos is not None and float(pos) - step <= 0.0:
+                self._player.seek(0.0, reference="absolute", precision="keyframes")
+            else:
+                self._player.seek(-step, reference="relative", precision="keyframes")
+        except Exception as e:
+            logging.warning(f"[Player] seek_back error: {e}")
 
     def seek_forward(self, step: Optional[float] = None) -> None:
-        step = step if step else self.config.seek_step
+        step = step if step is not None else self.config.seek_step
         if step <= 0:
             raise ValueError()
+        if self.state == State.Stopped:
+            return
         try:
-            self._player.seek(step, reference="relative")
-        except SystemError:
-            self.stop()
+            pos = getattr(self._player, "time_pos", None)
+            duration = getattr(self._player, "duration", None)
+            if pos is not None and duration is not None and duration > 0:
+                if float(pos) + step >= float(duration):
+                    target = max(0.0, float(duration) - 0.5)
+                    self._player.seek(target, reference="absolute", precision="keyframes")
+                    return
+            self._player.seek(step, reference="relative", precision="keyframes")
+        except Exception as e:
+            logging.warning(f"[Player] seek_forward error: {e}")
 
     def get_duration(self) -> float:
         return self._player.duration
