@@ -12,8 +12,8 @@ import urllib.parse
 from typing import Any, Dict, Optional, TYPE_CHECKING
 
 import requests
-import static_ffmpeg
-static_ffmpeg.add_paths()
+from bot.app_vars import ensure_ffmpeg_in_path
+ensure_ffmpeg_in_path()
 
 import speech_recognition as sr
 from shazamio import Shazam

@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import os
 import pickle
 from collections import deque
 from typing import Any, Dict, List, TYPE_CHECKING
@@ -37,7 +38,11 @@ class CacheManager:
     version = 1
 
     def __init__(self, file_name: str) -> None:
-        self.file_name = file_name
+        if not os.path.isabs(file_name):
+            self.file_name = os.path.join(app_vars.cache_dir, file_name)
+        else:
+            self.file_name = file_name
+        os.makedirs(os.path.dirname(self.file_name), exist_ok=True)
         try:
             self.data = cache_migrator.migrate(self, self._load())
             self.cache = Cache(self.data)

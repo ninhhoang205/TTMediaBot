@@ -44,6 +44,11 @@ parser.add_argument(
     help='Save default config to "config_default.json" and exit',
     action="store_true",
 )
+parser.add_argument(
+    "--cli",
+    help="Run bot in command-line interface mode without GUI",
+    action="store_true",
+)
 args = parser.parse_args()
 
 
@@ -53,6 +58,7 @@ def main(
     log: Optional[str] = args.log,
     devices: bool = args.devices,
     default_config: bool = args.default_config,
+    cli: bool = args.cli,
 ) -> None:
     if devices:
         bot = Bot(None, None, None)
@@ -62,13 +68,16 @@ def main(
     elif default_config:
         save_default_file()
         print("Successfully dumped to config_default.json")
-    else:
+    elif cli:
         bot = Bot(config, cache, log)
         bot.initialize()
         try:
             bot.run()
         except KeyboardInterrupt:
             bot.close()
+    else:
+        from bot.gui import run_gui
+        run_gui(config_path=config, cache_path=cache, log_path=log)
 
 
 def echo_sound_devices(sound_device_manager: SoundDeviceManager):

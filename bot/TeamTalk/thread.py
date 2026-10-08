@@ -74,7 +74,9 @@ class TeamTalkThread(Thread):
                     or self.config.reconnection_attempts < 0
                 ):
                     self.ttclient.disconnect()
-                    time.sleep(self.config.reconnection_timeout)
+                    self._interruptible_sleep(self.config.reconnection_timeout)
+                    if self._close:
+                        break
                     self.ttclient.connect()
                     self.ttclient.reconnect_attempt += 1
                 else:
@@ -92,7 +94,9 @@ class TeamTalkThread(Thread):
                         < self.config.reconnection_attempts
                         or self.config.reconnection_attempts < 0
                     ):
-                        time.sleep(self.config.reconnection_timeout)
+                        self._interruptible_sleep(self.config.reconnection_timeout)
+                        if self._close:
+                            break
                         self.ttclient.login()
                     else:
                         logging.error("Login error")
@@ -105,7 +109,9 @@ class TeamTalkThread(Thread):
                         < self.config.reconnection_attempts
                         or self.config.reconnection_attempts < 0
                     ):
-                        time.sleep(self.config.reconnection_timeout)
+                        self._interruptible_sleep(self.config.reconnection_timeout)
+                        if self._close:
+                            break
                         self.ttclient.join()
                     else:
                         logging.error("Error joining channel")
@@ -206,6 +212,11 @@ class TeamTalkThread(Thread):
 
     def close(self) -> None:
         self._close = True
+
+    def _interruptible_sleep(self, seconds: float) -> None:
+        end_time = time.time() + seconds
+        while not getattr(self, "_close", False) and time.time() < end_time:
+            time.sleep(0.1)
 
     def get_function_name_by_event_type(self, event_type: EventType) -> str:
         return f"on_{event_type.name.lower()}"

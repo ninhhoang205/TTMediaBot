@@ -4,6 +4,25 @@ All notable updates to this fork are documented here, in reverse chronological o
 
 ---
 
+## 🆕 v3.3.0 — Graphical Server Manager & Full Vietnamese Support *(10/08/2026)*
+
+### 🖥️ 1. Graphical Server Manager (GUI)
+- **Visual Server Management:** View, add, edit, and delete your TeamTalk servers through a clean and intuitive window without editing configuration files manually.
+- **Multi-Server Support:** Connect and run multiple bots on different TeamTalk servers simultaneously, with clear status indicators for each server (Connected, Connecting, Reconnecting).
+- **Smart "Connect All" Feature:** When two or more servers are configured, a "Connect All" button lets you connect or disconnect all bots with a single click or keystroke.
+- **Screen Reader Friendly:** Fully accessible for blind and visually impaired users with seamless keyboard navigation (arrow keys, Enter to connect/disconnect, Delete to remove, and Applications key for context menu).
+- **System Tray Support:** Minimize the app to the system tray to keep it running smoothly in the background, with quick access to restore the window or manage connections.
+
+### 🌐 2. Full Vietnamese Language Support
+- **Complete Translation:** All interface elements, settings, notifications, and bot commands/responses inside TeamTalk channels are now available in natural Vietnamese.
+- **Instant Language Switching:** Switch between supported languages directly from the main window at any time without needing to restart the application.
+- **Automatic Preference Saving:** The app remembers your preferred language for future sessions.
+
+### 📦 3. Official Windows Installer
+- **Convenient Setup:** Easily install TTMediaBot using a dedicated Windows installer (`Setup_TTMediaBot_v3.3.0.exe`) with an optional desktop shortcut for quick access.
+
+---
+
 ## 🆕 v3.2.0 — Live Subtitles, Admin Help Menu & Smooth Audio Seeking *(10/06/2026)*
 
 ### 💬 1. New Feature: Live Video & Song Subtitles (`sub`)

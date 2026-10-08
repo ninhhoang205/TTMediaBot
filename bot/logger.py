@@ -37,10 +37,13 @@ def initialize_logger(bot: Bot) -> None:
             file_name = bot.log_file_name
         else:
             file_name = config.file_name
-        if os.path.isdir(os.path.join(*os.path.split(file_name)[0:-1])):
+        if os.path.isabs(file_name):
+            file = file_name
+        elif os.path.isdir(os.path.join(*os.path.split(file_name)[0:-1])):
             file = file_name
         else:
-            file = os.path.join(bot.config_manager.config_dir, file_name)
+            file = os.path.join(app_vars.logs_dir, file_name)
+        os.makedirs(os.path.dirname(os.path.abspath(file)), exist_ok=True)
         rotating_file_handler = RotatingFileHandler(
             filename=file,
             mode="a",

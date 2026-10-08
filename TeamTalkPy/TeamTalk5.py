@@ -45,16 +45,18 @@ def _disable_trial_dialog():
 if sys.platform == "win32":
     _disable_trial_dialog()
     base_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+    search_dirs = [base_dir, os.getcwd()]
+    if getattr(sys, "frozen", False):
+        if hasattr(sys, "_MEIPASS"):
+            search_dirs.append(sys._MEIPASS)
+        search_dirs.append(os.path.dirname(os.path.abspath(sys.executable)))
     if sys.version_info.major == 3 and sys.version_info.minor >= 8:
-        try:
-            os.add_dll_directory(os.getcwd())
-        except Exception:
-            pass
-        if os.path.exists(base_dir):
-            try:
-                os.add_dll_directory(base_dir)
-            except Exception:
-                pass
+        for d in search_dirs:
+            if os.path.exists(d):
+                try:
+                    os.add_dll_directory(d)
+                except Exception:
+                    pass
         tt_install = r"C:\Program Files\TeamTalk5"
         if os.path.exists(tt_install):
             try:
@@ -64,10 +66,16 @@ if sys.platform == "win32":
     try:
         dll = cdll.TeamTalk5
     except Exception:
-        local_dll = os.path.join(base_dir, "TeamTalk5.dll")
-        if os.path.exists(local_dll):
-            dll = cdll.LoadLibrary(local_dll)
-        else:
+        dll = None
+        for d in search_dirs:
+            local_dll = os.path.join(d, "TeamTalk5.dll")
+            if os.path.exists(local_dll):
+                try:
+                    dll = cdll.LoadLibrary(local_dll)
+                    break
+                except Exception:
+                    pass
+        if dll is None:
             tt_inst_dll = r"C:\Program Files\TeamTalk5\TeamTalk5.dll"
             if os.path.exists(tt_inst_dll):
                 dll = cdll.LoadLibrary(tt_inst_dll)

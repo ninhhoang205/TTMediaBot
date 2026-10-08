@@ -30,19 +30,21 @@ import traceback
 
 if os.name == "nt":
     base_dir = os.path.dirname(os.path.abspath(__file__))
+    search_dirs = [os.getcwd(), base_dir]
+    if getattr(sys, "frozen", False):
+        if hasattr(sys, "_MEIPASS"):
+            search_dirs.append(sys._MEIPASS)
+        search_dirs.append(os.path.dirname(os.path.abspath(sys.executable)))
     if sys.version_info.major == 3 and sys.version_info.minor >= 8:
-        try:
-            os.add_dll_directory(os.getcwd())
-        except Exception:
-            pass
-        if os.path.exists(base_dir):
-            try:
-                os.add_dll_directory(base_dir)
-            except Exception:
-                pass
+        for d in search_dirs:
+            if os.path.exists(d):
+                try:
+                    os.add_dll_directory(d)
+                except Exception:
+                    pass
     backend = None
     for name in ["mpv.dll", "libmpv-2.dll", "libmpv-1.dll"]:
-        for folder in [os.getcwd(), base_dir]:
+        for folder in search_dirs:
             p = os.path.join(folder, name)
             if os.path.exists(p):
                 try:

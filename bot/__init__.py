@@ -18,6 +18,8 @@ if sys.platform == "win32":
     except Exception:
         pass
 
+
+
 import logging
 import queue
 import signal
@@ -73,11 +75,9 @@ class Bot:
                 self.cache_manager = cache.CacheManager(cache_file_name)
             else:
                 cache_file_name = self.config.general.cache_file_name
-                if not os.path.isdir(
-                    os.path.join(*os.path.split(cache_file_name)[0:-1])
-                ):
+                if not os.path.isabs(cache_file_name):
                     cache_file_name = os.path.join(
-                        self.config_manager.config_dir, cache_file_name
+                        app_vars.cache_dir, cache_file_name
                     )
                 self.cache_manager = cache.CacheManager(cache_file_name)
         except PermissionError:
@@ -151,6 +151,9 @@ class Bot:
 
         self._close = False
         while not self._close:
+            if hasattr(self.ttclient, "thread") and not self.ttclient.thread.is_alive():
+                logging.info("TeamTalk thread has stopped, exiting bot main loop")
+                break
             try:
                 message = self.ttclient.message_queue.get_nowait()
                 logging.info(
