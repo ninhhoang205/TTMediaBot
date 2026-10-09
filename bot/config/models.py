@@ -75,10 +75,16 @@ class YtmModel(BaseModel):
     search_results: int = 1
 
 
+class RadioModel(BaseModel):
+    enabled: bool = True
+    search_results: int = 1
+
+
 class ServicesModel(BaseModel):
     default_service: str = "yt"
     yt: YtModel = YtModel()
     ytm: YtmModel = YtmModel()
+    radio: RadioModel = RadioModel()
 
 
 class LoggerModel(BaseModel):

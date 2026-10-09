@@ -122,6 +122,7 @@ class ClearCacheCommand(Command):
         if not arg:
             self.cache.recents.clear()
             self.cache.favorites.clear()
+            self.cache.radio_favorites.clear()
             self.cache_manager.save()
             return self.translator.translate("Cache cleared")
         elif arg == "r":

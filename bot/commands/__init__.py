@@ -68,6 +68,11 @@ class CommandProcessor:
             "dlv": user_commands.DownloadVideoCommand,
             "dlp": user_commands.DownloadPlaylistCommand,
             "r": user_commands.RecentsCommand,
+            # --- Radio Station ---
+            "ra": user_commands.RadioSearchCommand,
+            "rf": user_commands.RadioFavoritesCommand,
+            "raf": user_commands.RadioFavoriteAddCommand,
+            "rar": user_commands.RadioFavoriteRemoveCommand,
             "jc": user_commands.JoinChannelCommand,
             # --- Fila de reprodução ---
             "qa": user_commands.QueueAddCommand,

@@ -4,6 +4,18 @@ All notable updates to this fork are documented here, in reverse chronological o
 
 ---
 
+## 🆕 Unreleased — Radio Station
+
+- **New service `radio` (Radio Station):** searches internet radio stations through the free Radio Browser directory. Select it with `sv radio`, or as the default service in the server settings window.
+- **`ra NAME [COUNTRY]`:** finds and plays a radio station by name and country, e.g. `ra vov1 vietnam`. Works with search results mode (`sr`/`sl`).
+- **`rf [NUMBER]`:** your own list of favorite radio stations, kept separate from the normal favorites (`f`). `rf` shows the list, `rf NUMBER` plays a station.
+- **`raf`:** adds the radio station that is currently playing to the favorite radio list.
+- **`rar [NUMBER]`:** removes the current radio station, or the one at that position in the `rf` list.
+- **`yl`** now also returns the stream link of the radio station that is playing.
+- Vietnamese translation updated for all new strings.
+
+---
+
 ## 🆕 v3.3.0 — Graphical Server Manager & Full Vietnamese Support *(10/08/2026)*
 
 ### 🖥️ 1. Graphical Server Manager (GUI)
