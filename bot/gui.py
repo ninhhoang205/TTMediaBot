@@ -1157,11 +1157,15 @@ class MainFrame(wx.Frame):
         main_sizer.Add(lang_sizer, 0, wx.EXPAND | wx.LEFT | wx.RIGHT | wx.TOP, 10)
 
         # Buttons Grid (3 rows x 2 columns)
-        self.btn_sizer = wx.GridSizer(rows=3, cols=2, vgap=6, hgap=8)
+        self.btn_sizer = wx.GridSizer(rows=4, cols=2, vgap=6, hgap=8)
 
-        # Row 1: Connect All & Add Server
+        # Row 1: Connect All & Delete All
         self.btn_connect_all = wx.Button(panel, label="&Connect All")
         self.btn_connect_all.Show(len(self.servers) >= 2)
+        self.btn_delete_all = wx.Button(panel, label="&Delete All Servers")
+        self.btn_delete_all.Show(len(self.servers) >= 2)
+
+        # Row 2: Add Server & Hide Window
         self.btn_add = wx.Button(panel, label="&Add Server...")
 
         # Row 2: Hide Window & Visit Website
@@ -1173,6 +1177,7 @@ class MainFrame(wx.Frame):
         self.btn_exit = wx.Button(panel, label="E&xit")
 
         self.btn_connect_all.Bind(wx.EVT_BUTTON, self.on_connect_all_toggle)
+        self.btn_delete_all.Bind(wx.EVT_BUTTON, self.on_delete_all)
         self.btn_add.Bind(wx.EVT_BUTTON, self.on_add_server)
         self.btn_hide.Bind(wx.EVT_BUTTON, self.on_hide_window)
         self.btn_website.Bind(wx.EVT_BUTTON, self.on_visit_website)
@@ -1180,6 +1185,7 @@ class MainFrame(wx.Frame):
         self.btn_exit.Bind(wx.EVT_BUTTON, self.on_exit)
 
         self.btn_sizer.Add(self.btn_connect_all, 1, wx.EXPAND)
+        self.btn_sizer.Add(self.btn_delete_all, 1, wx.EXPAND)
         self.btn_sizer.Add(self.btn_add, 1, wx.EXPAND)
         self.btn_sizer.Add(self.btn_hide, 1, wx.EXPAND)
         self.btn_sizer.Add(self.btn_website, 1, wx.EXPAND)
@@ -1217,6 +1223,9 @@ class MainFrame(wx.Frame):
         self.choice_language.SetToolTip(
             translate("Select the active language for the bot and interface.")
         )
+        if hasattr(self, 'btn_delete_all'):
+            self.btn_delete_all.SetLabel(translate("&Delete All Servers"))
+            self.btn_delete_all.SetToolTip(translate("Delete all saved servers."))
         self.btn_add.SetLabel(translate("&Add Server..."))
         self.btn_add.SetToolTip(translate("Add a new server to the list."))
         self.btn_hide.SetLabel(translate("&Hide Window"))
@@ -1348,6 +1357,8 @@ class MainFrame(wx.Frame):
         show_btn = len(self.servers) >= 2
         if self.btn_connect_all.IsShown() != show_btn:
             self.btn_connect_all.Show(show_btn)
+            if hasattr(self, 'btn_delete_all'):
+                self.btn_delete_all.Show(show_btn)
             if hasattr(self, "btn_sizer"):
                 self.btn_sizer.Layout()
             if hasattr(self, "panel"):
@@ -1792,6 +1803,41 @@ class MainFrame(wx.Frame):
                 new_sel = min(sel, len(self.visible_servers) - 1)
                 self.server_list.SetSelection(new_sel)
             self.update_status(translate("Deleted server '{name}'").format(name=server_name))
+        dlg.Destroy()
+
+    def on_delete_all(self, event=None):
+        if not self.servers:
+            wx.MessageBox(
+                translate("No servers to delete."),
+                translate("Information"),
+                wx.OK | wx.ICON_INFORMATION,
+                self,
+            )
+            return
+
+        has_connected = any(st in ("connected", "connecting") for st in self.server_states.values())
+        if has_connected:
+            wx.MessageBox(
+                translate("Some servers are currently connected. Please disconnect all servers before deleting."),
+                translate("Notice"),
+                wx.OK | wx.ICON_WARNING,
+                self,
+            )
+            return
+
+        dlg = wx.MessageDialog(
+            self,
+            translate("Are you sure you want to delete ALL servers? This action cannot be undone."),
+            translate("Confirm Delete All"),
+            wx.YES_NO | wx.ICON_WARNING,
+        )
+        if dlg.ShowModal() == wx.ID_YES:
+            # Delete in reverse or simply clear
+            self.server_mgr.servers.clear()
+            self.server_mgr.save_servers()
+            self.servers = self.server_mgr.servers
+            self._populate_server_list()
+            self.update_status(translate("All servers deleted."))
         dlg.Destroy()
 
     def on_visit_website(self, event=None):

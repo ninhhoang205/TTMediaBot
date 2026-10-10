@@ -1,4 +1,4 @@
-# 📋 Changelog — TTMediaBot
+﻿# 📋 Changelog — TTMediaBot
 
 All notable updates to this fork are documented here, in reverse chronological order.
 
@@ -8,7 +8,8 @@ All notable updates to this fork are documented here, in reverse chronological o
 *(Changes being worked on for the next release)*
 
 ### 🖥️ Graphical Server Manager
-- **Server Search Box:** Added a quick search box to the main interface. You can now type a few letters to instantly find and connect to your saved servers.
+- **Server Search Box:** Added a quick search box to the main interface. You can now type a few letters to instantly find and connect to your saved servers. Fully accessible for screen readers (NVDA).
+- **Delete All Servers:** Added a "Delete All Servers" button next to "Connect All" to quickly clear your server list. It includes safety checks and warnings if any servers are currently connected.
 
 ### 📻 Listen to Global Internet Radio
 - **Search and Play Radio (`ra`):** You can now search and play internet radio stations from all around the world.
@@ -721,3 +722,4 @@ All notable updates to this fork are documented here, in reverse chronological o
 - **Unified Cookie System:** Both YouTube and YouTube Music use the same cookies configuration for authentication
 - **📦 Playlist & Album Downloads:** Full support for downloading entire collections via the `dlp` command with metadata-aware naming
 - **🕵️ Real-time PM Progress:** Stay updated on your downloads without cluttering the channel
+
