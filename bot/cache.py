@@ -28,10 +28,13 @@ class Cache:
         self.favorites: Dict[str, List[Track]] = (
             cache_data["favorites"] if "favorites" in cache_data else {}
         )
+        self.radio_favorites: Dict[str, List[Track]] = (
+            cache_data["radio_favorites"] if "radio_favorites" in cache_data else {}
+        )
 
     @property
     def data(self):
-        return {"cache_version": self.cache_version, "recents": self.recents, "favorites": self.favorites}
+        return {"cache_version": self.cache_version, "recents": self.recents, "favorites": self.favorites, "radio_favorites": self.radio_favorites}
 
 
 class CacheManager:

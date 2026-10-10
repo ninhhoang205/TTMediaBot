@@ -44,6 +44,7 @@ class Service(ABC):
 
 from bot.services.yt import YtService
 from bot.services.ytm import YtmService
+from bot.services.radio import RadioService
 
 
 class ServiceManager:
@@ -52,6 +53,7 @@ class ServiceManager:
         self.services: Dict[str, Service] = {
             "yt": YtService(bot, self.config.yt),
             "ytm": YtmService(bot, self.config.ytm),
+            "radio": RadioService(bot, self.config.radio),
         }
         self.service: Service = self.services[self.config.default_service]
         self.fallback_service = app_vars.fallback_service
