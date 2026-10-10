@@ -4,8 +4,11 @@ All notable updates to this fork are documented here, in reverse chronological o
 
 ---
 
-## 🆕 [Unreleased] — Global Internet Radio
+## 🆕 [Unreleased] — Global Internet Radio & GUI Search
 *(Changes being worked on for the next release)*
+
+### 🖥️ Graphical Server Manager
+- **Server Search Box:** Added a quick search box to the main interface. You can now type a few letters to instantly find and connect to your saved servers.
 
 ### 📻 Listen to Global Internet Radio
 - **Search and Play Radio (`ra`):** You can now search and play internet radio stations from all around the world.

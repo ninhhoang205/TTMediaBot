@@ -1063,6 +1063,8 @@ class MainFrame(wx.Frame):
 
         self.server_mgr = ServerManager(config_path)
         self.servers = self.server_mgr.servers
+        self.visible_servers = list(self.servers)
+        self.search_query = ""
 
         # Global language
         self.current_language = self.server_mgr.get_language()
@@ -1114,6 +1116,20 @@ class MainFrame(wx.Frame):
         # Server List Label
         self.lbl_servers = wx.StaticText(panel, label="&Servers:")
         main_sizer.Add(self.lbl_servers, 0, wx.LEFT | wx.TOP | wx.RIGHT, 10)
+        # Search Box
+        search_sizer = wx.BoxSizer(wx.HORIZONTAL)
+        self.lbl_search = wx.StaticText(panel, label=translate("&Search:"))
+        self.txt_search = wx.SearchCtrl(panel, style=wx.TE_PROCESS_ENTER)
+        self.txt_search.SetName(translate("Search"))
+        self.txt_search.SetToolTip(translate("Type to search servers"))
+        self.txt_search.SetDescriptiveText(translate("Search servers..."))
+        self.txt_search.ShowSearchButton(True)
+        self.txt_search.ShowCancelButton(True)
+        self.txt_search.Bind(wx.EVT_TEXT, self.on_search)
+        self.txt_search.Bind(wx.EVT_SEARCHCTRL_CANCEL_BTN, self.on_search_cancel)
+        search_sizer.Add(self.lbl_search, 0, wx.ALIGN_CENTER_VERTICAL | wx.RIGHT, 5)
+        search_sizer.Add(self.txt_search, 1, wx.EXPAND)
+        main_sizer.Add(search_sizer, 0, wx.EXPAND | wx.LEFT | wx.RIGHT | wx.TOP, 10)
 
         # Server ListBox
         self.server_list = wx.ListBox(panel, style=wx.LB_SINGLE)
@@ -1184,6 +1200,12 @@ class MainFrame(wx.Frame):
         """Retranslates all UI strings to the active language."""
         self.SetTitle(translate("TTMediaBot - Server Manager"))
         self.lbl_servers.SetLabel(translate("&Servers:"))
+        if hasattr(self, "lbl_search"):
+            self.lbl_search.SetLabel(translate("&Search:"))
+        if hasattr(self, "txt_search"):
+            self.txt_search.SetDescriptiveText(translate("Search servers..."))
+            self.txt_search.SetName(translate("Search"))
+            self.txt_search.SetToolTip(translate("Type to search servers"))
         self.server_list.SetToolTip(
             translate("Select a server. Press Enter to connect/disconnect. Right-click or press Applications key for Context Menu.")
         )
@@ -1242,10 +1264,55 @@ class MainFrame(wx.Frame):
         # Retranslate GUI
         self.retranslate_ui()
 
+    def on_search(self, event):
+        self.search_query = self.txt_search.GetValue().strip().lower()
+        self._populate_server_list()
+
+    def on_search_cancel(self, event):
+        self.txt_search.SetValue("")
+        self.search_query = ""
+        self._populate_server_list()
+
+    def get_server_by_id(self, s_id: str) -> dict:
+        for s in self.servers:
+            if self.get_server_id(s) == s_id:
+                return s
+        return None
+
+    def get_server_index_by_id(self, s_id: str) -> int:
+        for idx, s in enumerate(self.servers):
+            if self.get_server_id(s) == s_id:
+                return idx
+        return -1
+
+    def _update_listbox_item(self, s_id: str):
+        for idx, s in enumerate(self.visible_servers):
+            if self.get_server_id(s) == s_id:
+                name = s.get("name", translate("Unnamed Server"))
+                state = self.server_states.get(s_id, "disconnected")
+                if state == "connected":
+                    name = f"[{translate('Connected')}] {name}"
+                elif state == "connecting":
+                    name = f"[{translate('Connecting')}] {name}"
+                elif state == "reconnecting":
+                    name = f"[{translate('Reconnecting')}] {name}"
+                if idx < self.server_list.GetCount():
+                    self.server_list.SetString(idx, name)
+                break
+
     def _populate_server_list(self):
         curr_sel = self.server_list.GetSelection()
+        selected_id = None
+        if curr_sel != wx.NOT_FOUND and 0 <= curr_sel < len(self.visible_servers):
+            selected_id = self.get_server_id(self.visible_servers[curr_sel])
+
+        if self.search_query:
+            self.visible_servers = [s for s in self.servers if self.search_query in s.get("name", "").lower()]
+        else:
+            self.visible_servers = list(self.servers)
+
         self.server_list.Clear()
-        for idx, s in enumerate(self.servers):
+        for idx, s in enumerate(self.visible_servers):
             name = s.get("name", translate("Unnamed Server"))
             s_id = self.get_server_id(s)
             state = self.server_states.get(s_id, "disconnected")
@@ -1257,9 +1324,16 @@ class MainFrame(wx.Frame):
                 name = f"[{translate('Reconnecting')}] {name}"
             self.server_list.Append(name)
 
-        if len(self.servers) > 0:
-            if curr_sel != wx.NOT_FOUND and 0 <= curr_sel < len(self.servers):
-                self.server_list.SetSelection(curr_sel)
+        if len(self.visible_servers) > 0:
+            if selected_id:
+                found = False
+                for i, s in enumerate(self.visible_servers):
+                    if self.get_server_id(s) == selected_id:
+                        self.server_list.SetSelection(i)
+                        found = True
+                        break
+                if not found:
+                    self.server_list.SetSelection(0)
             else:
                 self.server_list.SetSelection(0)
 
@@ -1316,8 +1390,8 @@ class MainFrame(wx.Frame):
         sel = self.server_list.GetSelection()
         menu = wx.Menu()
 
-        if sel != wx.NOT_FOUND and 0 <= sel < len(self.servers):
-            server = self.servers[sel]
+        if sel != wx.NOT_FOUND and 0 <= sel < len(self.visible_servers):
+            server = self.visible_servers[sel]
             s_id = self.get_server_id(server)
             server_name = server.get("name", translate("Server"))
             state = self.server_states.get(s_id, "disconnected")
@@ -1375,7 +1449,7 @@ class MainFrame(wx.Frame):
     def on_connect_toggle(self, event=None):
         """Toggles connection for the selected server."""
         sel = self.server_list.GetSelection()
-        if sel == wx.NOT_FOUND or sel < 0 or sel >= len(self.servers):
+        if sel == wx.NOT_FOUND or sel < 0 or sel >= len(self.visible_servers):
             wx.MessageBox(
                 translate("Please select a server from the list first."),
                 translate("Information"),
@@ -1384,14 +1458,14 @@ class MainFrame(wx.Frame):
             )
             return
 
-        server = self.servers[sel]
+        server = self.visible_servers[sel]
         s_id = self.get_server_id(server)
         state = self.server_states.get(s_id, "disconnected")
 
         if state in ("connected", "connecting"):
-            self.disconnect_single_server(sel)
+            self.disconnect_single_server(self.visible_servers[sel])
         else:
-            self.connect_single_server(sel)
+            self.connect_single_server(self.visible_servers[sel])
 
     def on_connect_all_toggle(self, event=None):
         has_active = any(st in ("connected", "connecting") for st in self.server_states.values())
@@ -1414,7 +1488,7 @@ class MainFrame(wx.Frame):
             s_id = self.get_server_id(server)
             state = self.server_states.get(s_id, "disconnected")
             if state == "disconnected":
-                self.connect_single_server(idx)
+                self.connect_single_server(server)
 
         self.update_connect_all_button()
         self.update_status(translate("Connecting all servers..."))
@@ -1433,20 +1507,18 @@ class MainFrame(wx.Frame):
         self.update_connect_all_button()
         self.update_status(translate("Disconnecting all servers..."))
 
-    def connect_single_server(self, idx: int):
-        if idx < 0 or idx >= len(self.servers):
+    def connect_single_server(self, server: dict):
+        if not server:
             return
-
-        server = self.servers[idx]
+        
         s_id = self.get_server_id(server)
         if self.server_states.get(s_id) in ("connected", "connecting"):
             return
 
         server_name = server.get("name", translate("Server"))
         self.server_states[s_id] = "connecting"
-
-        if idx < self.server_list.GetCount():
-            self.server_list.SetString(idx, f"[{translate('Connecting')}] {server_name}")
+        
+        self._update_listbox_item(s_id)
 
         self.update_connect_all_button()
         self.update_status(translate("Connecting to '{server_name}'...").format(server_name=server_name))
@@ -1493,10 +1565,9 @@ class MainFrame(wx.Frame):
             except Exception:
                 pass
 
-    def disconnect_single_server(self, idx: int):
-        if idx < 0 or idx >= len(self.servers):
+    def disconnect_single_server(self, server: dict):
+        if not server:
             return
-        server = self.servers[idx]
         s_id = self.get_server_id(server)
         self.disconnect_server_by_id(s_id)
 
@@ -1507,12 +1578,7 @@ class MainFrame(wx.Frame):
 
         self.server_states[s_id] = "disconnected"
 
-        for idx, server in enumerate(self.servers):
-            if self.get_server_id(server) == s_id:
-                if idx < self.server_list.GetCount():
-                    orig_name = server.get("name", translate("Server"))
-                    self.server_list.SetString(idx, orig_name)
-                break
+        self._update_listbox_item(s_id)
 
         self.update_connect_all_button()
 
@@ -1530,12 +1596,7 @@ class MainFrame(wx.Frame):
             return
 
         self.server_states[s_id] = "disconnected"
-        for idx, server in enumerate(self.servers):
-            if self.get_server_id(server) == s_id:
-                if idx < self.server_list.GetCount():
-                    orig_name = server.get("name", translate("Server"))
-                    self.server_list.SetString(idx, orig_name)
-                break
+        self._update_listbox_item(s_id)
 
         self.update_connect_all_button()
         if not any(st in ("connected", "connecting") for st in self.server_states.values()):
@@ -1651,14 +1712,17 @@ class MainFrame(wx.Frame):
         if dlg.ShowModal() == wx.ID_OK and dlg.result_data:
             new_idx = self.server_mgr.add_server(dlg.result_data)
             self.servers = self.server_mgr.servers
+            self.search_query = ""
+            if hasattr(self, 'txt_search'):
+                self.txt_search.SetValue("")
             self._populate_server_list()
-            self.server_list.SetSelection(new_idx)
+            self.server_list.SetSelection(self.server_list.GetCount() - 1)
             self.update_status(translate("Added server '{name}'").format(name=dlg.result_data['name']))
         dlg.Destroy()
 
     def on_edit_server(self, event):
         sel = self.server_list.GetSelection()
-        if sel == wx.NOT_FOUND or sel < 0 or sel >= len(self.servers):
+        if sel == wx.NOT_FOUND or sel < 0 or sel >= len(self.visible_servers):
             wx.MessageBox(
                 translate("Please select a server to edit."),
                 translate("Information"),
@@ -1667,8 +1731,9 @@ class MainFrame(wx.Frame):
             )
             return
 
-        server = self.servers[sel]
+        server = self.visible_servers[sel]
         s_id = self.get_server_id(server)
+        orig_idx = self.get_server_index_by_id(s_id)
         if self.server_states.get(s_id) in ("connected", "connecting"):
             wx.MessageBox(
                 translate("Cannot edit the server while the bot is connected to it. Please disconnect first."),
@@ -1681,7 +1746,7 @@ class MainFrame(wx.Frame):
         dlg = ServerDialog(self, title=translate("Edit Server"), server_data=server)
         if dlg.ShowModal() == wx.ID_OK and dlg.result_data:
             dlg.result_data["id"] = s_id
-            self.server_mgr.update_server(sel, dlg.result_data)
+            self.server_mgr.update_server(orig_idx, dlg.result_data)
             self.servers = self.server_mgr.servers
             self._populate_server_list()
             self.server_list.SetSelection(sel)
@@ -1690,7 +1755,7 @@ class MainFrame(wx.Frame):
 
     def on_delete_server(self, event):
         sel = self.server_list.GetSelection()
-        if sel == wx.NOT_FOUND or sel < 0 or sel >= len(self.servers):
+        if sel == wx.NOT_FOUND or sel < 0 or sel >= len(self.visible_servers):
             wx.MessageBox(
                 translate("Please select a server to delete."),
                 translate("Information"),
@@ -1699,7 +1764,9 @@ class MainFrame(wx.Frame):
             )
             return
 
-        server = self.servers[sel]
+        server = self.visible_servers[sel]
+        s_id = self.get_server_id(server)
+        orig_idx = self.get_server_index_by_id(s_id)
         s_id = self.get_server_id(server)
         if self.server_states.get(s_id) in ("connected", "connecting"):
             wx.MessageBox(
@@ -1710,7 +1777,7 @@ class MainFrame(wx.Frame):
             )
             return
 
-        server_name = self.servers[sel].get("name", translate("this server"))
+        server_name = server.get("name", translate("this server"))
         dlg = wx.MessageDialog(
             self,
             translate("Are you sure you want to delete server '{server_name}'?").format(server_name=server_name),
@@ -1718,11 +1785,11 @@ class MainFrame(wx.Frame):
             wx.YES_NO | wx.ICON_QUESTION,
         )
         if dlg.ShowModal() == wx.ID_YES:
-            self.server_mgr.delete_server(sel)
+            self.server_mgr.delete_server(orig_idx)
             self.servers = self.server_mgr.servers
             self._populate_server_list()
-            if len(self.servers) > 0:
-                new_sel = min(sel, len(self.servers) - 1)
+            if len(self.visible_servers) > 0:
+                new_sel = min(sel, len(self.visible_servers) - 1)
                 self.server_list.SetSelection(new_sel)
             self.update_status(translate("Deleted server '{name}'").format(name=server_name))
         dlg.Destroy()
