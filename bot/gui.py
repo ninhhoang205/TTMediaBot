@@ -574,10 +574,8 @@ class ServerDialog(wx.Dialog):
         # Service Row
         srv_box = wx.BoxSizer(wx.VERTICAL)
         lbl_srv = wx.StaticText(box_behavior, label=translate("Default Music &Service:"))
-        self.choice_service = wx.Choice(box_behavior, choices=["YouTube (yt)", "YouTube Music (ytm)", "Radio Station (radio)"])
-        self.choice_service.SetSelection(
-            {"yt": 0, "ytm": 1, "radio": 2}.get(self.server_data.get("default_service", "yt"), 0)
-        )
+        self.choice_service = wx.Choice(box_behavior, choices=["YouTube (yt)", "YouTube Music (ytm)"])
+        self.choice_service.SetSelection(1 if self.server_data.get("default_service", "yt") == "ytm" else 0)
         srv_box.Add(lbl_srv, 0, wx.ALL, 3)
         srv_box.Add(self.choice_service, 0, wx.EXPAND | wx.LEFT | wx.RIGHT | wx.BOTTOM, 5)
         sizer_behavior.Add(srv_box, 0, wx.EXPAND | wx.BOTTOM, 5)
@@ -864,7 +862,7 @@ class ServerDialog(wx.Dialog):
             default=int(self.server_data.get("input_device", 0)),
         )
 
-        default_service = ("yt", "ytm", "radio")[max(0, self.choice_service.GetSelection())]
+        default_service = "ytm" if self.choice_service.GetSelection() == 1 else "yt"
 
         start_cmds_raw = self.txt_start_commands.GetValue().strip()
         start_commands = [c.strip() for c in start_cmds_raw.split(",") if c.strip()]

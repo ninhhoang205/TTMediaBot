@@ -137,15 +137,11 @@ Send commands via private message (PM) to the bot or directly in the channel (if
 | ws | [-s] | Identifies the song playing in a mix or compilation using Chapters, Shazam, or Google Voice AI. Use ws -s to bypass chapters and force acoustic recognition. |
 | ly | [name] | Retrieves lyrics for the currently playing song (or specified song name) using multi-source providers (LRCLIB, Musixmatch, NetEase, Genius via syncedlyrics). |
 | sub | | Toggles live video subtitles: Streams real-time synchronized subtitles/captions of the video or song directly onto the bot status message (like YouTube CC). Calling again turns it off. |
-| yl | | Returns the permanent canonical YouTube watch URL of the current playing track, or the stream link of the radio station being played. |
+| yl | | Returns the permanent canonical YouTube watch URL of the current playing track. |
 | gl | | Returns the direct CDN stream link of the current track. |
-| sv | [yt/ytm/radio] | Switches playback service: sv yt (YouTube), sv ytm (YouTube Music) or sv radio (Radio Station). |
+| sv | [yt/ytm] | Switches playback service: sv yt (YouTube) or sv ytm (YouTube Music). |
 | sp | [0.25-4] | Adjusts playback speed. |
 | f | [+/-][num] | Manages Favorites: f lists, f + adds current track, f - removes, f [num] plays. |
-| ra | name [country] | Searches and plays an internet radio station (Radio Station service), e.g. `ra vov1 vietnam`. |
-| rf | [num] | Separate list of favorite radio stations: rf lists, rf [num] plays. |
-| raf | | Adds the radio station that is currently playing to the favorite radio list (rf). |
-| rar | [num] | Removes the current radio station (or number `num` of the rf list) from the favorite radio list. |
 | r | [num] | Manages playback history (Recents): r lists recent tracks, r [num] plays. |
 | qa | [query] | Adds a track to the playback queue. |
 | ql | | Lists all tracks currently waiting in the queue. |
@@ -166,6 +162,10 @@ Send commands via private message (PM) to the bot or directly in the channel (if
 | sr | [on/off] | Toggles Search Results mode: p QUERY presents a numbered list instead of playing immediately. |
 | sl | [num] | Selects and plays a numbered track from the last sr search list. |
 | slc | [num] | Configures the number of search results shown in sr mode. |
+| ra | [query] | Searches and plays an internet radio station globally. |
+| raf | | Adds the currently playing radio to your radio favorites list. |
+| rmr | [num] | Removes a radio from your radio favorites by its index. |
+| rpf | [num] | Plays a radio from your radio favorites by its index. |
 | a | | Displays bot version, author details, and about information. |
 
 ---

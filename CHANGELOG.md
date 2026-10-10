@@ -4,15 +4,13 @@ All notable updates to this fork are documented here, in reverse chronological o
 
 ---
 
-## 🆕 Unreleased — Radio Station
+## 🆕 [Unreleased] — Global Internet Radio
+*(Changes being worked on for the next release)*
 
-- **New service `radio` (Radio Station):** searches internet radio stations through the free Radio Browser directory. Select it with `sv radio`, or as the default service in the server settings window.
-- **`ra NAME [COUNTRY]`:** finds and plays a radio station by name and country, e.g. `ra vov1 vietnam`. Works with search results mode (`sr`/`sl`).
-- **`rf [NUMBER]`:** your own list of favorite radio stations, kept separate from the normal favorites (`f`). `rf` shows the list, `rf NUMBER` plays a station.
-- **`raf`:** adds the radio station that is currently playing to the favorite radio list.
-- **`rar [NUMBER]`:** removes the current radio station, or the one at that position in the `rf` list.
-- **`yl`** now also returns the stream link of the radio station that is playing.
-- Vietnamese translation updated for all new strings.
+### 📻 Listen to Global Internet Radio
+- **Search and Play Radio (`ra`):** You can now search and play internet radio stations from all around the world.
+- **Smart Channel Selection:** When you search for a radio station, the bot automatically skips broken channels and picks the most popular working channel.
+- **Radio Favorites (`raf`, `rmr`, `rpf`):** You can now save your favorite radio stations to a new, separate list. This makes it easy to add, remove, and quickly play your favorite radio channels.
 
 ---
 

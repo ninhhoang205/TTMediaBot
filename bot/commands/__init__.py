@@ -68,11 +68,6 @@ class CommandProcessor:
             "dlv": user_commands.DownloadVideoCommand,
             "dlp": user_commands.DownloadPlaylistCommand,
             "r": user_commands.RecentsCommand,
-            # --- Radio Station ---
-            "ra": user_commands.RadioSearchCommand,
-            "rf": user_commands.RadioFavoritesCommand,
-            "raf": user_commands.RadioFavoriteAddCommand,
-            "rar": user_commands.RadioFavoriteRemoveCommand,
             "jc": user_commands.JoinChannelCommand,
             # --- Fila de reprodução ---
             "qa": user_commands.QueueAddCommand,
@@ -92,6 +87,10 @@ class CommandProcessor:
             "rd": user_commands.RemoveLinkCommand,
             "ldd": user_commands.DownloadDirectCommand,
             "adsc": user_commands.ToggleLocalDownloadCommand,
+            "ra": user_commands.RadioCommand,
+            "raf": user_commands.RadioAddFavoriteCommand,
+            "rmr": user_commands.RadioRemoveFavoriteCommand,
+            "rpf": user_commands.RadioPlayFavoriteCommand,
         }
         self.admin_commands_dict = {
             "adh": admin_commands.AdminHelpCommand,

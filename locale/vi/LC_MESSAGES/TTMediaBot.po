@@ -1261,7 +1261,7 @@ msgstr "Không có link cho bài này"
 
 #: D:/TTMediaBot/bot/commands/user_commands.py:599
 msgid "Gets the original YouTube link to the current track"
-msgstr "Lấy link YouTube gốc của bài đang phát, hoặc link luồng của đài radio đang nghe"
+msgstr "Lấy link YouTube gốc của bài đang phát"
 
 #: D:/TTMediaBot/bot/commands/user_commands.py:625
 msgid "Current track is not from YouTube"
@@ -1776,46 +1776,3 @@ msgstr "Không rõ tiêu đề"
 #: D:/TTMediaBot/bot/services/yt.py:186
 msgid "YouTube Track"
 msgstr "Bài hát YouTube"
-
-#: D:/TTMediaBot/bot/services/radio.py
-msgid "Radio Station searches internet radio stations (Radio Browser directory). Use NAME or NAME COUNTRY, for example: vov1 vietnam. Related commands: ra, raf, rar"
-msgstr "Radio Station tìm các đài radio trên internet (thư mục Radio Browser). Hãy ghi TÊN hoặc TÊN QUỐC_GIA, ví dụ: vov1 vietnam. Các lệnh liên quan: ra, raf, rar"
-
-#: D:/TTMediaBot/bot/services/radio.py
-msgid "Radio"
-msgstr "Radio"
-
-#: D:/TTMediaBot/bot/commands/user_commands.py
-msgid "NAME COUNTRY Searches and plays an internet radio station by name and country, for example: ra vov1 vietnam. The country is optional. When search results mode (sr) is active, shows a numbered list instead"
-msgstr "TÊN QUỐC_GIA Tìm và phát một đài radio trên internet theo tên và quốc gia, ví dụ: ra vov1 vietnam. Có thể không ghi quốc gia. Khi chế độ kết quả tìm kiếm (sr) được bật, sẽ hiện một danh sách được đánh số thay vì phát ngay"
-
-#: D:/TTMediaBot/bot/commands/user_commands.py
-msgid "The Radio Station service is disabled"
-msgstr "Dịch vụ Radio Station đang bị tắt"
-
-
-#: D:/TTMediaBot/bot/commands/user_commands.py
-msgid "The current track is not a radio station"
-msgstr "Nội dung đang phát không phải là đài radio"
-
-#: D:/TTMediaBot/bot/commands/user_commands.py
-msgid "This radio station is already in favorites"
-msgstr "Đài radio này đã có trong danh sách yêu thích"
-
-
-
-#: D:/TTMediaBot/bot/commands/user_commands.py
-msgid "This radio station is not in favorites"
-msgstr "Đài radio này không có trong danh sách yêu thích"
-
-#: D:/TTMediaBot/bot/commands/user_commands.py
-msgid "NUMBER Shows your favorite radio stations. If a number is specified, plays the radio station with that number"
-msgstr "SỐ Hiện danh sách đài radio yêu thích. Nếu ghi số, sẽ phát đài radio có số đó"
-
-#: D:/TTMediaBot/bot/commands/user_commands.py
-msgid "Adds the radio station that is currently playing to your favorite radio stations (rf)"
-msgstr "Thêm đài radio đang phát vào danh sách radio yêu thích (rf)"
-
-#: D:/TTMediaBot/bot/commands/user_commands.py
-msgid "NUMBER Removes a radio station from your favorite radio stations. Without a number, removes the radio station that is currently playing. NUMBER is the position in the list shown by rf"
-msgstr "SỐ Xóa một đài radio khỏi danh sách radio yêu thích. Nếu không ghi số, sẽ xóa đài radio đang phát. SỐ là vị trí trong danh sách do lệnh rf hiện ra"

@@ -576,178 +576,6 @@ class FavoritesCommand(Command):
             return self.translator.translate("The list is empty")
 
 
-def _is_radio_track(track) -> bool:
-    info = getattr(track, "extra_info", None) or {}
-    return getattr(track, "service", "") == "radio" and isinstance(info.get("radio"), dict)
-
-
-def _radio_id(track) -> str:
-    info = (getattr(track, "extra_info", None) or {}).get("radio") or {}
-    return info.get("stationuuid") or info.get("url") or getattr(track, "_url", "")
-
-
-class RadioSearchCommand(Command):
-    @property
-    def help(self) -> str:
-        return self.translator.translate(
-            "NAME COUNTRY Searches and plays an internet radio station by name and country, for example: ra vov1 vietnam. The country is optional. When search results mode (sr) is active, shows a numbered list instead"
-        )
-
-    def __call__(self, arg: str, user: User) -> Optional[str]:
-        arg = arg.strip()
-        if not arg:
-            raise errors.InvalidArgumentError
-        try:
-            service = self.service_manager.get_service_by_name("radio")
-        except (errors.ServiceIsDisabledError, errors.ServiceNotFoundError):
-            return self.translator.translate("The Radio Station service is disabled")
-        self.send_message_async(
-            self.translator.translate("Searching..."),
-            user,
-        )
-        try:
-            if self.config.general.search_results_mode:
-                count = self.command_processor.search_results_count
-                track_list = service.search(arg, limit=count)
-                self.command_processor.pending_search_results[user.id] = track_list
-                lines = [self.translator.translate("Search results:")]
-                for i, track in enumerate(track_list):
-                    lines.append(f"{i + 1}: {track.name}")
-                lines.append(self.translator.translate("Use 'sl NUMBER' to select a track"))
-                return "\n".join(lines)
-
-            track_list = service.search(arg, limit=1)
-            self.player.play(track_list[:1])
-            if self.config.general.send_channel_messages:
-                self.send_message_async(
-                    self.translator.translate(
-                        "{nickname} requested {request}"
-                    ).format(nickname=user.nickname, request=arg),
-                    type=2,
-                )
-            return self.translator.translate("Playing {}").format(track_list[0].name)
-        except errors.NothingFoundError:
-            return self.translator.translate("Nothing is found for your query")
-        except errors.ServiceError:
-            return self.translator.translate(
-                "The selected service is currently unavailable"
-            )
-
-
-class RadioFavoritesCommand(Command):
-    @property
-    def help(self) -> str:
-        return self.translator.translate(
-            "NUMBER Shows your favorite radio stations. If a number is specified, plays the radio station with that number"
-        )
-
-    def __call__(self, arg: str, user: User) -> Optional[str]:
-        if user.username == "":
-            return self.translator.translate(
-                "This command is not available for guest users"
-            )
-        favorites = self.cache.radio_favorites.get(user.username) or []
-        arg = arg.strip()
-        if not arg:
-            if not favorites:
-                return self.translator.translate("The list is empty")
-            return "\n".join(
-                self.translator.translate("{number}: {track_name}").format(
-                    number=number + 1,
-                    track_name=track.name if track.name else track.url,
-                )
-                for number, track in enumerate(favorites)
-            )
-        try:
-            index = int(arg) - 1
-        except ValueError:
-            raise errors.InvalidArgumentError
-        if not favorites:
-            return self.translator.translate("The list is empty")
-        if index < 0 or index >= len(favorites):
-            return self.translator.translate("Out of list")
-        # Fresh tracks, so the stream address is resolved again on every play
-        service = self.service_manager.get_service_by_name("radio")
-        tracks = [service.get("", extra_info=t.extra_info)[0] for t in favorites]
-        try:
-            self.player.play(tracks, start_track_index=index)
-        except errors.ServiceError:
-            return self.translator.translate(
-                "The selected service is currently unavailable"
-            )
-        return None
-
-
-class RadioFavoriteAddCommand(Command):
-    @property
-    def help(self) -> str:
-        return self.translator.translate(
-            "Adds the radio station that is currently playing to your favorite radio stations (rf)"
-        )
-
-    def __call__(self, arg: str, user: User) -> Optional[str]:
-        if user.username == "":
-            return self.translator.translate(
-                "This command is not available for guest users"
-            )
-        if self.player.state == State.Stopped:
-            return self.translator.translate("Nothing is playing")
-        current = self.player.track
-        if not _is_radio_track(current):
-            return self.translator.translate("The current track is not a radio station")
-        favorites = self.cache.radio_favorites.setdefault(user.username, [])
-        station_id = _radio_id(current)
-        for track in favorites:
-            if _radio_id(track) == station_id:
-                return self.translator.translate(
-                    "This radio station is already in favorites"
-                )
-        service = self.service_manager.get_service_by_name("radio")
-        favorites.append(service.get("", extra_info=current.extra_info)[0])
-        self.cache_manager.save()
-        return self.translator.translate("Added")
-
-
-class RadioFavoriteRemoveCommand(Command):
-    @property
-    def help(self) -> str:
-        return self.translator.translate(
-            "NUMBER Removes a radio station from your favorite radio stations. Without a number, removes the radio station that is currently playing. NUMBER is the position in the list shown by rf"
-        )
-
-    def __call__(self, arg: str, user: User) -> Optional[str]:
-        if user.username == "":
-            return self.translator.translate(
-                "This command is not available for guest users"
-            )
-        favorites = self.cache.radio_favorites.get(user.username) or []
-        arg = arg.strip()
-        if arg:
-            try:
-                index = int(arg) - 1
-            except ValueError:
-                raise errors.InvalidArgumentError
-            if not favorites:
-                return self.translator.translate("The list is empty")
-            if index < 0 or index >= len(favorites):
-                return self.translator.translate("Out of list")
-            del favorites[index]
-            self.cache_manager.save()
-            return self.translator.translate("Deleted")
-        if self.player.state == State.Stopped:
-            return self.translator.translate("Nothing is playing")
-        current = self.player.track
-        if not _is_radio_track(current):
-            return self.translator.translate("The current track is not a radio station")
-        station_id = _radio_id(current)
-        for index, track in enumerate(favorites):
-            if _radio_id(track) == station_id:
-                del favorites[index]
-                self.cache_manager.save()
-                return self.translator.translate("Deleted")
-        return self.translator.translate("This radio station is not in favorites")
-
-
 class GetLinkCommand(Command):
     @property
     def help(self) -> str:
@@ -789,12 +617,6 @@ class YouTubeLinkCommand(Command):
 
     def __call__(self, arg: str, user: User) -> Optional[str]:
         if self.player.state != State.Stopped:
-            if _is_radio_track(self.player.track):
-                radio_url = self.player.track.url
-                if radio_url:
-                    shortener = self.module_manager.shortener
-                    return shortener.get(radio_url) if shortener else radio_url
-                return self.translator.translate("URL is not available")
             yt_url = self._get_youtube_url(self.player.track)
             if yt_url:
                 shortener = self.module_manager.shortener
@@ -1940,3 +1762,106 @@ class SubtitleCommand(Command):
         else:
             return self.translator.translate("Video subtitles (sub) disabled.")
 
+
+class RadioCommand(Command):
+    @property
+    def help(self) -> str:
+        return self.translator.translate("QUERY Searches and plays a radio station")
+
+    def __call__(self, arg: str, user: User) -> Optional[str]:
+        if not arg:
+            raise errors.InvalidArgumentError
+        self.send_message_async(self.translator.translate("Searching radio..."), user)
+        try:
+            from pyradios import RadioBrowser
+            rb = RadioBrowser()
+            results = rb.search(name=arg, limit=1, hidebroken=True, order="clickcount", reverse=True)
+            if not results:
+                return self.translator.translate("Nothing is found for your query")
+            
+            station = results[0]
+            url = station["url"]
+            name = station["name"]
+            
+            from bot.player.track import Track, TrackType
+            track = Track(url=url, name=name, type=TrackType.Default)
+            self.player.play([track])
+            if self.config.general.send_channel_messages:
+                self.send_message_async(
+                    self.translator.translate(
+                        "{nickname} requested radio {request}"
+                    ).format(nickname=user.nickname, request=arg),
+                    type=2,
+                )
+            return self.translator.translate("Playing radio: {}").format(name)
+        except Exception as e:
+            return self.translator.translate("Error playing radio: {}").format(str(e))
+
+class RadioAddFavoriteCommand(Command):
+    @property
+    def help(self) -> str:
+        return self.translator.translate("Adds currently playing radio to favorites")
+
+    def __call__(self, arg: str, user: User) -> Optional[str]:
+        if user.username == "":
+            return self.translator.translate("This command is not available for guest users")
+        if self.player.state != State.Stopped and self.player.track:
+            track = self.player.track.get_raw()
+            if not hasattr(self.cache, 'radio_favorites'):
+                self.cache.radio_favorites = {}
+            if user.username not in self.cache.radio_favorites:
+                self.cache.radio_favorites[user.username] = []
+            
+            self.cache.radio_favorites[user.username].append(track)
+            self.cache_manager.save()
+            return self.translator.translate("Added radio to favorites")
+        return self.translator.translate("Nothing is playing")
+
+class RadioRemoveFavoriteCommand(Command):
+    @property
+    def help(self) -> str:
+        return self.translator.translate("NUMBER Removes a radio from favorites by number")
+
+    def __call__(self, arg: str, user: User) -> Optional[str]:
+        if user.username == "":
+            return self.translator.translate("This command is not available for guest users")
+        if not hasattr(self.cache, 'radio_favorites') or user.username not in self.cache.radio_favorites or not self.cache.radio_favorites[user.username]:
+            return self.translator.translate("The radio favorites list is empty")
+        
+        if not arg:
+            lines = []
+            for i, t in enumerate(self.cache.radio_favorites[user.username]):
+                lines.append(f"{i + 1}: {t.name}")
+            return "\n".join(lines)
+            
+        try:
+            index = int(arg) - 1
+            del self.cache.radio_favorites[user.username][index]
+            self.cache_manager.save()
+            return self.translator.translate("Removed radio from favorites")
+        except (ValueError, IndexError):
+            return self.translator.translate("Invalid number")
+
+class RadioPlayFavoriteCommand(Command):
+    @property
+    def help(self) -> str:
+        return self.translator.translate("NUMBER Plays a radio from favorites by number")
+
+    def __call__(self, arg: str, user: User) -> Optional[str]:
+        if user.username == "":
+            return self.translator.translate("This command is not available for guest users")
+        if not hasattr(self.cache, 'radio_favorites') or user.username not in self.cache.radio_favorites or not self.cache.radio_favorites[user.username]:
+            return self.translator.translate("The radio favorites list is empty")
+        
+        if not arg:
+            lines = []
+            for i, t in enumerate(self.cache.radio_favorites[user.username]):
+                lines.append(f"{i + 1}: {t.name}")
+            return "\n".join(lines)
+            
+        try:
+            index = int(arg) - 1
+            self.player.play(self.cache.radio_favorites[user.username], start_track_index=index)
+            return self.translator.translate("Playing radio from favorites")
+        except (ValueError, IndexError):
+            return self.translator.translate("Invalid number")
